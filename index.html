@@ -130,7 +130,7 @@
                     </div>
                 </div>
 
-                <!-- Input Kode OTP (Muncul otomatis setelah klik daftar) -->
+                <!-- Input Kode OTP -->
                 <div class="input-group" id="otp-group" style="display: none;">
                     <i class="fa-solid fa-key"></i>
                     <input type="number" id="otpInput" placeholder="Masukkan 6 Digit Kode OTP">
@@ -152,10 +152,10 @@
     </div>
 
     <script>
-        // URL Web App Google Apps Script Baru Milikmu
-        const API_URL = "https://script.google.com/macros/s/AKfycbxnqdgVL_lAMk6w4suS-CAdGsg7WhDEx8wrsuwtytxbpLLWCkvLZcXNo_sCe1A6ykEWCw/exec";
+        // Tautan API Terkini
+        const API_URL = "https://script.google.com/macros/s/AKfycbwStteZwIR57Wmy-ym5F1qRsBBsXMEuYwKGNqJZwEK68X4_gp7icSztR52OyThZjAmbhQ/exec";
         
-        let currentMode = "login"; // "login", "daftar", atau "verifikasi"
+        let currentMode = "login";
 
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#passwordInput');
@@ -224,9 +224,6 @@
             const otpValue = document.getElementById('otpInput').value.trim();
 
             if (currentMode === "login") {
-                // ==========================================
-                // PROSES LOGIN STANDARD
-                // ==========================================
                 btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa Akun...';
                 btnSubmit.disabled = true;
 
@@ -252,9 +249,6 @@
                 }
 
             } else if (currentMode === "daftar") {
-                // ==========================================
-                // PROSES REQUEST KODE OTP VIA GMAIL
-                // ==========================================
                 btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim OTP...';
                 btnSubmit.disabled = true;
 
@@ -270,7 +264,7 @@
 
                     if (result.status === "success") {
                         alert(result.message);
-                        toggleMode('verifikasi'); // Alihkan ke layar isi OTP
+                        toggleMode('verifikasi');
                     } else {
                         alert('Gagal: ' + result.message);
                         resetTombol(btnSubmit);
@@ -281,13 +275,9 @@
                 }
 
             } else if (currentMode === "verifikasi") {
-                // ==========================================
-                // PROSES COCOKKAN OTP & COMMIT DATA PERMANEN
-                // ==========================================
                 btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memverifikasi...';
                 btnSubmit.disabled = true;
 
-                // Mengambil cache email, nama, password dari field (masih tersimpan di DOM input tersembunyi)
                 const cachedEmail = document.getElementById('emailInput').value.trim().toLowerCase();
                 const cachedPassword = document.getElementById('passwordInput').value;
                 const cachedNama = document.getElementById('namaInput').value.trim();
