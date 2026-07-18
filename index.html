@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Platform Alumni MAN 1 Bekasi</title>
+    <title>Login | Platform Alumni MAN 1 Bekasi</title>
     <!-- Font Poppins untuk tampilan modern -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome untuk Icon Interaktif -->
@@ -110,12 +110,12 @@
 
         .login-glass-card p {
             color: #555;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             font-size: 0.95rem;
         }
 
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             position: relative;
         }
 
@@ -145,7 +145,7 @@
             box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1);
         }
 
-        .btn-submit {
+        .btn-login {
             width: 100%;
             padding: 15px;
             background: var(--primary-green);
@@ -159,29 +159,9 @@
             box-shadow: 0 4px 15px rgba(26, 67, 49, 0.3);
         }
 
-        .btn-submit:hover {
+        .btn-login:hover {
             background: #112d21;
             transform: translateY(-2px);
-        }
-
-        .btn-submit:disabled {
-            background: #7f8c8d;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .switch-mode-text {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #444;
-        }
-
-        .switch-mode-text span {
-            color: var(--primary-green);
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: underline;
         }
 
         /* --- Menu Interaktif (Kanan Float) --- */
@@ -220,6 +200,7 @@
             color: white;
         }
 
+        /* Tooltip Menu */
         .menu-item::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -241,6 +222,7 @@
             right: 140%;
         }
 
+        /* Responsive Mobile */
         @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
             .left-panel { padding: 3rem 2rem; }
@@ -267,22 +249,17 @@
         <p>Akses arsip materi kuliah, tugas, dan referensi akademik eksklusif dari sesama alumni untuk mendukung kesuksesan studimu di kampus.</p>
     </div>
 
-    <!-- Panel Kanan: Form Auth -->
+    <!-- Panel Kanan: Form Login -->
     <div class="right-panel">
+        
         <div class="login-glass-card">
-            <h2 id="form-title">Selamat Datang</h2>
-            <p id="form-desc">Silakan masuk menggunakan email anda</p>
+            <h2>Selamat Datang</h2>
+            <p>Silakan masuk menggunakan email anda</p>
             
-            <form id="authForm" onsubmit="handleAuth(event)">
-                <!-- Kolom Input Nama Lengkap (Hanya muncul saat klik DAFTAR) -->
-                <div class="input-group" id="name-group" style="display: none;">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="namaInput" placeholder="Masukkan Nama Lengkap Anda">
-                </div>
-
+            <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="input-group">
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="emailInput" placeholder="Masukkan email anda" required>
+                    <input type="email" id="emailInput" placeholder="masukkan email anda" required>
                 </div>
                 
                 <div class="input-group">
@@ -291,12 +268,8 @@
                     <i class="fa-solid fa-eye" id="togglePassword" style="left: auto; right: 15px; cursor: pointer;"></i>
                 </div>
                 
-                <button type="submit" class="btn-submit" id="btn-text">Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
+                <button type="submit" class="btn-login">Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
             </form>
-
-            <div class="switch-mode-text" id="switch-container">
-                Belum punya akun? <span onclick="toggleMode('daftar')">Daftar Akun Baru</span>
-            </div>
         </div>
 
         <!-- Menu Interaktif Melayang -->
@@ -307,134 +280,78 @@
         </div>
     </div>
 
+    <!-- MODAL POP-UP PENGISIAN NAMA (Disembunyikan secara default) -->
+    <div id="name-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 67, 49, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 9999;">
+        <div style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(255, 255, 255, 0.6); padding: 3rem; border-radius: 24px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);">
+            <i class="fa-solid fa-user-astronaut" style="font-size: 3rem; color: var(--primary-green); margin-bottom: 15px;"></i>
+            <h2 style="color: var(--primary-green); margin-bottom: 10px;">Kenalan Dulu, Yuk!</h2>
+            <p style="color: #555; margin-bottom: 25px; font-size: 0.95rem;">Silakan masukkan nama lengkap atau panggilanmu untuk profil platform.</p>
+            <div style="position: relative; margin-bottom: 20px;">
+                <i class="fa-solid fa-user" style="position: absolute; top: 50%; transform: translateY(-50%); left: 15px; color: var(--primary-green);"></i>
+                <input type="text" id="usernameInput" placeholder="Masukkan Nama Anda" style="width: 100%; padding: 15px 15px 15px 45px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 12px; background: rgba(255, 255, 255, 0.8); font-size: 1rem; color: var(--primary-green); outline: none;">
+            </div>
+            <button onclick="simpanUsername()" style="width: 100%; padding: 15px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(26, 67, 49, 0.3);">Mulai Jelajahi Platform <i class="fa-solid fa-rocket" style="margin-left: 8px;"></i></button>
+        </div>
+    </div>
+
     <!-- Script Interaktif & Logika Autentikasi -->
     <script>
-        // URL API Web App Google Apps Script Baru Milikmu
-        const API_URL = "https://script.google.com/macros/s/AKfycbxnqdgVL_lAMk6w4suS-CAdGsg7WhDEx8wrsuwtytxbpLLWCkvLZcXNo_sCe1A6ykEWCw/exec";
-        
-        let isLoginMode = true;
-
         // Fitur Hide/Show Password
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#passwordInput');
 
-        togglePassword.addEventListener('click', function () {
+        togglePassword.addEventListener('click', function (e) {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
             this.classList.toggle('fa-eye-slash');
         });
 
-        // Fungsi Penukar Antarmuka Login / Register
-        function toggleMode(mode) {
-            const nameGroup = document.getElementById('name-group');
-            const formTitle = document.getElementById('form-title');
-            const formDesc = document.getElementById('form-desc');
-            const btnText = document.getElementById('btn-text');
-            const switchContainer = document.getElementById('switch-container');
-            const namaInput = document.getElementById('namaInput');
+        // KUNCI PIN MASUK KELAS UTAMA
+        const PASSWORD_RAHASIA = "alumniman1bekasi"; 
 
-            if (mode === 'daftar') {
-                isLoginMode = false;
-                formTitle.innerText = "Daftar Alumni";
-                formDesc.innerText = "Buat akun baru untuk mengakses platform";
-                nameGroup.style.display = "block";
-                namaInput.required = true;
-                btnText.innerHTML = 'Buat Akun Baru <i class="fa-solid fa-user-plus" style="margin-left: 8px;"></i>';
-                switchContainer.innerHTML = 'Sudah punya akun? <span onclick="toggleMode(\'login\')">Masuk Sekarang</span>';
-            } else {
-                isLoginMode = true;
-                formTitle.innerText = "Selamat Datang";
-                formDesc.innerText = "Silakan masuk menggunakan email anda";
-                nameGroup.style.display = "none";
-                namaInput.required = false;
-                btnText.innerHTML = 'Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>';
-                switchContainer.innerHTML = 'Belum punya akun? <span onclick="toggleMode(\'daftar\')">Daftar Akun Baru</span>';
-            }
-        }
-
-        // Jalankan Aksi Form
-        async function handleAuth(event) {
-            event.preventDefault();
+        // Logika Pengendali Login Nyata
+        function handleLogin(event) {
+            event.preventDefault(); 
             
-            const emailValue = document.getElementById('emailInput').value.trim().toLowerCase();
-            const passwordValue = document.getElementById('passwordInput').value;
-            const btnSubmit = document.querySelector('.btn-submit');
+            const emailInput = document.getElementById('emailInput').value;
+            const passwordInput = document.getElementById('passwordInput').value;
             
-            if (isLoginMode) {
-                // ==========================================
-                // PROSES VERIFIKASI LOGIN
-                // ==========================================
-                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa Akun...';
-                btnSubmit.disabled = true;
-
-                try {
-                    const response = await fetch(API_URL);
-                    const dataSheets = await response.json();
-                    const akunTerdaftar = dataSheets.akunTerdaftar || [];
-
-                    // Mencocokkan email & password dengan data di Google Sheets
-                    const userDitemukan = akunTerdaftar.find(user => user.email === emailValue && user.password === passwordValue);
-
-                    if (userDitemukan) {
-                        sessionStorage.setItem("isAlumniLoggedIn", "true");
-                        sessionStorage.setItem("alumniEmail", emailValue);
-                        
-                        alert('Login Berhasil! Selamat datang kembali.');
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        alert('Akses Ditolak! Email atau kata sandi Anda salah / belum terdaftar.');
-                        resetTombol(btnSubmit);
-                    }
-                } catch (error) {
-                    alert('Gagal terhubung ke database. Cek koneksi internet Anda.');
-                    resetTombol(btnSubmit);
-                }
-            } else {
-                // ==========================================
-                // PROSES PENDAFTARAN (POST KE GOOGLE SHEETS)
-                // ==========================================
-                const namaValue = document.getElementById('namaInput').value.trim();
+            // Memeriksa kecocokan password kunci
+            if (passwordInput === PASSWORD_RAHASIA) {
+                // Menyimpan penanda hak akses di memory browser (Sesi)
+                sessionStorage.setItem("isAlumniLoggedIn", "true");
+                sessionStorage.setItem("alumniEmail", emailInput);
                 
-                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...';
-                btnSubmit.disabled = true;
-
-                try {
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            email: emailValue,
-                            password: passwordValue,
-                            nama: namaValue
-                        })
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.status === "success") {
-                        // Menanamkan nama alumni secara permanen di browser local storage agar dibaca dashboard
-                        localStorage.setItem("alumniUsername", namaValue);
-                        
-                        alert('Pendaftaran Berhasil! Akun Anda sudah terdaftar di database.');
-                        toggleMode('login'); // Langsung alihkan balik ke menu login
-                        document.getElementById('emailInput').value = emailValue; // Mengisi otomatis kolom email
-                    } else {
-                        alert('Gagal Mendaftar: ' + result.message);
-                    }
-                    resetTombol(btnSubmit);
-                } catch (error) {
-                    alert('Terjadi kesalahan saat mengirim data pendaftaran.');
-                    resetTombol(btnSubmit);
+                // Mengecek apakah user sudah pernah mengisi nama sebelumnya
+                const savedUsername = localStorage.getItem("alumniUsername");
+                
+                if (!savedUsername) {
+                    // Jika belum pernah isi nama, munculkan pop-up modal
+                    document.getElementById("name-modal").style.display = "flex";
+                } else {
+                    // Jika sudah ada namanya, langsung sapa dan alihkan ke dashboard
+                    alert('Login Berhasil! Selamat datang kembali, ' + savedUsername + '!');
+                    window.location.href = 'dashboard.html'; 
                 }
+            } else {
+                alert('Kata sandi keliru! Akses terbatas hanya untuk alumni internal.');
             }
         }
 
-        function resetTombol(btn) {
-            btn.disabled = false;
-            if (isLoginMode) {
-                btn.innerHTML = 'Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>';
-            } else {
-                btn.innerHTML = 'Buat Akun Baru <i class="fa-solid fa-user-plus" style="margin-left: 8px;"></i>';
+        // Logika Menyimpan Username Baru
+        function simpanUsername() {
+            const namaInput = document.getElementById("usernameInput").value.trim();
+            
+            if (namaInput === "") {
+                alert("Nama tidak boleh kosong, ya!");
+                return;
             }
+
+            // Simpan nama secara permanen di browser
+            localStorage.setItem("alumniUsername", namaInput);
+            
+            alert('Salam kenal, ' + namaInput + '! Mengalihkan ke dashboard...');
+            window.location.href = 'dashboard.html';
         }
     </script>
 </body>
