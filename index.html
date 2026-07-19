@@ -285,10 +285,12 @@
                     });
                     const result = await response.json();
 
-                    if (result.status === "success") {
-                        alert(result.message);
-                        toggleMode('login'); // Otomatis kembali ke layar login setelah daftar
-                        document.getElementById('emailInput').value = emailValue;
+                   if (result.status === "success") {
+    alert(result.message);
+    toggleMode('login'); 
+    document.getElementById('emailInput').value = emailValue;
+    resetTombol(btnSubmit); // <--- TAMBAHKAN BARIS INI AGAR TOMBOL KEMBALI HIJAU
+}
                     } else {
                         alert('Gagal: ' + result.message);
                         resetTombol(btnSubmit);
