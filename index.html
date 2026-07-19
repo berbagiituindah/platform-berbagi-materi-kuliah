@@ -148,9 +148,7 @@
     </div>
 
     <script>
-        // Tautan API Baru yang sudah memiliki fitur Link Aktivasi & Reset Password
         const API_URL = "https://script.google.com/macros/s/AKfycbxEztMg1tP_TPfnlOZs83ayxNCmYMNU5N6_9PgebIv7M_53T3VxjZbxMXraX1oVJK8Ptg/exec";
-        
         let currentMode = "login";
 
         const togglePassword = document.querySelector('#togglePassword');
@@ -161,7 +159,48 @@
             this.classList.toggle('fa-eye-slash');
         });
 
+        // FUNGSI BARU: Menampilkan notifikasi tanpa Pop-up Alert
+        function tampilkanPesan(pesan, tipe) {
+            let notifBox = document.getElementById('notif-box');
+            if (!notifBox) {
+                notifBox = document.createElement('div');
+                notifBox.id = 'notif-box';
+                notifBox.style.padding = '12px';
+                notifBox.style.borderRadius = '8px';
+                notifBox.style.marginBottom = '15px';
+                notifBox.style.fontSize = '0.85rem';
+                notifBox.style.textAlign = 'center';
+                notifBox.style.fontWeight = '500';
+                
+                // Masukkan notifikasi tepat di atas tombol submit
+                const btn = document.getElementById('btn-text');
+                btn.parentNode.insertBefore(notifBox, btn);
+            }
+            
+            notifBox.style.display = 'block';
+            notifBox.innerHTML = pesan;
+            
+            if (tipe === 'sukses') {
+                notifBox.style.backgroundColor = 'rgba(26, 67, 49, 0.1)';
+                notifBox.style.color = 'var(--primary-green)';
+                notifBox.style.border = '1px solid var(--primary-green)';
+            } else {
+                notifBox.style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                notifBox.style.color = '#dc3545';
+                notifBox.style.border = '1px solid #dc3545';
+            }
+
+            // Otomatis hilang setelah 6 detik
+            setTimeout(() => {
+                if(notifBox) notifBox.style.display = 'none';
+            }, 6000);
+        }
+
         function toggleMode(mode) {
+            // Sembunyikan notifikasi saat berpindah halaman
+            const notifBox = document.getElementById('notif-box');
+            if (notifBox) notifBox.style.display = 'none';
+
             const nameGroup = document.getElementById('name-group');
             const passGroup = document.getElementById('pass-group');
             const forgotLink = document.getElementById('forgot-link');
@@ -189,7 +228,7 @@
                 formTitle.innerText = "Lupa Kata Sandi";
                 formDesc.innerText = "Masukkan email terdaftar untuk menyetel ulang sandi.";
                 nameGroup.style.display = "none";
-                passGroup.style.display = "none"; // Sembunyikan form password
+                passGroup.style.display = "none"; 
                 forgotLink.style.display = "none";
                 
                 document.getElementById('namaInput').required = false;
@@ -222,10 +261,11 @@
             const passwordValue = document.getElementById('passwordInput').value;
             const namaValue = document.getElementById('namaInput').value.trim();
 
+            // Sembunyikan notifikasi lama saat tombol ditekan kembali
+            const notifBox = document.getElementById('notif-box');
+            if (notifBox) notifBox.style.display = 'none';
+
             if (currentMode === "login") {
-                // ==========================================
-                // PROSES LOGIN
-                // ==========================================
                 btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa...';
                 btnSubmit.disabled = true;
 
@@ -237,36 +277,34 @@
                     const userDitemukan = akunTerdaftar.find(u => u.email === emailValue && u.password === passwordValue);
 
                     if (userDitemukan) {
-                        // Cek apakah akunnya sudah aktif (sudah klik link aktivasi)
                         if (userDitemukan.status !== "Aktif") {
-                            alert('Akses Ditolak! Akun Anda masih berstatus PENDING. Silakan periksa kotak masuk Gmail Anda dan klik Link Aktivasi terlebih dahulu.');
+                            tampilkanPesan('Akses Ditolak! Akun masih PENDING. Silakan cek Gmail Anda dan klik Link Aktivasi.', 'error');
                             resetTombol(btnSubmit);
                             return;
                         }
 
-                        // Jika sudah Aktif, Lanjut Login
                         sessionStorage.setItem("isAlumniLoggedIn", "true");
                         sessionStorage.setItem("alumniEmail", emailValue);
                         localStorage.setItem("alumniUsername", userDitemukan.nama); 
 
-                        alert('Login Berhasil! Mengalihkan ke Dashboard...');
-                        window.location.href = 'dashboard.html';
+                        // Pesan sukses tampil lalu otomatis pindah halaman
+                        tampilkanPesan('<i class="fa-solid fa-circle-check"></i> Login Berhasil! Mengalihkan...', 'sukses');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1200);
+
                     } else {
-                        alert('Akses Ditolak! Email atau kata sandi salah / belum terdaftar.');
+                        tampilkanPesan('Akses Ditolak! Email atau kata sandi salah.', 'error');
                         resetTombol(btnSubmit);
                     }
                 } catch (error) {
-                    alert('Gagal terhubung ke database.');
+                    tampilkanPesan('Gagal terhubung ke database.', 'error');
                     resetTombol(btnSubmit);
                 }
 
             } else if (currentMode === "daftar") {
-                // ==========================================
-                // PROSES DAFTAR (KIRIM LINK AKTIVASI)
-                // ==========================================
-                // Validasi manual ekstra untuk memastikan password min 5 karakter
                 if (passwordValue.length < 5) {
-                    alert('Kata sandi harus terdiri dari minimal 5 karakter!');
+                    tampilkanPesan('Kata sandi harus terdiri dari minimal 5 karakter!', 'error');
                     return;
                 }
 
@@ -286,23 +324,20 @@
                     const result = await response.json();
 
                     if (result.status === "success") {
-                        alert(result.message);
-                        toggleMode('login'); // Otomatis kembali ke layar login setelah daftar
+                        toggleMode('login'); 
                         document.getElementById('emailInput').value = emailValue;
+                        tampilkanPesan(result.message, 'sukses');
                         resetTombol(btnSubmit);
                     } else {
-                        alert('Gagal: ' + result.message);
+                        tampilkanPesan('Gagal: ' + result.message, 'error');
                         resetTombol(btnSubmit);
                     }
                 } catch (error) {
-                    alert('Gagal memproses pendaftaran.');
+                    tampilkanPesan('Gagal memproses pendaftaran.', 'error');
                     resetTombol(btnSubmit);
                 }
 
             } else if (currentMode === "lupa_password") {
-                // ==========================================
-                // PROSES LUPA KATA SANDI
-                // ==========================================
                 btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim Link...';
                 btnSubmit.disabled = true;
 
@@ -317,14 +352,14 @@
                     const result = await response.json();
 
                     if (result.status === "success") {
-                        alert(result.message);
-                        toggleMode('login'); // Kembali ke login
+                        toggleMode('login'); 
+                        tampilkanPesan(result.message, 'sukses');
                     } else {
-                        alert('Gagal: ' + result.message);
+                        tampilkanPesan('Gagal: ' + result.message, 'error');
                         resetTombol(btnSubmit);
                     }
                 } catch (error) {
-                    alert('Gagal memproses permintaan.');
+                    tampilkanPesan('Gagal memproses permintaan.', 'error');
                     resetTombol(btnSubmit);
                 }
             }
