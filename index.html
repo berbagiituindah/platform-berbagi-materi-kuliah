@@ -25,7 +25,7 @@
         .left-panel {
             flex: 1.2;
             background: linear-gradient(135deg, rgba(26,67,49,0.9) 0%, rgba(42,109,79,0.9) 100%), 
-                        url('https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1000&auto=format&fit=crop') center/cover;
+                        url('bg-man1.jpg') center/cover;
             color: white; display: flex; flex-direction: column; justify-content: center; padding: 4rem; position: relative;
         }
         .left-panel::before {
@@ -237,6 +237,10 @@
                     if (userDitemukan) {
                         sessionStorage.setItem("isAlumniLoggedIn", "true");
                         sessionStorage.setItem("alumniEmail", emailValue);
+                        
+                        // Menyimpan nama dari database ke memori agar tampil di dashboard
+                        localStorage.setItem("alumniUsername", userDitemukan.nama); 
+
                         alert('Login Berhasil! Mengalihkan ke Dashboard...');
                         window.location.href = 'dashboard.html';
                     } else {
