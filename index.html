@@ -11,9 +11,9 @@
     
     <style>
         :root {
-            --primary-green: #1a4331; /* Hijau tua mewah */
-            --soft-green: #e2f0e9; /* Hijau soft mint */
-            --accent-gold: #d4af37; /* Aksen emas */
+            --primary-green: #1a4331; 
+            --soft-green: #e2f0e9; 
+            --accent-gold: #d4af37; 
             --glass-bg: rgba(255, 255, 255, 0.4);
             --glass-border: rgba(255, 255, 255, 0.6);
         }
@@ -21,7 +21,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: var(--soft-green); height: 100vh; display: flex; overflow: hidden; }
 
-        /* --- Panel Kiri (Ilustrasi & Karakter MAN) --- */
         .left-panel {
             flex: 1.2;
             background: linear-gradient(135deg, rgba(26,67,49,0.9) 0%, rgba(42,109,79,0.9) 100%), 
@@ -39,7 +38,6 @@
         .left-panel h1 { font-size: 3rem; line-height: 1.2; margin-bottom: 15px; font-weight: 700; z-index: 1; }
         .left-panel p { font-size: 1.1rem; opacity: 0.9; max-width: 80%; z-index: 1; }
 
-        /* --- Panel Kanan (Form Card) --- */
         .right-panel {
             flex: 1; display: flex; align-items: center; justify-content: center; position: relative;
             background: radial-gradient(circle at top right, #ffffff, var(--soft-green));
@@ -59,6 +57,12 @@
             border-radius: 12px; background: rgba(255, 255, 255, 0.6); font-size: 1rem; color: var(--primary-green); outline: none; transition: all 0.3s ease;
         }
         .input-group input:focus { border-color: var(--primary-green); background: white; box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
+
+        .forgot-password {
+            display: block; text-align: right; font-size: 0.85rem; color: var(--primary-green);
+            cursor: pointer; margin-top: -10px; margin-bottom: 15px; font-weight: 500; text-decoration: none;
+        }
+        .forgot-password:hover { text-decoration: underline; }
 
         .btn-submit {
             width: 100%; padding: 15px; background: var(--primary-green); color: white; border: none; border-radius: 12px;
@@ -80,19 +84,13 @@
             color: var(--primary-green); text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; position: relative;
         }
         .menu-item:hover { background: var(--primary-green); color: white; }
-        .menu-item::after {
-            content: attr(data-tooltip); position: absolute; right: 120%; background: var(--primary-green);
-            color: white; font-size: 0.8rem; padding: 5px 10px; border-radius: 5px; opacity: 0; visibility: hidden; transition: all 0.3s ease; white-space: nowrap;
-        }
-        .menu-item:hover::after { opacity: 1; visibility: visible; right: 140%; }
 
         @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
             .left-panel { padding: 3rem 2rem; }
             .left-panel h1 { font-size: 2rem; }
             .right-panel { padding: 2rem 0; }
-            .floating-menu { flex-direction: row; position: static; transform: none; justify-content: center; margin-top: 20px; border-radius: 15px; }
-            .menu-item::after { display: none; }
+            .floating-menu { display: none; }
         }
     </style>
 </head>
@@ -107,34 +105,32 @@
     <div class="right-panel">
         <div class="login-glass-card">
             <h2 id="form-title">Selamat Datang</h2>
-            <p id="form-desc">Silakan masuk menggunakan email anda</p>
+            <p id="form-desc">Silakan masuk menggunakan email Anda</p>
             
             <form id="authForm" onsubmit="handleAuth(event)">
-                <!-- Input Nama Lengkap (Mode Daftar) -->
+                
+                <!-- Input Nama Lengkap (Hanya saat Daftar) -->
                 <div class="input-group" id="name-group" style="display: none;">
                     <i class="fa-solid fa-user"></i>
                     <input type="text" id="namaInput" placeholder="Masukkan Nama Lengkap Anda">
                 </div>
 
-                <!-- Input Utama Email & Password -->
-                <div id="main-fields">
-                    <div class="input-group">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="emailInput" placeholder="Masukkan email anda" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="passwordInput" placeholder="Kata Sandi" required>
-                        <i class="fa-solid fa-eye" id="togglePassword" style="left: auto; right: 15px; cursor: pointer;"></i>
-                    </div>
+                <!-- Input Email -->
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="emailInput" placeholder="Masukkan email Anda" required>
+                </div>
+                
+                <!-- Input Password -->
+                <div class="input-group" id="pass-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <!-- Minimal 5 Karakter -->
+                    <input type="password" id="passwordInput" placeholder="Kata Sandi (Min. 5 karakter)" minlength="5" required>
+                    <i class="fa-solid fa-eye" id="togglePassword" style="left: auto; right: 15px; cursor: pointer;"></i>
                 </div>
 
-                <!-- Input Kode OTP -->
-                <div class="input-group" id="otp-group" style="display: none;">
-                    <i class="fa-solid fa-key"></i>
-                    <input type="number" id="otpInput" placeholder="Masukkan 6 Digit Kode OTP">
-                </div>
+                <!-- Tautan Lupa Kata Sandi -->
+                <a id="forgot-link" class="forgot-password" onclick="toggleMode('lupa_password')">Lupa kata sandi?</a>
                 
                 <button type="submit" class="btn-submit" id="btn-text">Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
             </form>
@@ -145,70 +141,74 @@
         </div>
 
         <div class="floating-menu">
-            <a href="#" class="menu-item" data-tooltip="Beranda"><i class="fa-solid fa-house"></i></a>
-            <a href="#" class="menu-item" data-tooltip="Tentang Platform"><i class="fa-solid fa-circle-info"></i></a>
-            <a href="#" class="menu-item" data-tooltip="Bantuan & Kontak"><i class="fa-solid fa-headset"></i></a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-house"></i></a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-circle-info"></i></a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-headset"></i></a>
         </div>
     </div>
 
     <script>
-        // Tautan API Terkini
-        const API_URL = "https://script.google.com/macros/s/AKfycbwStteZwIR57Wmy-ym5F1qRsBBsXMEuYwKGNqJZwEK68X4_gp7icSztR52OyThZjAmbhQ/exec";
+        // Tautan API Baru yang sudah memiliki fitur Link Aktivasi & Reset Password
+        const API_URL = "https://script.google.com/macros/s/AKfycbxEztMg1tP_TPfnlOZs83ayxNCmYMNU5N6_9PgebIv7M_53T3VxjZbxMXraX1oVJK8Ptg/exec";
         
         let currentMode = "login";
 
         const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('#passwordInput');
+        const passwordInput = document.querySelector('#passwordInput');
         togglePassword.addEventListener('click', function () {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
             this.classList.toggle('fa-eye-slash');
         });
 
         function toggleMode(mode) {
             const nameGroup = document.getElementById('name-group');
-            const mainFields = document.getElementById('main-fields');
-            const otpGroup = document.getElementById('otp-group');
+            const passGroup = document.getElementById('pass-group');
+            const forgotLink = document.getElementById('forgot-link');
             const formTitle = document.getElementById('form-title');
             const formDesc = document.getElementById('form-desc');
             const btnText = document.getElementById('btn-text');
             const switchContainer = document.getElementById('switch-container');
             
-            document.getElementById('emailInput').required = true;
-            document.getElementById('passwordInput').required = true;
-            document.getElementById('otpInput').required = false;
-
             if (mode === 'daftar') {
                 currentMode = "daftar";
                 formTitle.innerText = "Daftar Alumni";
-                formDesc.innerText = "Lengkapi data untuk membuat akun baru resmi";
+                formDesc.innerText = "Lengkapi data. Password minimal 5 karakter.";
                 nameGroup.style.display = "block";
-                mainFields.style.display = "block";
-                otpGroup.style.display = "none";
+                passGroup.style.display = "block";
+                forgotLink.style.display = "none";
+                
                 document.getElementById('namaInput').required = true;
-                btnText.innerHTML = 'Kirim Kode Verifikasi <i class="fa-solid fa-paper-plane" style="margin-left: 8px;"></i>';
+                document.getElementById('passwordInput').required = true;
+                
+                btnText.innerHTML = 'Daftar & Kirim Link <i class="fa-solid fa-paper-plane" style="margin-left: 8px;"></i>';
                 switchContainer.innerHTML = 'Sudah punya akun? <span onclick="toggleMode(\'login\')">Masuk Sekarang</span>';
-            } else if (mode === 'verifikasi') {
-                currentMode = "verifikasi";
-                formTitle.innerText = "Verifikasi Email";
-                formDesc.innerText = "Kami telah mengirimkan 6 digit kode OTP ke Gmail Anda.";
+                
+            } else if (mode === 'lupa_password') {
+                currentMode = "lupa_password";
+                formTitle.innerText = "Lupa Kata Sandi";
+                formDesc.innerText = "Masukkan email terdaftar untuk menyetel ulang sandi.";
                 nameGroup.style.display = "none";
-                mainFields.style.display = "none";
-                otpGroup.style.display = "block";
+                passGroup.style.display = "none"; // Sembunyikan form password
+                forgotLink.style.display = "none";
+                
                 document.getElementById('namaInput').required = false;
-                document.getElementById('emailInput').required = false;
                 document.getElementById('passwordInput').required = false;
-                document.getElementById('otpInput').required = true;
-                btnText.innerHTML = 'Verifikasi & Buat Akun <i class="fa-solid fa-user-check" style="margin-left: 8px;"></i>';
-                switchContainer.innerHTML = 'Salah masukkan data? <span onclick="toggleMode(\'daftar\')">Kembali</span>';
+                
+                btnText.innerHTML = 'Kirim Link Reset <i class="fa-solid fa-envelope" style="margin-left: 8px;"></i>';
+                switchContainer.innerHTML = 'Ingin kembali? <span onclick="toggleMode(\'login\')">Masuk Sekarang</span>';
+                
             } else {
                 currentMode = "login";
                 formTitle.innerText = "Selamat Datang";
-                formDesc.innerText = "Silakan masuk menggunakan email anda";
+                formDesc.innerText = "Silakan masuk menggunakan email Anda";
                 nameGroup.style.display = "none";
-                mainFields.style.display = "block";
-                otpGroup.style.display = "none";
+                passGroup.style.display = "block";
+                forgotLink.style.display = "block";
+                
                 document.getElementById('namaInput').required = false;
+                document.getElementById('passwordInput').required = true;
+                
                 btnText.innerHTML = 'Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>';
                 switchContainer.innerHTML = 'Belum punya akun? <span onclick="toggleMode(\'daftar\')">Daftar Akun Baru</span>';
             }
@@ -221,10 +221,12 @@
             const emailValue = document.getElementById('emailInput').value.trim().toLowerCase();
             const passwordValue = document.getElementById('passwordInput').value;
             const namaValue = document.getElementById('namaInput').value.trim();
-            const otpValue = document.getElementById('otpInput').value.trim();
 
             if (currentMode === "login") {
-                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa Akun...';
+                // ==========================================
+                // PROSES LOGIN
+                // ==========================================
+                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa...';
                 btnSubmit.disabled = true;
 
                 try {
@@ -235,10 +237,16 @@
                     const userDitemukan = akunTerdaftar.find(u => u.email === emailValue && u.password === passwordValue);
 
                     if (userDitemukan) {
+                        // Cek apakah akunnya sudah aktif (sudah klik link aktivasi)
+                        if (userDitemukan.status !== "Aktif") {
+                            alert('Akses Ditolak! Akun Anda masih berstatus PENDING. Silakan periksa kotak masuk Gmail Anda dan klik Link Aktivasi terlebih dahulu.');
+                            resetTombol(btnSubmit);
+                            return;
+                        }
+
+                        // Jika sudah Aktif, Lanjut Login
                         sessionStorage.setItem("isAlumniLoggedIn", "true");
                         sessionStorage.setItem("alumniEmail", emailValue);
-                        
-                        // Menyimpan nama dari database ke memori agar tampil di dashboard
                         localStorage.setItem("alumniUsername", userDitemukan.nama); 
 
                         alert('Login Berhasil! Mengalihkan ke Dashboard...');
@@ -253,14 +261,55 @@
                 }
 
             } else if (currentMode === "daftar") {
-                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim OTP...';
+                // ==========================================
+                // PROSES DAFTAR (KIRIM LINK AKTIVASI)
+                // ==========================================
+                // Validasi manual ekstra untuk memastikan password min 5 karakter
+                if (passwordValue.length < 5) {
+                    alert('Kata sandi harus terdiri dari minimal 5 karakter!');
+                    return;
+                }
+
+                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
                 btnSubmit.disabled = true;
 
                 try {
                     const response = await fetch(API_URL, {
                         method: 'POST',
                         body: JSON.stringify({
-                            action: "request_otp",
+                            action: "register",
+                            email: emailValue,
+                            nama: namaValue,
+                            password: passwordValue
+                        })
+                    });
+                    const result = await response.json();
+
+                    if (result.status === "success") {
+                        alert(result.message);
+                        toggleMode('login'); // Otomatis kembali ke layar login setelah daftar
+                        document.getElementById('emailInput').value = emailValue;
+                    } else {
+                        alert('Gagal: ' + result.message);
+                        resetTombol(btnSubmit);
+                    }
+                } catch (error) {
+                    alert('Gagal memproses pendaftaran.');
+                    resetTombol(btnSubmit);
+                }
+
+            } else if (currentMode === "lupa_password") {
+                // ==========================================
+                // PROSES LUPA KATA SANDI
+                // ==========================================
+                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim Link...';
+                btnSubmit.disabled = true;
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: "forgot_password",
                             email: emailValue
                         })
                     });
@@ -268,49 +317,13 @@
 
                     if (result.status === "success") {
                         alert(result.message);
-                        toggleMode('verifikasi');
+                        toggleMode('login'); // Kembali ke login
                     } else {
                         alert('Gagal: ' + result.message);
                         resetTombol(btnSubmit);
                     }
                 } catch (error) {
-                    alert('Gagal memproses pengiriman OTP.');
-                    resetTombol(btnSubmit);
-                }
-
-            } else if (currentMode === "verifikasi") {
-                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memverifikasi...';
-                btnSubmit.disabled = true;
-
-                const cachedEmail = document.getElementById('emailInput').value.trim().toLowerCase();
-                const cachedPassword = document.getElementById('passwordInput').value;
-                const cachedNama = document.getElementById('namaInput').value.trim();
-
-                try {
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            action: "verify_otp",
-                            email: cachedEmail,
-                            otp: otpValue,
-                            password: cachedPassword,
-                            nama: cachedNama
-                        })
-                    });
-                    const result = await response.json();
-
-                    if (result.status === "success") {
-                        localStorage.setItem("alumniUsername", cachedNama);
-                        alert('Akun Berhasil Diverifikasi! Silakan masuk menggunakan email Anda.');
-                        toggleMode('login');
-                        document.getElementById('emailInput').value = cachedEmail;
-                    } else {
-                        alert('Verifikasi Gagal: ' + result.message);
-                        btnSubmit.disabled = false;
-                        btnSubmit.innerHTML = 'Verifikasi & Buat Akun <i class="fa-solid fa-user-check" style="margin-left: 8px;"></i>';
-                    }
-                } catch (error) {
-                    alert('Terjadi error saat verifikasi.');
+                    alert('Gagal memproses permintaan.');
                     resetTombol(btnSubmit);
                 }
             }
@@ -321,9 +334,9 @@
             if (currentMode === "login") {
                 btn.innerHTML = 'Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>';
             } else if (currentMode === "daftar") {
-                btn.innerHTML = 'Kirim Kode Verifikasi <i class="fa-solid fa-paper-plane" style="margin-left: 8px;"></i>';
+                btn.innerHTML = 'Daftar & Kirim Link <i class="fa-solid fa-paper-plane" style="margin-left: 8px;"></i>';
             } else {
-                btn.innerHTML = 'Verifikasi & Buat Akun <i class="fa-solid fa-user-check" style="margin-left: 8px;"></i>';
+                btn.innerHTML = 'Kirim Link Reset <i class="fa-solid fa-envelope" style="margin-left: 8px;"></i>';
             }
         }
     </script>
