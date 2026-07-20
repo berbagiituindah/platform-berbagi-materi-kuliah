@@ -585,33 +585,43 @@
             }
         }
 
-        // --- PENDETEKSI WAKTU PINTAR ---
+        // --- PENDETEKSI WAKTU SUPER TANGGUH ---
         function dapatkanWaktu(item) {
-            // Cek nama standar dari Google Forms
-            if (item['Timestamp']) return item['Timestamp'];
-            if (item['Waktu']) return item['Waktu'];
-            
-            // Jika nama kolom diubah, lacak kata kuncinya
-            for (let key in item) {
-                let lowerKey = key.toLowerCase();
-                if (lowerKey.includes('time') || lowerKey.includes('waktu') || lowerKey.includes('tanggal')) {
-                    return item[key];
-                }
+            // Ambil langsung kolom pertama (Kolom A) apapun nama headernya
+            const keys = Object.keys(item);
+            if (keys.length > 0) {
+                return item[keys[0]]; 
             }
-            // Kembalikan null jika benar-benar tidak ada
             return null;
         }
 
-        // --- FORMAT TANGGAL ---
-        function formatWaktu(isoString) {
-            if (!isoString) return 'Belum diketahui';
-            const date = new Date(isoString);
+        // --- PARSER WAKTU (Menerjemahkan format Hari/Bulan/Tahun ala Indonesia) ---
+        function parseWaktu(rawDate) {
+            if (!rawDate) return 0;
+            let date = new Date(rawDate);
             
-            // Cegah error 1 Jan 1970 muncul di layar
-            if (isNaN(date.getTime()) || date.getFullYear() === 1970) {
-                return 'Belum diketahui';
+            // Jika formatnya ala Indonesia (DD/MM/YYYY), JS akan gagal parse. Kita akali:
+            if (isNaN(date.getTime()) && typeof rawDate === 'string') {
+                const parts = rawDate.split(/[\s/:-]+/); 
+                if (parts.length >= 3) {
+                    // Susun ulang menjadi Tahun-Bulan-Hari agar dimengerti sistem
+                    date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+                }
             }
+            return isNaN(date.getTime()) ? 0 : date.getTime();
+        }
+
+        // --- FORMAT TANGGAL UNTUK TAMPILAN ---
+        function formatWaktu(rawDate) {
+            if (!rawDate) return 'Baru saja';
             
+            let timeValue = parseWaktu(rawDate);
+            
+            // Jika sistem tetap gagal mengerti format waktunya,
+            // tampilkan TEKS ASLI dari Google Sheets daripada menulis "Belum diketahui"
+            if (timeValue === 0) return rawDate; 
+            
+            const date = new Date(timeValue);
             const opsi = { day: 'numeric', month: 'short', year: 'numeric' };
             return date.toLocaleDateString('id-ID', opsi);
         }
@@ -627,10 +637,13 @@
                 
                 databaseMateri = data.materi ? data.materi : data;
                 
-                // MENGURUTKAN BERDASARKAN WAKTU (Terbaru di atas)
+                // Urutkan default (baris terbawah jadi teratas)
+                databaseMateri.reverse();
+                
+                // Sortir lebih lanjut menggunakan sistem pelacak waktu pintar
                 databaseMateri.sort((a, b) => {
-                    const waktuA = new Date(dapatkanWaktu(a) || 0).getTime();
-                    const waktuB = new Date(dapatkanWaktu(b) || 0).getTime();
+                    const waktuA = parseWaktu(dapatkanWaktu(a));
+                    const waktuB = parseWaktu(dapatkanWaktu(b));
                     return waktuB - waktuA; 
                 });
 
@@ -646,6 +659,7 @@
         function ubahKategori(kategori, element) {
             document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
             element.classList.add('active');
+            
             kategoriAktif = kategori;
             terapkanFilter();
         }
@@ -656,10 +670,12 @@
             
             let dataTersaring = databaseMateri;
 
+            // 1. Saring Berdasarkan Kategori yang Dipilih
             if (kategoriAktif !== 'Semua') {
                 dataTersaring = dataTersaring.filter(item => item.kategori === kategoriAktif);
             }
 
+            // 2. Saring Berdasarkan Teks di Search Bar
             if (kataKunci !== "") {
                 dataTersaring = dataTersaring.filter(item => {
                     const judul = (item.judul || '').toLowerCase();
