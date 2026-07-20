@@ -530,7 +530,7 @@
     </a>
 
     <!-- JAVASCRIPT -->
-   <script>
+    <script>
         const APISheetsURL = "https://script.google.com/macros/s/AKfycbzVE9WH0jM3c7beUdeyQrxWbD4AoBZaKdqcHQTxUhfUpQPXDUA7DztRTjVvPKw_88Q6HA/exec";
 
         let databaseMateri = [];
@@ -585,47 +585,6 @@
             }
         }
 
-        // --- PENDETEKSI WAKTU SUPER TANGGUH ---
-        function dapatkanWaktu(item) {
-            // Ambil langsung kolom pertama (Kolom A) apapun nama headernya
-            const keys = Object.keys(item);
-            if (keys.length > 0) {
-                return item[keys[0]]; 
-            }
-            return null;
-        }
-
-        // --- PARSER WAKTU (Menerjemahkan format Hari/Bulan/Tahun ala Indonesia) ---
-        function parseWaktu(rawDate) {
-            if (!rawDate) return 0;
-            let date = new Date(rawDate);
-            
-            // Jika formatnya ala Indonesia (DD/MM/YYYY), JS akan gagal parse. Kita akali:
-            if (isNaN(date.getTime()) && typeof rawDate === 'string') {
-                const parts = rawDate.split(/[\s/:-]+/); 
-                if (parts.length >= 3) {
-                    // Susun ulang menjadi Tahun-Bulan-Hari agar dimengerti sistem
-                    date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-                }
-            }
-            return isNaN(date.getTime()) ? 0 : date.getTime();
-        }
-
-        // --- FORMAT TANGGAL UNTUK TAMPILAN ---
-        function formatWaktu(rawDate) {
-            if (!rawDate) return 'Baru saja';
-            
-            let timeValue = parseWaktu(rawDate);
-            
-            // Jika sistem tetap gagal mengerti format waktunya,
-            // tampilkan TEKS ASLI dari Google Sheets daripada menulis "Belum diketahui"
-            if (timeValue === 0) return rawDate; 
-            
-            const date = new Date(timeValue);
-            const opsi = { day: 'numeric', month: 'short', year: 'numeric' };
-            return date.toLocaleDateString('id-ID', opsi);
-        }
-
         // --- FETCH DATA & PENGURUTAN (SORTING) ---
         async function ambilDataMateri() {
             const container = document.getElementById('materi-container');
@@ -635,16 +594,14 @@
                 const response = await fetch(APISheetsURL);
                 let data = await response.json();
                 
+                // Menyesuaikan struktur jika API mengirimkan objek (misal: {materi: [...]})
                 databaseMateri = data.materi ? data.materi : data;
                 
-                // Urutkan default (baris terbawah jadi teratas)
-                databaseMateri.reverse();
-                
-                // Sortir lebih lanjut menggunakan sistem pelacak waktu pintar
+                // MENGURUTKAN BERDASARKAN WAKTU (Paling baru di atas)
                 databaseMateri.sort((a, b) => {
-                    const waktuA = parseWaktu(dapatkanWaktu(a));
-                    const waktuB = parseWaktu(dapatkanWaktu(b));
-                    return waktuB - waktuA; 
+                    const waktuA = new Date(a.Timestamp || a.timestamp || a.Waktu || a.waktu || 0);
+                    const waktuB = new Date(b.Timestamp || b.timestamp || b.Waktu || b.waktu || 0);
+                    return waktuB - waktuA; // Descending: Terbaru ke Terlama
                 });
 
                 initStats();
@@ -653,6 +610,15 @@
                 console.error("Gagal mengambil data:", error);
                 container.innerHTML = '<p style="text-align:center; color:#e74c3c;">Gagal memuat materi. Pastikan koneksi internet stabil.</p>';
             }
+        }
+
+        // --- FORMAT TANGGAL ---
+        function formatWaktu(isoString) {
+            if (!isoString) return 'Belum diketahui';
+            const date = new Date(isoString);
+            if (isNaN(date)) return isoString; 
+            const opsi = { day: 'numeric', month: 'short', year: 'numeric' };
+            return date.toLocaleDateString('id-ID', opsi);
         }
 
         // --- LOGIKA FILTER GABUNGAN (KATEGORI + PENCARIAN) ---
@@ -703,8 +669,7 @@
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
                 const iconVisual = item.icon_visual || (isSaintek ? 'fa-microchip' : 'fa-scale-balanced');
                 
-                // Gunakan fungsi pelacak waktu baru
-                const rawDate = dapatkanWaktu(item); 
+                const rawDate = item.Timestamp || item.timestamp || item.Waktu || item.waktu; 
                 const tanggalRapih = formatWaktu(rawDate);
                 
                 const card = `
