@@ -594,14 +594,14 @@
                 const response = await fetch(APISheetsURL);
                 let data = await response.json();
                 
-                // Menyesuaikan struktur jika API mengirimkan objek (misal: {materi: [...]})
                 databaseMateri = data.materi ? data.materi : data;
                 
-                // MENGURUTKAN BERDASARKAN WAKTU (Paling baru di atas)
+                // PENGURUTAN DIPERBARUI: Mengambil otomatis dari kolom A (Kolom pertama)
                 databaseMateri.sort((a, b) => {
-                    const waktuA = new Date(a.Timestamp || a.timestamp || a.Waktu || a.waktu || 0);
-                    const waktuB = new Date(b.Timestamp || b.timestamp || b.Waktu || b.waktu || 0);
-                    return waktuB - waktuA; // Descending: Terbaru ke Terlama
+                    const namaKolomWaktu = Object.keys(a)[0]; // Otomatis deteksi judul kolom pertama
+                    const waktuA = new Date(a[namaKolomWaktu] || 0);
+                    const waktuB = new Date(b[namaKolomWaktu] || 0);
+                    return waktuB - waktuA; 
                 });
 
                 initStats();
@@ -669,7 +669,9 @@
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
                 const iconVisual = item.icon_visual || (isSaintek ? 'fa-microchip' : 'fa-scale-balanced');
                 
-                const rawDate = item.Timestamp || item.timestamp || item.Waktu || item.waktu; 
+                // PENDETEKSI WAKTU OTOMATIS: Ambil data langsung dari kolom pertama
+                const namaKolomWaktu = Object.keys(item)[0]; 
+                const rawDate = item[namaKolomWaktu]; 
                 const tanggalRapih = formatWaktu(rawDate);
                 
                 const card = `
