@@ -530,6 +530,7 @@
     </a>
 
     <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT PRESISI SESUAI GOOGLE SHEETS -->
     <script>
         const APISheetsURL = "https://script.google.com/macros/s/AKfycbzVE9WH0jM3c7beUdeyQrxWbD4AoBZaKdqcHQTxUhfUpQPXDUA7DztRTjVvPKw_88Q6HA/exec";
 
@@ -585,7 +586,44 @@
             }
         }
 
-        // --- FETCH DATA & PENGURUTAN (SORTING) ---
+        // --- FUNGSI MENTERJEMAHKAN TANGGAL INDONESIA (18/07/2026 18:18:18) ---
+        function konversiTanggalIndo(strTanggal) {
+            if (!strTanggal) return 0;
+            
+            // Jika strTanggal berbentuk objek Date dari JS
+            if (strTanggal instanceof Date) return strTanggal.getTime();
+            
+            // Jika berbentuk Teks "18/07/2026 18:18:18"
+            if (typeof strTanggal === 'string') {
+                const bagian = strTanggal.split(' '); // Memisah tanggal dan jam
+                const tglParts = bagian[0].split('/'); // Memisah [18, 07, 2026]
+                
+                if (tglParts.length === 3) {
+                    const hari = tglParts[0];
+                    const bulan = tglParts[1];
+                    const tahun = tglParts[2];
+                    const jam = bagian[1] || '00:00:00';
+                    
+                    // Susun format standar ISO: "2026-07-18T18:18:18"
+                    const isoFormatted = `${tahun}-${bulan}-${hari}T${jam}`;
+                    const d = new Date(isoFormatted);
+                    if (!isNaN(d.getTime())) return d.getTime();
+                }
+            }
+            
+            const fallback = new Date(strTanggal);
+            return isNaN(fallback.getTime()) ? 0 : fallback.getTime();
+        }
+
+        function formatWaktuTampil(strTanggal) {
+            const ms = konversiTanggalIndo(strTanggal);
+            if (ms === 0) return strTanggal || 'Baru saja';
+            
+            const d = new Date(ms);
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // --- FETCH & PETAKAN DATA PRESISI ---
         async function ambilDataMateri() {
             const container = document.getElementById('materi-container');
             container.innerHTML = '<p style="text-align:center; color:#666;"><i class="fa-solid fa-spinner fa-spin"></i> Memuat materi dari alumni...</p>';
@@ -594,15 +632,26 @@
                 const response = await fetch(APISheetsURL);
                 let data = await response.json();
                 
-                // Menyesuaikan struktur jika API mengirimkan objek (misal: {materi: [...]})
-                databaseMateri = data.materi ? data.materi : data;
-                
-                // MENGURUTKAN BERDASARKAN WAKTU (Paling baru di atas)
-                databaseMateri.sort((a, b) => {
-                    const waktuA = new Date(a.Timestamp || a.timestamp || a.Waktu || a.waktu || 0);
-                    const waktuB = new Date(b.Timestamp || b.timestamp || b.Waktu || b.waktu || 0);
-                    return waktuB - waktuA; // Descending: Terbaru ke Terlama
+                let rawList = data.materi ? data.materi : data;
+
+                // Petakan persis dengan nama kolom Google Sheets kamu
+                databaseMateri = rawList.map(item => {
+                    const tglRaw = item['Timestamp'] || item['timestamp'];
+                    const rumpunRaw = item['Rumpun'] || item['rumpun'] || '';
+                    
+                    return {
+                        waktuMs: konversiTanggalIndo(tglRaw),
+                        waktuText: formatWaktuTampil(tglRaw),
+                        nama: item['Nama'] || item['nama'] || 'Anonim',
+                        kategori: rumpunRaw.trim().toUpperCase() === 'SAINTEK' ? 'SAINTEK' : 'SOSHUM',
+                        jurusan: item['Program Studi'] || item['program studi'] || '-',
+                        judul: item['Judul Materi'] || item['judul materi'] || 'Tanpa Judul',
+                        link_download: item['Upload Materi'] || item['upload materi'] || '#'
+                    };
                 });
+
+                // URUTKAN: File paling baru di-upload di posisi PALING ATAS
+                databaseMateri.sort((a, b) => b.waktuMs - a.waktuMs);
 
                 initStats();
                 terapkanFilter(); 
@@ -612,16 +661,7 @@
             }
         }
 
-        // --- FORMAT TANGGAL ---
-        function formatWaktu(isoString) {
-            if (!isoString) return 'Belum diketahui';
-            const date = new Date(isoString);
-            if (isNaN(date)) return isoString; 
-            const opsi = { day: 'numeric', month: 'short', year: 'numeric' };
-            return date.toLocaleDateString('id-ID', opsi);
-        }
-
-        // --- LOGIKA FILTER GABUNGAN (KATEGORI + PENCARIAN) ---
+        // --- LOGIKA FILTER ---
         function ubahKategori(kategori, element) {
             document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
             element.classList.add('active');
@@ -631,23 +671,18 @@
         }
 
         function terapkanFilter() {
-            const container = document.getElementById('materi-container');
             const kataKunci = document.getElementById('searchInput').value.toLowerCase().trim();
-            
             let dataTersaring = databaseMateri;
 
-            // 1. Saring Berdasarkan Kategori yang Dipilih
             if (kategoriAktif !== 'Semua') {
                 dataTersaring = dataTersaring.filter(item => item.kategori === kategoriAktif);
             }
 
-            // 2. Saring Berdasarkan Teks di Search Bar
             if (kataKunci !== "") {
                 dataTersaring = dataTersaring.filter(item => {
-                    const judul = (item.judul || '').toLowerCase();
-                    const nama = (item.nama || '').toLowerCase();
-                    const jurusan = (item.jurusan || '').toLowerCase();
-                    return judul.includes(kataKunci) || nama.includes(kataKunci) || jurusan.includes(kataKunci);
+                    return item.judul.toLowerCase().includes(kataKunci) || 
+                           item.nama.toLowerCase().includes(kataKunci) || 
+                           item.jurusan.toLowerCase().includes(kataKunci);
                 });
             }
 
@@ -667,10 +702,7 @@
             data.forEach(item => {
                 const isSaintek = item.kategori === 'SAINTEK';
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
-                const iconVisual = item.icon_visual || (isSaintek ? 'fa-microchip' : 'fa-scale-balanced');
-                
-                const rawDate = item.Timestamp || item.timestamp || item.Waktu || item.waktu; 
-                const tanggalRapih = formatWaktu(rawDate);
+                const iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
                 
                 const card = `
                     <div class="materi-item">
@@ -678,14 +710,14 @@
                             <i class="fa-solid ${iconVisual}"></i>
                         </div>
                         <div class="materi-details">
-                            <div class="materi-title">${item.judul || 'Tanpa Judul'}</div>
+                            <div class="materi-title">${item.judul}</div>
                             <div class="materi-meta">
-                                <span><i class="fa-solid fa-user-pen"></i> ${item.nama || 'Anonim'}</span>
-                                <span><i class="fa-solid fa-graduation-cap"></i> ${item.jurusan || '-'}</span>
-                                <span><i class="fa-regular fa-clock"></i> ${tanggalRapih}</span>
+                                <span><i class="fa-solid fa-user-pen"></i> ${item.nama}</span>
+                                <span><i class="fa-solid fa-graduation-cap"></i> ${item.jurusan}</span>
+                                <span><i class="fa-regular fa-clock"></i> ${item.waktuText}</span>
                             </div>
                         </div>
-                        <button class="btn-download" onclick="window.open('${item.link_download || '#'}', '_blank')">
+                        <button class="btn-download" onclick="window.open('${item.link_download}', '_blank')">
                             <i class="fa-solid fa-cloud-arrow-down"></i> Buka
                         </button>
                     </div>
