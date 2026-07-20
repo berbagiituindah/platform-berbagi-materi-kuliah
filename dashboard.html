@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Platform Alumni MAN 1 Bekasi</title>
     <!-- Font Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary-green: #1a4331; /* Hijau tua mewah */
-            --soft-green: #e2f0e9; /* Hijau soft mint */
-            --accent-gold: #d4af37; /* Emas Soshum */
-            --accent-blue: #2d6a4f; /* Hijau kebiruan untuk Saintek */
+            --primary-green: #1a4331; 
+            --soft-green: #e2f0e9; 
+            --accent-gold: #d4af37; 
+            --accent-blue: #2d6a4f; 
             --glass-bg: rgba(255, 255, 255, 0.6);
             --glass-border: rgba(255, 255, 255, 0.8);
             --text-dark: #2c3e50;
@@ -99,7 +99,6 @@
             position: relative;
         }
 
-        /* Dekorasi Background Arabesque Tipis */
         .main-content::before {
             content: '';
             position: absolute;
@@ -125,11 +124,11 @@
             font-size: 0.95rem;
         }
 
-        /* --- FILTER BUTTONS (Statistik) --- */
+        /* --- FILTER BUTTONS --- */
         .stats-container {
             display: flex;
             gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem; 
         }
 
         .stat-card {
@@ -171,16 +170,52 @@
             opacity: 0.8;
         }
 
-        /* Warna Khusus Card */
         .card-semua { color: var(--primary-green); }
         .card-soshum { background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.3)); color: #9c801e; border-color: rgba(212,175,55,0.5); }
         .card-saintek { background: linear-gradient(135deg, rgba(45,106,79,0.1), rgba(45,106,79,0.3)); color: var(--accent-blue); border-color: rgba(45,106,79,0.5); }
+
+        /* --- SEARCH BAR --- */
+        .search-container {
+            margin-bottom: 1.5rem;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-container i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: var(--primary-green);
+            opacity: 0.7;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid rgba(26, 67, 49, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-green);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1);
+        }
 
         /* --- MATERI LIST --- */
         .materi-list {
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
+            padding-bottom: 50px; 
         }
 
         .materi-item {
@@ -209,6 +244,7 @@
             justify-content: center;
             font-size: 1.5rem;
             color: white;
+            flex-shrink: 0;
         }
 
         .icon-saintek { background: var(--accent-blue); }
@@ -216,6 +252,7 @@
 
         .materi-details {
             flex: 1;
+            min-width: 0; 
         }
 
         .materi-title {
@@ -223,17 +260,26 @@
             font-weight: 600;
             color: var(--primary-green);
             margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .materi-meta {
             font-size: 0.85rem;
             color: #666;
             display: flex;
+            flex-wrap: wrap;
             gap: 15px;
         }
         
+        .materi-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
         .materi-meta i {
-            margin-right: 5px;
             color: var(--accent-gold);
         }
 
@@ -246,6 +292,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
+            flex-shrink: 0;
         }
 
         .btn-download:hover {
@@ -253,7 +300,7 @@
             color: white;
         }
 
-        /* --- SETTINGS PAGE (Hidden by default) --- */
+        /* --- SETTINGS PAGE --- */
         #settings-page {
             display: none;
         }
@@ -334,7 +381,6 @@
             color: var(--accent-gold);
         }
 
-        /* Perbaikan Tooltip Teks: Horizontal dan Muncul di Atas Tombol */
         .floating-add-btn::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -363,16 +409,26 @@
             transform: translateX(-50%) rotate(-90deg); 
         }
 
+        @media (max-width: 768px) {
+            .sidebar { width: 80px; }
+            .brand h2 { display: none; }
+            .nav-item { justify-content: center; padding: 15px; }
+            .nav-item i { margin: 0; font-size: 1.5rem; }
+            .nav-item span { display: none; }
+            .main-content { padding: 1.5rem; }
+            .stats-container { flex-direction: column; }
+            .floating-add-btn { left: auto; right: 20px; bottom: 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- MODAL POP-UP PENGISIAN NAMA (GLASSMORPHISM) -->
+    <!-- MODAL POP-UP PENGISIAN NAMA -->
     <div id="name-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 67, 49, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 9999; display: none;">
         <div style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(255, 255, 255, 0.6); padding: 3rem; border-radius: 24px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);">
             <i class="fa-solid fa-user-astronaut" style="font-size: 3rem; color: var(--primary-green); margin-bottom: 15px;"></i>
             <h2 style="color: var(--primary-green); margin-bottom: 10px;">Kenalan Dulu, Yuk!</h2>
-            <p style="color: #555; margin-bottom: 25px; font-size: 0.95rem;">Silakan masukkan nama lengkap atau nama panggilanmu untuk dipasang di profil.</p>
+            <p style="color: #555; margin-bottom: 25px; font-size: 0.95rem;">Silakan masukkan nama lengkap atau panggilanmu untuk profil.</p>
             <div style="position: relative; margin-bottom: 20px;">
                 <i class="fa-solid fa-user" style="position: absolute; top: 50%; transform: translateY(-50%); left: 15px; color: var(--primary-green);"></i>
                 <input type="text" id="usernameInput" placeholder="Masukkan Nama Anda" style="width: 100%; padding: 15px 15px 15px 45px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 12px; background: rgba(255, 255, 255, 0.8); font-size: 1rem; color: var(--primary-green); outline: none;">
@@ -389,10 +445,10 @@
         </div>
         <ul class="nav-menu">
             <li class="nav-item active" onclick="switchPage('dashboard', this)">
-                <i class="fa-solid fa-chart-line"></i> Dashboard
+                <i class="fa-solid fa-chart-line"></i> <span>Dashboard</span>
             </li>
             <li class="nav-item" onclick="switchPage('settings', this)">
-                <i class="fa-solid fa-gear"></i> Setting
+                <i class="fa-solid fa-gear"></i> <span>Setting</span>
             </li>
         </ul>
     </div>
@@ -407,9 +463,9 @@
                 <p>Selamat datang di pusat berbagi materi kuliah alumni. Jelajahi referensi terbaru hari ini.</p>
             </div>
 
-            <!-- Kartu Filter -->
+            <!-- Kartu Filter Kategori -->
             <div class="stats-container">
-                <div class="stat-card card-semua active" onclick="filterMateri('Semua', this)">
+                <div class="stat-card card-semua active" onclick="ubahKategori('Semua', this)">
                     <div class="stat-info">
                         <h3>Semua Materi</h3>
                         <p id="count-semua">0</p>
@@ -417,7 +473,7 @@
                     <i class="fa-solid fa-folder-open stat-icon"></i>
                 </div>
                 
-                <div class="stat-card card-soshum" onclick="filterMateri('SOSHUM', this)">
+                <div class="stat-card card-soshum" onclick="ubahKategori('SOSHUM', this)">
                     <div class="stat-info">
                         <h3>SOSHUM</h3>
                         <p id="count-soshum">0</p>
@@ -425,13 +481,19 @@
                     <i class="fa-solid fa-scale-balanced stat-icon"></i>
                 </div>
 
-                <div class="stat-card card-saintek" onclick="filterMateri('SAINTEK', this)">
+                <div class="stat-card card-saintek" onclick="ubahKategori('SAINTEK', this)">
                     <div class="stat-info">
                         <h3>SAINTEK</h3>
                         <p id="count-saintek">0</p>
                     </div>
                     <i class="fa-solid fa-microchip stat-icon"></i>
                 </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Cari judul materi, jurusan, atau nama alumni..." oninput="terapkanFilter()">
             </div>
 
             <!-- Daftar Materi Dinamis -->
@@ -469,15 +531,14 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        // URL API dari Google Apps Script
         const APISheetsURL = "https://script.google.com/macros/s/AKfycbwvxrlQZ0KwwjVACw7xTY7TPaG0m_wbZ8fEFwTzCzQ9gzge7_w1bmq4Iz5lmeui-1msfQ/exec";
 
         let databaseMateri = [];
+        let kategoriAktif = 'Semua'; 
 
-        // FUNGSI PROTEKSI & CEK USERNAME
+        // --- PROTEKSI HALAMAN ---
         function proteksiHalaman() {
             const statusLogin = sessionStorage.getItem("isAlumniLoggedIn");
-            
             if (statusLogin !== "true") {
                 alert("Akses ditolak! Anda harus login terlebih dahulu.");
                 window.location.href = 'index.html';
@@ -489,47 +550,34 @@
                 document.getElementById("name-modal").style.display = "flex";
             } else {
                 tampilkanNamaDiWeb(savedUsername);
-                aturLinkGoogleFormOtomatis(savedUsername); // Jalankan fungsi auto-fill
+                aturLinkGoogleFormOtomatis(savedUsername);
             }
         }
 
-        // FUNGSI MENYIMPAN USERNAME BARU
         function simpanUsername() {
             const namaInput = document.getElementById("usernameInput").value.trim();
-            
             if (namaInput === "") {
                 alert("Nama tidak boleh kosong, ya!");
                 return;
             }
-
-            // Simpan di LocalStorage agar permanen di komputer alumni
             localStorage.setItem("alumniUsername", namaInput);
-            
             tampilkanNamaDiWeb(namaInput);
-            aturLinkGoogleFormOtomatis(namaInput); // Isi link form dengan nama baru
-            
+            aturLinkGoogleFormOtomatis(namaInput);
             document.getElementById("name-modal").style.display = "none";
         }
 
-        // FUNGSI UNTUK MENAMPILKAN NAMA PADA ELEMEN DASHBOARD
         function tampilkanNamaDiWeb(nama) {
             document.getElementById("nama-user-display").innerText = nama;
             document.getElementById("nama-user-setting").innerText = nama;
         }
 
-        // FUNGSI MENGISI NAMA OTOMATIS KE LINK GOOGLE FORM
         function aturLinkGoogleFormOtomatis(nama) {
             const btnTambah = document.getElementById("btn-tambah-materi");
-            
             const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSdoDl-1y24Nd2MjIVk_1Hva8aBJZ8zawoVifxnCsV0PjKzgrg/viewform";
             const parameterNama = "?usp=pp_url&entry.1884265043="; 
-            
-            const linkSiapPakai = baseURL + parameterNama + encodeURIComponent(nama);
-            
-            btnTambah.href = linkSiapPakai;
+            btnTambah.href = baseURL + parameterNama + encodeURIComponent(nama);
         }
 
-        // FUNGSI LOGOUT
         function handleLogout() {
             if (confirm("Apakah Anda yakin ingin keluar dari platform?")) {
                 sessionStorage.clear(); 
@@ -537,38 +585,92 @@
             }
         }
 
-        // Fungsi untuk mengambil data asli dari Google Sheets
+        // --- FETCH DATA & PENGURUTAN (SORTING) ---
         async function ambilDataMateri() {
             const container = document.getElementById('materi-container');
             container.innerHTML = '<p style="text-align:center; color:#666;"><i class="fa-solid fa-spinner fa-spin"></i> Memuat materi dari alumni...</p>';
 
             try {
                 const response = await fetch(APISheetsURL);
-                databaseMateri = await response.json();
+                let data = await response.json();
                 
+                // Menyesuaikan struktur jika API mengirimkan objek (misal: {materi: [...]})
+                databaseMateri = data.materi ? data.materi : data;
+                
+                // MENGURUTKAN BERDASARKAN WAKTU (Paling baru di atas)
+                databaseMateri.sort((a, b) => {
+                    const waktuA = new Date(a.Timestamp || a.timestamp || a.Waktu || a.waktu || 0);
+                    const waktuB = new Date(b.Timestamp || b.timestamp || b.Waktu || b.waktu || 0);
+                    return waktuB - waktuA; // Descending: Terbaru ke Terlama
+                });
+
                 initStats();
-                renderMateri(databaseMateri);
+                terapkanFilter(); 
             } catch (error) {
                 console.error("Gagal mengambil data:", error);
-                container.innerHTML = '<p style="text-align:center; color:#e74c3c;">Gagal memuat materi. Pastikan koneksi internet stabil atau API Form sudah benar.</p>';
+                container.innerHTML = '<p style="text-align:center; color:#e74c3c;">Gagal memuat materi. Pastikan koneksi internet stabil.</p>';
             }
         }
 
-        // Fungsi Render Materi ke HTML
+        // --- FORMAT TANGGAL ---
+        function formatWaktu(isoString) {
+            if (!isoString) return 'Belum diketahui';
+            const date = new Date(isoString);
+            if (isNaN(date)) return isoString; 
+            const opsi = { day: 'numeric', month: 'short', year: 'numeric' };
+            return date.toLocaleDateString('id-ID', opsi);
+        }
+
+        // --- LOGIKA FILTER GABUNGAN (KATEGORI + PENCARIAN) ---
+        function ubahKategori(kategori, element) {
+            document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+            
+            kategoriAktif = kategori;
+            terapkanFilter();
+        }
+
+        function terapkanFilter() {
+            const container = document.getElementById('materi-container');
+            const kataKunci = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            let dataTersaring = databaseMateri;
+
+            // 1. Saring Berdasarkan Kategori yang Dipilih
+            if (kategoriAktif !== 'Semua') {
+                dataTersaring = dataTersaring.filter(item => item.kategori === kategoriAktif);
+            }
+
+            // 2. Saring Berdasarkan Teks di Search Bar
+            if (kataKunci !== "") {
+                dataTersaring = dataTersaring.filter(item => {
+                    const judul = (item.judul || '').toLowerCase();
+                    const nama = (item.nama || '').toLowerCase();
+                    const jurusan = (item.jurusan || '').toLowerCase();
+                    return judul.includes(kataKunci) || nama.includes(kataKunci) || jurusan.includes(kataKunci);
+                });
+            }
+
+            renderMateri(dataTersaring);
+        }
+
+        // --- RENDER MATERI ---
         function renderMateri(data) {
             const container = document.getElementById('materi-container');
             container.innerHTML = ''; 
 
             if (!data || data.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#666;">Belum ada materi di kategori ini.</p>';
+                container.innerHTML = '<p style="text-align:center; color:#666; padding: 2rem 0;"><i class="fa-solid fa-folder-open" style="font-size: 2rem; color: #ccc; margin-bottom: 10px;"></i><br>Materi tidak ditemukan.</p>';
                 return;
             }
 
             data.forEach(item => {
                 const isSaintek = item.kategori === 'SAINTEK';
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
-                
                 const iconVisual = item.icon_visual || (isSaintek ? 'fa-microchip' : 'fa-scale-balanced');
+                
+                const rawDate = item.Timestamp || item.timestamp || item.Waktu || item.waktu; 
+                const tanggalRapih = formatWaktu(rawDate);
                 
                 const card = `
                     <div class="materi-item">
@@ -580,6 +682,7 @@
                             <div class="materi-meta">
                                 <span><i class="fa-solid fa-user-pen"></i> ${item.nama || 'Anonim'}</span>
                                 <span><i class="fa-solid fa-graduation-cap"></i> ${item.jurusan || '-'}</span>
+                                <span><i class="fa-regular fa-clock"></i> ${tanggalRapih}</span>
                             </div>
                         </div>
                         <button class="btn-download" onclick="window.open('${item.link_download || '#'}', '_blank')">
@@ -591,27 +694,14 @@
             });
         }
 
-        // Fungsi Filter Materi berdasarkan Kategori
-        function filterMateri(kategori, element) {
-            document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
-            element.classList.add('active');
-
-            if (kategori === 'Semua') {
-                renderMateri(databaseMateri);
-            } else {
-                const filteredData = databaseMateri.filter(item => item.kategori === kategori);
-                renderMateri(filteredData);
-            }
-        }
-
-        // Fungsi Hitung Statistik
+        // --- STATISTIK ---
         function initStats() {
             document.getElementById('count-semua').innerText = databaseMateri.length;
             document.getElementById('count-soshum').innerText = databaseMateri.filter(i => i.kategori === 'SOSHUM').length;
             document.getElementById('count-saintek').innerText = databaseMateri.filter(i => i.kategori === 'SAINTEK').length;
         }
 
-        // Fungsi Navigasi Pindah Halaman
+        // --- NAVIGASI ---
         function switchPage(pageId, element) {
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             element.classList.add('active');
@@ -622,7 +712,7 @@
             document.getElementById(pageId + '-page').style.display = 'block';
         }
 
-        // Jalankan fetch API otomatis saat halaman pertama kali dimuat
+        // --- INIT ---
         window.onload = () => {
             proteksiHalaman();
             ambilDataMateri(); 
