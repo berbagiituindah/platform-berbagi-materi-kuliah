@@ -14,8 +14,8 @@
             --primary-green: #1a4331; 
             --soft-green: #e2f0e9; 
             --accent-gold: #d4af37; 
-            --glass-bg: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.85);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -65,37 +65,37 @@
             backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border); 
-            padding: 3rem; 
+            padding: 2.5rem; 
             border-radius: 24px; 
             width: 100%; 
-            max-width: 450px;
+            max-width: 420px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
-        .login-glass-card h2 { color: var(--primary-green); margin-bottom: 5px; font-size: 2rem; font-weight: 700; }
-        .login-glass-card p { color: #555; margin-bottom: 25px; font-size: 0.95rem; }
+        .login-glass-card h2 { color: var(--primary-green); margin-bottom: 5px; font-size: 1.8rem; font-weight: 700; }
+        .login-glass-card p { color: #555; margin-bottom: 20px; font-size: 0.9rem; }
 
-        .input-group { margin-bottom: 18px; position: relative; }
+        .input-group { margin-bottom: 16px; position: relative; }
         .input-group i { position: absolute; top: 50%; transform: translateY(-50%); left: 18px; color: var(--primary-green); }
         .input-group input {
-            width: 100%; padding: 15px 15px 15px 48px; border: 1px solid rgba(26, 67, 49, 0.2);
-            border-radius: 14px; background: rgba(255, 255, 255, 0.8); font-size: 1rem; color: var(--primary-green); outline: none; transition: all 0.3s ease;
+            width: 100%; padding: 14px 14px 14px 48px; border: 1px solid rgba(26, 67, 49, 0.2);
+            border-radius: 12px; background: rgba(255, 255, 255, 0.9); font-size: 0.95rem; color: var(--primary-green); outline: none; transition: all 0.3s ease;
         }
         .input-group input:focus { border-color: var(--primary-green); background: white; box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
 
         .forgot-password {
             display: block; text-align: right; font-size: 0.85rem; color: var(--primary-green);
-            cursor: pointer; margin-top: -8px; margin-bottom: 18px; font-weight: 500; text-decoration: none;
+            cursor: pointer; margin-top: -6px; margin-bottom: 16px; font-weight: 500; text-decoration: none;
         }
         .forgot-password:hover { text-decoration: underline; }
 
         .btn-submit {
-            width: 100%; padding: 15px; background: var(--primary-green); color: white; border: none; border-radius: 14px;
+            width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 12px;
             font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(26, 67, 49, 0.3);
         }
         .btn-submit:hover { background: #112d21; transform: translateY(-2px); }
         .btn-submit:disabled { background: #7f8c8d; cursor: not-allowed; transform: none; }
 
-        .switch-mode-text { text-align: center; margin-top: 20px; font-size: 0.9rem; color: #444; }
+        .switch-mode-text { text-align: center; margin-top: 18px; font-size: 0.85rem; color: #444; }
         .switch-mode-text span { color: var(--primary-green); font-weight: 600; cursor: pointer; text-decoration: underline; }
 
         /* Floating Menu Desktop */
@@ -110,23 +110,60 @@
         }
         .menu-item:hover { background: var(--primary-green); color: white; }
 
-        /* --- RESPONSIF UNTUK PONSEL (MOBILE) --- */
+        /* --- PERBAIKAN TOTAL UNTUK LAYAR PONSEL (MOBILE RESPONSIVE) --- */
         @media (max-width: 992px) {
-            body { flex-direction: column; height: auto; overflow-y: auto; }
-            .left-panel { padding: 3rem 2rem; text-align: center; align-items: center; }
-            .left-panel p { max-width: 100%; }
-            .left-panel h1 { font-size: 2.2rem; }
-            
-            .right-panel { padding: 3rem 1.5rem; min-height: auto; }
-            .login-glass-card { padding: 2rem; max-width: 100%; }
-            
-            /* Ubah posisi menu mengambang jadi barisan horizontal di atas atau bawah form agar tidak melayang merusak layout */
-            .floating-menu {
-                position: relative; right: auto; top: auto; transform: none;
-                flex-direction: row; justify-content: center; margin-top: 2rem;
-                background: transparent; border: none; box-shadow: none; padding: 0;
+            body { 
+                flex-direction: column; 
+                height: auto; 
+                min-height: 100vh;
+                overflow-y: auto; 
             }
-            .menu-item { background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+            .left-panel { 
+                padding: 2.5rem 1.5rem; 
+                text-align: center; 
+                align-items: center; 
+                flex: none;
+            }
+            .left-panel h1 { font-size: 1.8rem; margin-bottom: 10px; }
+            .left-panel p { font-size: 0.9rem; max-width: 100%; line-height: 1.5; }
+            .madrasah-badge { font-size: 0.8rem; padding: 4px 12px; margin-bottom: 12px; }
+
+            .right-panel { 
+                flex: none;
+                width: 100%;
+                padding: 2rem 1rem; 
+                background: var(--soft-green);
+            }
+            .login-glass-card { 
+                padding: 1.8rem 1.2rem; 
+                max-width: 100%; 
+                border-radius: 20px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            }
+            .login-glass-card h2 { font-size: 1.5rem; }
+            .login-glass-card p { font-size: 0.85rem; margin-bottom: 15px; }
+
+            /* Menu mengambang ditata rapi di bawah form khusus mobile */
+            .floating-menu {
+                position: relative; 
+                right: auto; 
+                top: auto; 
+                transform: none;
+                flex-direction: row; 
+                justify-content: center; 
+                margin-top: 1.5rem;
+                background: transparent; 
+                border: none; 
+                box-shadow: none; 
+                padding: 0;
+                gap: 12px;
+            }
+            .menu-item { 
+                width: 40px; height: 40px; font-size: 1rem;
+                background: white; 
+                border: 1px solid rgba(26,67,49,0.15); 
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+            }
         }
     </style>
 </head>
@@ -202,10 +239,10 @@
             if (!notifBox) {
                 notifBox = document.createElement('div');
                 notifBox.id = 'notif-box';
-                notifBox.style.padding = '12px';
+                notifBox.style.padding = '10px';
                 notifBox.style.borderRadius = '10px';
-                notifBox.style.marginBottom = '15px';
-                notifBox.style.fontSize = '0.85rem';
+                notifBox.style.marginBottom = '12px';
+                notifBox.style.fontSize = '0.8rem';
                 notifBox.style.textAlign = 'center';
                 notifBox.style.fontWeight = '500';
                 
