@@ -21,65 +21,307 @@
             --danger-red: #e74c3c;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--soft-green); background-image: radial-gradient(circle at top right, #ffffff, transparent); display: flex; height: 100vh; overflow: hidden; color: var(--text-dark); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--soft-green);
+            background-image: radial-gradient(circle at top right, #ffffff, transparent);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-dark);
+        }
 
         /* --- SIDEBAR --- */
-        .sidebar { width: 250px; background: white; box-shadow: 2px 0 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; padding: 2rem 0; z-index: 10; }
-        .brand { text-align: center; padding-bottom: 2rem; border-bottom: 1px solid #eee; margin-bottom: 2rem; }
-        .brand i { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 10px; }
-        .brand h2 { font-size: 1.2rem; color: var(--primary-green); font-weight: 700; letter-spacing: 1px; }
-        .nav-menu { list-style: none; padding: 0 1rem; }
-        .nav-item { padding: 12px 20px; margin-bottom: 10px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 15px; font-weight: 500; color: #666; transition: all 0.3s ease; }
-        .nav-item:hover, .nav-item.active { background: var(--primary-green); color: white; box-shadow: 0 4px 15px rgba(26, 67, 49, 0.2); }
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0;
+            z-index: 10;
+        }
+
+        .brand {
+            text-align: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 2rem;
+        }
+
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .brand h2 {
+            font-size: 1.2rem;
+            color: var(--primary-green);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--primary-green);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 67, 49, 0.2);
+        }
 
         /* --- MAIN CONTENT --- */
-        .main-content { flex: 1; padding: 2rem 3rem; overflow-y: auto; position: relative; }
-        .main-content::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/arabesque.png'); opacity: 0.05; pointer-events: none; z-index: -1; }
-        .header { margin-bottom: 2rem; }
-        .header h1 { color: var(--primary-green); font-size: 2rem; margin-bottom: 5px; }
-        .header p { color: #666; font-size: 0.95rem; }
+        .main-content {
+            flex: 1;
+            padding: 2rem 3rem;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/arabesque.png');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: var(--primary-green);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
 
         /* --- FILTER BUTTONS --- */
-        .stats-container { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
-        .stat-card { flex: 1; padding: 1.5rem; border-radius: 20px; background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .stat-card.active { border: 2px solid var(--primary-green); }
-        .stat-info h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .stat-info p { font-size: 2rem; font-weight: 700; }
-        .stat-icon { font-size: 2.5rem; opacity: 0.8; }
+        .stats-container {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem; 
+        }
+
+        .stat-card {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .stat-card.active {
+            border: 2px solid var(--primary-green);
+        }
+
+        .stat-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+
         .card-semua { color: var(--primary-green); }
         .card-soshum { background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.3)); color: #9c801e; border-color: rgba(212,175,55,0.5); }
         .card-saintek { background: linear-gradient(135deg, rgba(45,106,79,0.1), rgba(45,106,79,0.3)); color: var(--accent-blue); border-color: rgba(45,106,79,0.5); }
 
         /* --- SEARCH BAR --- */
-        .search-container { margin-bottom: 1.5rem; position: relative; width: 100%; max-width: 500px; }
-        .search-container i { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--primary-green); opacity: 0.7; }
-        .search-input { width: 100%; padding: 12px 15px 12px 45px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 12px; background: rgba(255, 255, 255, 0.8); font-size: 0.95rem; color: var(--text-dark); outline: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-        .search-input:focus { border-color: var(--primary-green); background: white; box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
+        .search-container {
+            margin-bottom: 1.5rem;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-container i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: var(--primary-green);
+            opacity: 0.7;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid rgba(26, 67, 49, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-green);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1);
+        }
 
         /* --- MATERI LIST --- */
-        .materi-list { display: flex; flex-direction: column; gap: 1.2rem; padding-bottom: 50px; }
-        .materi-item { background: rgba(255, 255, 255, 0.8); border-radius: 16px; padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid rgba(255,255,255,1); transition: all 0.3s ease; }
-        .materi-item:hover { transform: translateX(10px); box-shadow: 0 5px 15px rgba(26, 67, 49, 0.1); }
-        .materi-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; flex-shrink: 0; }
+        .materi-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            padding-bottom: 50px; 
+        }
+
+        .materi-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(255,255,255,1);
+            transition: all 0.3s ease;
+        }
+
+        .materi-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(26, 67, 49, 0.1);
+        }
+
+        .materi-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
         .icon-saintek { background: var(--accent-blue); }
         .icon-soshum { background: var(--accent-gold); }
-        .materi-details { flex: 1; min-width: 0; }
-        .materi-title { font-size: 1.1rem; font-weight: 600; color: var(--primary-green); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .materi-meta { font-size: 0.85rem; color: #666; display: flex; flex-wrap: wrap; gap: 15px; }
-        .materi-meta span { display: flex; align-items: center; gap: 5px; }
-        .materi-meta i { color: var(--accent-gold); }
-        
-        .btn-action { padding: 8px 15px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; flex-shrink: 0; display: flex; align-items: center; gap: 5px;}
-        .btn-download { background: var(--soft-green); color: var(--primary-green); }
-        .btn-download:hover { background: var(--primary-green); color: white; }
-        
-        .btn-delete { background: #fadbd8; color: var(--danger-red); }
-        .btn-delete:hover { background: var(--danger-red); color: white; }
 
-        /* --- SETTINGS PAGE --- */
-        #settings-page { display: none; }
+        .materi-details {
+            flex: 1;
+            min-width: 0; 
+        }
+
+        .materi-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .materi-meta {
+            font-size: 0.85rem;
+            color: #666;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .materi-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .materi-meta i {
+            color: var(--accent-gold);
+        }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-download {
+            background: var(--soft-green);
+            color: var(--primary-green);
+        }
+
+        .btn-download:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .btn-delete {
+            background: #fadbd8;
+            color: var(--danger-red);
+        }
+
+        .btn-delete:hover {
+            background: var(--danger-red);
+            color: white;
+        }
+
+        /* --- SETTINGS PAGE (DIPERBARUI) --- */
+        #settings-page {
+            display: none;
+        }
         
         .settings-grid {
             display: grid;
@@ -88,31 +330,160 @@
             align-items: start;
         }
 
-        .settings-card { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .settings-card h3 { color: var(--primary-green); margin-bottom: 1.5rem; border-bottom: 2px solid var(--soft-green); padding-bottom: 10px;}
-        
-        .profile-avatar { width: 80px; height: 80px; background: var(--soft-green); color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem; }
-        
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 5px; }
-        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 0.95rem; outline: none; }
-        .form-group input:focus { border-color: var(--primary-green); }
-        
-        .btn-save { width: 100%; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-bottom: 15px;}
-        .btn-save:hover { background: #112d21; }
-        
-        .btn-logout { width: 100%; padding: 12px; background: var(--danger-red); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-logout:hover { background: #c0392b; }
+        .settings-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
 
-        .history-list { max-height: 400px; overflow-y: auto; padding-right: 10px; }
-        .history-list::-webkit-scrollbar { width: 6px; }
-        .history-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        .settings-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--soft-green);
+            padding-bottom: 10px;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--soft-green);
+            color: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-green);
+        }
+        
+        .btn-save {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-save:hover {
+            background: #112d21;
+        }
+        
+        .btn-logout {
+            width: 100%;
+            padding: 12px;
+            background: var(--danger-red);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
+        }
+
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
 
         /* --- FLOATING ADD BUTTON --- */
-        .floating-add-btn { position: fixed; bottom: 40px; left: 280px; width: 60px; height: 60px; background: var(--primary-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 15px rgba(26, 67, 49, 0.4); text-decoration: none; z-index: 100; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .floating-add-btn:hover { transform: scale(1.1) rotate(90deg); background: #112d21; box-shadow: 0 8px 25px rgba(26, 67, 49, 0.6); color: var(--accent-gold); }
-        .floating-add-btn::after { content: attr(data-tooltip); position: absolute; bottom: 75px; left: 50%; transform: translateX(-50%); background: white; color: var(--primary-green); padding: 8px 16px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; opacity: 0; visibility: hidden; white-space: nowrap; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); border: 1px solid var(--glass-border); transition: all 0.3s ease; pointer-events: none; }
-        .floating-add-btn:hover::after { opacity: 1; visibility: visible; bottom: 85px; transform: translateX(-50%) rotate(-90deg); }
+        .floating-add-btn {
+            position: fixed;
+            bottom: 40px;
+            left: 280px; 
+            width: 60px;
+            height: 60px;
+            background: var(--primary-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(26, 67, 49, 0.4);
+            text-decoration: none;
+            z-index: 100;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .floating-add-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: #112d21;
+            box-shadow: 0 8px 25px rgba(26, 67, 49, 0.6);
+            color: var(--accent-gold);
+        }
+
+        .floating-add-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 75px; 
+            left: 50%;
+            transform: translateX(-50%); 
+            background: white;
+            color: var(--primary-green);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            visibility: hidden;
+            white-space: nowrap; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            pointer-events: none; 
+        }
+
+        .floating-add-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: 85px; 
+            transform: translateX(-50%) rotate(-90deg); 
+        }
 
         @media (max-width: 768px) {
             .sidebar { width: 80px; }
@@ -129,7 +500,7 @@
 </head>
 <body>
 
-    <!-- MODAL POP-UP PENGISIAN NAMA (Hanya tampil jika nama belum ada) -->
+    <!-- MODAL POP-UP PENGISIAN NAMA -->
     <div id="name-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 67, 49, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 9999; display: none;">
         <div style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(255, 255, 255, 0.6); padding: 3rem; border-radius: 24px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);">
             <i class="fa-solid fa-user-astronaut" style="font-size: 3rem; color: var(--primary-green); margin-bottom: 15px;"></i>
@@ -169,7 +540,7 @@
                 <p>Selamat datang di pusat berbagi materi kuliah alumni. Jelajahi referensi terbaru hari ini.</p>
             </div>
 
-            <!-- Kartu Filter -->
+            <!-- Kartu Filter Kategori -->
             <div class="stats-container">
                 <div class="stat-card card-semua active" onclick="ubahKategori('Semua', this)">
                     <div class="stat-info">
@@ -178,6 +549,7 @@
                     </div>
                     <i class="fa-solid fa-folder-open stat-icon"></i>
                 </div>
+                
                 <div class="stat-card card-soshum" onclick="ubahKategori('SOSHUM', this)">
                     <div class="stat-info">
                         <h3>SOSHUM</h3>
@@ -185,6 +557,7 @@
                     </div>
                     <i class="fa-solid fa-scale-balanced stat-icon"></i>
                 </div>
+
                 <div class="stat-card card-saintek" onclick="ubahKategori('SAINTEK', this)">
                     <div class="stat-info">
                         <h3>SAINTEK</h3>
@@ -200,13 +573,14 @@
                 <input type="text" id="searchInput" class="search-input" placeholder="Cari judul materi, jurusan, atau nama alumni..." oninput="terapkanFilter()">
             </div>
 
+            <!-- Daftar Materi Dinamis -->
             <h3 style="color: var(--primary-green); margin-bottom: 1rem;">Materi Terbaru</h3>
             <div class="materi-list" id="materi-container">
                 <!-- Data akan dimuat melalui JavaScript -->
             </div>
         </div>
 
-        <!-- HALAMAN SETTING -->
+        <!-- HALAMAN SETTING BARU (PROFIL & HISTORI) -->
         <div id="settings-page">
             <div class="header">
                 <h1>Pengaturan Profil & Histori</h1>
@@ -214,7 +588,7 @@
             </div>
             
             <div class="settings-grid">
-                <!-- Kolom Ganti Nama & Logout -->
+                <!-- Kolom 1: Ganti Nama & Logout -->
                 <div class="settings-card" style="text-align: center;">
                     <h3>Profil Alumni</h3>
                     <div class="profile-avatar"><i class="fa-regular fa-user"></i></div>
@@ -235,7 +609,7 @@
                     </button>
                 </div>
 
-                <!-- Kolom Histori Unggahan -->
+                <!-- Kolom 2: Histori Unggahan -->
                 <div class="settings-card">
                     <h3>Histori Unggahan Saya</h3>
                     <div class="history-list" id="histori-container">
@@ -252,7 +626,7 @@
         <i class="fa-solid fa-plus"></i>
     </a>
 
-    <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT LENGKAP -->
     <script>
         const APISheetsURL = "https://script.google.com/macros/s/AKfycbzVE9WH0jM3c7beUdeyQrxWbD4AoBZaKdqcHQTxUhfUpQPXDUA7DztRTjVvPKw_88Q6HA/exec";
 
@@ -279,18 +653,20 @@
 
         function simpanUsernameAwal() {
             const namaInput = document.getElementById("usernameInput").value.trim();
-            if (namaInput === "") { alert("Nama tidak boleh kosong!"); return; }
+            if (namaInput === "") {
+                alert("Nama tidak boleh kosong!");
+                return;
+            }
             
             localStorage.setItem("alumniUsername", namaInput);
             tampilkanNamaDiWeb(namaInput);
             aturLinkGoogleFormOtomatis(namaInput);
             document.getElementById("name-modal").style.display = "none";
             
-            // Diam-diam simpan ke backend
+            // Simpan nama baru ke backend
             updateNamaKeDatabase(namaInput, false);
         }
 
-        // Terapkan nama di layar Dashboard dan input Setting
         function tampilkanNamaDiWeb(nama) {
             document.getElementById("nama-user-display").innerText = nama;
             if(document.getElementById("input-edit-nama")) {
@@ -315,8 +691,13 @@
         // --- FITUR BARU: UBAH USERNAME ---
         async function ubahUsernameBaru() {
             const namaBaru = document.getElementById("input-edit-nama").value.trim();
-            if (namaBaru === "") { alert("Nama tidak boleh kosong!"); return; }
-            if (namaBaru === localStorage.getItem("alumniUsername")) { return; } // Tidak berubah
+            if (namaBaru === "") {
+                alert("Nama tidak boleh kosong!");
+                return;
+            }
+            if (namaBaru === localStorage.getItem("alumniUsername")) {
+                return; 
+            } 
             
             const btnSimpan = document.getElementById("btn-simpan-nama");
             btnSimpan.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
@@ -347,7 +728,7 @@
                     localStorage.setItem("alumniUsername", namaBaru);
                     tampilkanNamaDiWeb(namaBaru);
                     aturLinkGoogleFormOtomatis(namaBaru);
-                    renderHistoriUpload(); // Update nama di daftar histori
+                    renderHistoriUpload(); // Memperbarui daftar histori
                     if (tampilkanAlert) alert("Username berhasil diperbarui!");
                 } else {
                     if (tampilkanAlert) alert("Gagal memperbarui username: " + result.message);
@@ -370,14 +751,14 @@
                     method: 'POST',
                     body: JSON.stringify({
                         action: "delete_post",
-                        timestamp: timestampRaw // Waktu asli jadi ID referensi
+                        timestamp: timestampRaw 
                     })
                 });
                 const result = await response.json();
                 
                 if (result.status === "success") {
                     alert("Materi berhasil dihapus!");
-                    ambilDataMateri(); // Refresh data utama agar card hilang
+                    ambilDataMateri(); // Refresh data setelah dihapus
                 } else {
                     alert("Gagal menghapus: " + result.message);
                     elementBtn.innerHTML = teksAwal;
@@ -390,13 +771,13 @@
             }
         }
 
-        // --- RENDER HISTORI UNGGAHAN DI SETTING ---
+        // --- RENDER HISTORI UNGGAHAN ---
         function renderHistoriUpload() {
             const myName = localStorage.getItem("alumniUsername") || "";
             const containerHistori = document.getElementById("histori-container");
             containerHistori.innerHTML = "";
 
-            // Filter materi yang namanya sama persis (huruf besar/kecil diabaikan) dengan user saat ini
+            // Menampilkan materi milik user yang sedang login
             const myPosts = databaseMateri.filter(item => item.nama.toLowerCase() === myName.toLowerCase());
 
             if (myPosts.length === 0) {
@@ -409,7 +790,6 @@
                 const iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
                 const colorCode = isSaintek ? 'var(--accent-blue)' : 'var(--accent-gold)';
 
-                // Kita masukkan ke format HTML Mini untuk History
                 const html = `
                     <div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9f9; padding:15px; border-radius:12px; margin-bottom:10px; border:1px solid #eee;">
                         <div style="display:flex; align-items:center; gap:15px; overflow:hidden;">
@@ -430,11 +810,16 @@
             });
         }
 
-        // --- HELPER UNTUK NORMALISASI DATA (SUDAH TANGGUH SEBELUMNYA) ---
+        // --- NORMALISASI DATA ---
         function cariNilai(obj, kataKunci) {
-            for (let key in obj) { if (key.toLowerCase().trim() === kataKunci.toLowerCase().trim()) { return obj[key]; } }
+            for (let key in obj) {
+                if (key.toLowerCase().trim() === kataKunci.toLowerCase().trim()) {
+                    return obj[key];
+                }
+            }
             return "";
         }
+
         function konversiTanggalIndo(strTanggal) {
             if (!strTanggal) return 0;
             if (typeof strTanggal === 'string') {
@@ -449,13 +834,14 @@
             const fallback = new Date(strTanggal);
             return isNaN(fallback.getTime()) ? 0 : fallback.getTime();
         }
+
         function formatWaktuTampil(strTanggal) {
             const ms = konversiTanggalIndo(strTanggal);
             if (ms === 0) return strTanggal || 'Baru saja';
             return new Date(ms).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
         }
 
-        // --- FETCH DATA ---
+        // --- FETCH & PETAKAN DATA PRESISI ---
         async function ambilDataMateri() {
             const container = document.getElementById('materi-container');
             container.innerHTML = '<p style="text-align:center; color:#666;"><i class="fa-solid fa-spinner fa-spin"></i> Memuat materi dari alumni...</p>';
@@ -463,13 +849,15 @@
             try {
                 const response = await fetch(APISheetsURL);
                 let data = await response.json();
+                
                 let rawList = data.materi ? data.materi : data;
 
                 databaseMateri = rawList.map(item => {
                     const tglRaw = cariNilai(item, 'Timestamp');
                     const rumpunRaw = cariNilai(item, 'Rumpun');
+                    
                     return {
-                        waktuRaw: tglRaw, // Waktu asli dibutuhkan untuk identifikasi saat hapus
+                        waktuRaw: tglRaw, 
                         waktuMs: konversiTanggalIndo(tglRaw),
                         waktuText: formatWaktuTampil(tglRaw),
                         nama: cariNilai(item, 'Nama') || 'Anonim',
@@ -484,17 +872,18 @@
 
                 initStats();
                 terapkanFilter(); 
-                renderHistoriUpload(); // Jalankan render histori juga
+                renderHistoriUpload();
             } catch (error) {
-                console.error("Gagal:", error);
-                container.innerHTML = '<p style="text-align:center; color:#e74c3c;">Gagal memuat materi.</p>';
+                console.error("Gagal mengambil data:", error);
+                container.innerHTML = '<p style="text-align:center; color:#e74c3c;">Gagal memuat materi. Pastikan koneksi internet stabil.</p>';
             }
         }
 
-        // --- FILTER & RENDER DASHBOARD ---
+        // --- LOGIKA FILTER ---
         function ubahKategori(kategori, element) {
             document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
             element.classList.add('active');
+            
             kategoriAktif = kategori;
             terapkanFilter();
         }
@@ -503,15 +892,22 @@
             const kataKunci = document.getElementById('searchInput').value.toLowerCase().trim();
             let dataTersaring = databaseMateri;
 
-            if (kategoriAktif !== 'Semua') { dataTersaring = dataTersaring.filter(item => item.kategori === kategoriAktif); }
+            if (kategoriAktif !== 'Semua') {
+                dataTersaring = dataTersaring.filter(item => item.kategori === kategoriAktif);
+            }
+
             if (kataKunci !== "") {
                 dataTersaring = dataTersaring.filter(item => {
-                    return item.judul.toLowerCase().includes(kataKunci) || item.nama.toLowerCase().includes(kataKunci) || item.jurusan.toLowerCase().includes(kataKunci);
+                    return item.judul.toLowerCase().includes(kataKunci) || 
+                           item.nama.toLowerCase().includes(kataKunci) || 
+                           item.jurusan.toLowerCase().includes(kataKunci);
                 });
             }
+
             renderMateri(dataTersaring);
         }
 
+        // --- RENDER MATERI ---
         function renderMateri(data) {
             const container = document.getElementById('materi-container');
             container.innerHTML = ''; 
@@ -548,20 +944,25 @@
             });
         }
 
+        // --- STATISTIK ---
         function initStats() {
             document.getElementById('count-semua').innerText = databaseMateri.length;
             document.getElementById('count-soshum').innerText = databaseMateri.filter(i => i.kategori === 'SOSHUM').length;
             document.getElementById('count-saintek').innerText = databaseMateri.filter(i => i.kategori === 'SAINTEK').length;
         }
 
+        // --- NAVIGASI ---
         function switchPage(pageId, element) {
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             element.classList.add('active');
+
             document.getElementById('dashboard-page').style.display = 'none';
             document.getElementById('settings-page').style.display = 'none';
+            
             document.getElementById(pageId + '-page').style.display = 'block';
         }
 
+        // --- INIT ---
         window.onload = () => {
             proteksiHalaman();
             ambilDataMateri(); 
