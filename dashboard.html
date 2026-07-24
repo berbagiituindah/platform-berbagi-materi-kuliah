@@ -46,7 +46,7 @@
             display: flex; 
             flex-direction: column; 
             padding: 2rem 0; 
-            z-index: 10; 
+            z-index: 100; 
             transition: all var(--transition-speed) ease;
         }
         .brand { text-align: center; padding-bottom: 2rem; border-bottom: 1px solid #f0f0f0; margin-bottom: 2rem; }
@@ -68,6 +68,27 @@
         .nav-item:hover { background: rgba(26, 67, 49, 0.05); color: var(--primary-green); }
         .nav-item.active { background: var(--primary-green); color: white; box-shadow: 0 6px 15px rgba(26, 67, 49, 0.25); }
         .nav-item i { font-size: 1.2rem; }
+
+        /* --- MOBILE HEADER & HAMBURGER --- */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 65px;
+            background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 0 1.5rem; align-items: center; justify-content: space-between;
+            z-index: 90;
+        }
+        .mobile-brand {
+            display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--primary-green); font-size: 1.1rem;
+        }
+        .mobile-brand i { color: var(--accent-gold); font-size: 1.5rem; }
+        .hamburger-btn {
+            background: none; border: none; font-size: 1.5rem; color: var(--primary-green); cursor: pointer;
+        }
+        .sidebar-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 95; opacity: 0; transition: opacity 0.3s;
+        }
 
         /* --- MAIN CONTENT --- */
         .main-content { 
@@ -121,7 +142,7 @@
         .search-input:focus { border-color: var(--primary-green); background: white; box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
 
         /* --- MATERI LIST --- */
-        .materi-list { display: flex; flex-direction: column; gap: 1.2rem; padding-bottom: 100px; }
+        .materi-list { display: flex; flex-direction: column; gap: 1.2rem; padding-bottom: 80px; }
         .materi-item { 
             background: rgba(255, 255, 255, 0.9); border-radius: 16px; padding: 1.2rem 1.5rem; 
             display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
@@ -210,36 +231,31 @@
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
 
-        /* --- RESPONSIF TOTAL UNTUK PONSEL (MOBILE) --- */
+        /* --- RESPONSIF UNTUK PONSEL (MOBILE DRAWER SIDEBAR) --- */
         @media (max-width: 992px) {
             body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; }
             
-            /* Ubah Sidebar menjadi Navbar Bawah ala Aplikasi Mobile */
+            .mobile-header { display: flex; }
+            
+            /* Sidebar disembunyikan ke kiri, bisa dibuka via tombol hamburger */
             .sidebar {
-                position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
-                flex-direction: row; justify-content: space-around; align-items: center;
-                padding: 0 1rem; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); background: white; z-index: 1000;
+                position: fixed; top: 0; left: -280px; height: 100vh; width: 260px;
+                box-shadow: 10px 0 30px rgba(0,0,0,0.15); transition: left 0.3s ease;
             }
-            .brand { display: none; }
-            .nav-menu { flex-direction: row; width: 100%; justify-content: space-around; padding: 0; gap: 0; }
-            .nav-item {
-                flex-direction: column; gap: 4px; padding: 8px 12px; font-size: 0.75 font-weight: 500;
-                border-radius: 12px; margin: 0; color: #666; background: transparent !important; box-shadow: none !important;
-            }
-            .nav-item.active { color: var(--primary-green) !important; background: rgba(26,67,49,0.08) !important; }
-            .nav-item i { font-size: 1.2rem; }
-            .nav-item span { display: block; font-size: 0.75rem; }
+            .sidebar.open { left: 0; }
+            .sidebar-overlay.active { display: block; opacity: 1; }
 
-            /* Konten Utama menyesuaikan layar kecil */
-            .main-content { padding: 1.5rem 1rem 90px 1rem; width: 100%; }
-            .header { margin-bottom: 1.5rem; text-align: left; }
+            /* Konten utama diberi jarak atas agar tidak tertutup header mobile */
+            .main-content { padding: 5.5rem 1rem 2rem 1rem; width: 100%; }
+            
             .header h1 { font-size: 1.6rem; }
-            .header p { font-size: 0.9rem; }
-
-            .stats-container { flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
-            .stat-card { padding: 1.2rem; }
-            .stat-info p { font-size: 1.8rem; }
-            .stat-icon { font-size: 2.2rem; }
+            
+            /* Kartu statistik tetap berjejer ke samping tapi diperkecil padding & fontnya */
+            .stats-container { gap: 0.8rem; margin-bottom: 1.5rem; }
+            .stat-card { padding: 1rem 0.8rem; }
+            .stat-info h3 { font-size: 0.8rem; }
+            .stat-info p { font-size: 1.4rem; }
+            .stat-icon { font-size: 1.8rem; display: none; /* disembunyikan agar muat di layar sempit */ }
 
             .search-container { max-width: 100%; margin-bottom: 1.5rem; }
 
@@ -252,12 +268,25 @@
             .settings-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .settings-card { padding: 1.5rem; }
 
-            .floating-add-btn { bottom: 90px; right: 20px; width: 55px; height: 55px; font-size: 1.4rem; }
+            .floating-add-btn { bottom: 25px; right: 20px; width: 55px; height: 55px; font-size: 1.4rem; }
             .floating-add-btn::before { display: none; }
         }
     </style>
 </head>
 <body>
+
+    <!-- HEADER KHUSUS MOBILE (DENGAN TOMBOL HAMBURGER) -->
+    <div class="mobile-header">
+        <div class="mobile-brand">
+            <i class="fa-solid fa-graduation-cap"></i> MAN 1 Bekasi
+        </div>
+        <button class="hamburger-btn" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- OVERLAY GELAP SAAT SIDEBAR MOBILE DIBUKA -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
     <!-- MODAL POP-UP PENGISIAN NAMA -->
     <div id="name-modal" class="modal-overlay">
@@ -275,8 +304,8 @@
         </div>
     </div>
 
-    <!-- SIDEBAR / NAVBAR BAWAH MOBILE -->
-    <div class="sidebar">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebarMenu">
         <div class="brand">
             <i class="fa-solid fa-graduation-cap"></i>
             <h2>MAN 1<br>BEKASI</h2>
@@ -301,11 +330,11 @@
                 <p>Selamat datang di pusat berbagi materi kuliah alumni. Jelajahi referensi terbaru hari ini.</p>
             </div>
 
-            <!-- Kartu Filter Kategori -->
+            <!-- Kartu Filter Kategori (Tetap Berjejer Samping) -->
             <div class="stats-container">
                 <div class="stat-card card-semua active" onclick="ubahKategori('Semua', this)">
                     <div class="stat-info">
-                        <h3>Semua Materi</h3>
+                        <h3>Semua</h3>
                         <p id="count-semua">0</p>
                     </div>
                     <i class="fa-solid fa-folder-open stat-icon"></i>
@@ -392,6 +421,14 @@
 
         let databaseMateri = [];
         let kategoriAktif = 'Semua'; 
+
+        // --- FUNGSI BUKA/TUTUP SIDEBAR MOBILE ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
 
         // --- PROTEKSI & INISIALISASI ---
         function proteksiHalaman() {
@@ -737,6 +774,11 @@
         function switchPage(pageId, element) {
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             element.classList.add('active');
+
+            // Tutup sidebar otomatis di mobile setelah menu dipilih
+            if (window.innerWidth <= 992) {
+                toggleSidebar();
+            }
 
             document.getElementById('dashboard-page').style.display = 'none';
             document.getElementById('settings-page').style.display = 'none';
