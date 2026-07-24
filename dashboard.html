@@ -381,7 +381,7 @@
             const statusLogin = sessionStorage.getItem("isAlumniLoggedIn");
             if (statusLogin !== "true") {
                 alert("Akses ditolak! Anda harus login terlebih dahulu.");
-                window.location.href = 'index.html'; // Sesuaikan URL halaman login
+                window.location.href = 'index.html'; 
                 return;
             }
 
@@ -456,16 +456,16 @@
             const oldName = localStorage.getItem("alumniUsername") || "";
 
             try {
+                // PERBAIKAN: Menggunakan URLSearchParams agar lolos dari CORS Preflight
+                const formData = new URLSearchParams();
+                formData.append("action", "update_name");
+                formData.append("email", emailActive);
+                formData.append("old_name", oldName);
+                formData.append("new_name", namaBaru);
+
                 const response = await fetch(APISheetsURL, {
                     method: 'POST',
-                    redirect: 'follow', 
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: "update_name",
-                        email: emailActive,
-                        old_name: oldName,
-                        new_name: namaBaru
-                    })
+                    body: formData // Body form-urlencoded tidak butuh explicit headers untuk fetch
                 });
                 
                 const textResponse = await response.text();
@@ -495,14 +495,14 @@
             elementBtn.disabled = true;
 
             try {
+                // PERBAIKAN: Menggunakan URLSearchParams agar lolos dari CORS Preflight
+                const formData = new URLSearchParams();
+                formData.append("action", "delete_post");
+                formData.append("timestamp", timestampRaw);
+
                 const response = await fetch(APISheetsURL, {
                     method: 'POST',
-                    redirect: 'follow',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: "delete_post",
-                        timestamp: timestampRaw 
-                    })
+                    body: formData
                 });
                 
                 const textResponse = await response.text();
@@ -628,7 +628,6 @@
                     };
                 });
 
-                // Urutkan materi dari yang terbaru
                 databaseMateri.sort((a, b) => b.waktuMs - a.waktuMs);
 
                 initStats();
@@ -691,7 +690,6 @@
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
                 const iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
                 
-                // Tambahkan delay animasi agar muncul berurutan (Staggered Animation)
                 const animDelay = index < 10 ? (index * 0.05) + 's' : '0s';
                 
                 const card = `
@@ -730,7 +728,6 @@
             document.getElementById('dashboard-page').style.display = 'none';
             document.getElementById('settings-page').style.display = 'none';
             
-            // Efek transisi ringan saat pindah halaman
             const targetPage = document.getElementById(pageId + '-page');
             targetPage.style.display = 'block';
             targetPage.style.opacity = '0';
