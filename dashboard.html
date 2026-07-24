@@ -15,8 +15,8 @@
             --soft-green: #e2f0e9; 
             --accent-gold: #d4af37; 
             --accent-blue: #2d6a4f; 
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.9);
             --text-dark: #2c3e50;
             --danger-red: #e74c3c;
             --transition-speed: 0.3s;
@@ -28,16 +28,15 @@
             background-color: var(--soft-green); 
             background-image: radial-gradient(circle at top right, #ffffff, transparent); 
             display: flex; 
-            height: 100vh; 
-            overflow: hidden; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
             color: var(--text-dark); 
         }
 
         /* --- CUSTOM SCROLLBAR --- */
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(26, 67, 49, 0.2); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(26, 67, 49, 0.4); }
 
         /* --- SIDEBAR --- */
         .sidebar { 
@@ -54,10 +53,9 @@
         .brand i { font-size: 2.8rem; color: var(--accent-gold); margin-bottom: 12px; }
         .brand h2 { font-size: 1.25rem; color: var(--primary-green); font-weight: 700; letter-spacing: 1.5px; line-height: 1.3; }
         
-        .nav-menu { list-style: none; padding: 0 1.2rem; }
+        .nav-menu { list-style: none; padding: 0 1.2rem; display: flex; flex-direction: column; gap: 10px; }
         .nav-item { 
             padding: 14px 20px; 
-            margin-bottom: 10px; 
             border-radius: 12px; 
             cursor: pointer; 
             display: flex; 
@@ -123,19 +121,13 @@
         .search-input:focus { border-color: var(--primary-green); background: white; box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
 
         /* --- MATERI LIST --- */
-        .materi-list { display: flex; flex-direction: column; gap: 1.2rem; padding-bottom: 80px; }
+        .materi-list { display: flex; flex-direction: column; gap: 1.2rem; padding-bottom: 100px; }
         .materi-item { 
-            background: rgba(255, 255, 255, 0.85); border-radius: 16px; padding: 1.2rem 1.5rem; 
+            background: rgba(255, 255, 255, 0.9); border-radius: 16px; padding: 1.2rem 1.5rem; 
             display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
             border: 1px solid rgba(255,255,255,1); transition: all var(--transition-speed) ease; 
-            animation: fadeIn 0.4s ease forwards;
         }
         .materi-item:hover { transform: translateX(8px); box-shadow: 0 8px 20px rgba(26, 67, 49, 0.08); background: white; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
 
         .materi-icon { width: 55px; height: 55px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: white; flex-shrink: 0; }
         .icon-saintek { background: linear-gradient(135deg, var(--accent-blue), #1b4332); }
@@ -143,7 +135,7 @@
         
         .materi-details { flex: 1; min-width: 0; }
         .materi-title { font-size: 1.15rem; font-weight: 600; color: var(--primary-green); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .materi-meta { font-size: 0.85rem; color: #666; display: flex; flex-wrap: wrap; gap: 15px; }
+        .materi-meta { font-size: 0.85rem; color: #666; display: flex; flex-wrap: wrap; gap: 12px; }
         .materi-meta span { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.04); padding: 4px 10px; border-radius: 6px; }
         .materi-meta i { color: var(--accent-gold); }
 
@@ -151,7 +143,7 @@
         .btn-action { 
             padding: 10px 18px; border: none; border-radius: 10px; font-weight: 600; 
             cursor: pointer; transition: all var(--transition-speed); flex-shrink: 0; 
-            display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 8px; font-size: 0.9rem; 
         }
         .btn-download { background: var(--soft-green); color: var(--primary-green); }
         .btn-download:hover { background: var(--primary-green); color: white; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(26, 67, 49, 0.2); }
@@ -168,7 +160,7 @@
         
         .form-group { margin-bottom: 18px; text-align: left; }
         .form-group label { display: block; font-size: 0.9rem; color: #555; margin-bottom: 8px; font-weight: 500; }
-        .form-group input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; outline: none; transition: border-color var(--transition-speed); }
+        .form-group input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; outline: none; transition: border-color var(--transition-speed); background: white; }
         .form-group input:focus { border-color: var(--primary-green); box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
         
         .btn-save { width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all var(--transition-speed); margin-bottom: 15px; }
@@ -178,13 +170,13 @@
         .btn-logout { width: 100%; padding: 14px; background: white; color: var(--danger-red); border: 2px solid var(--danger-red); border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all var(--transition-speed); }
         .btn-logout:hover { background: var(--danger-red); color: white; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); }
 
-        .history-list { max-height: 450px; overflow-y: auto; padding-right: 15px; }
+        .history-list { max-height: 450px; overflow-y: auto; padding-right: 5px; }
         .history-item { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #eee; transition: all 0.3s; }
         .history-item:hover { border-color: #ddd; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
 
         /* --- FLOATING ADD BUTTON --- */
         .floating-add-btn { 
-            position: fixed; bottom: 40px; right: 40px; width: 65px; height: 65px; 
+            position: fixed; bottom: 35px; right: 35px; width: 65px; height: 65px; 
             background: var(--primary-green); color: white; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; font-size: 1.8rem; 
             box-shadow: 0 6px 20px rgba(26, 67, 49, 0.4); text-decoration: none; z-index: 100; 
@@ -212,30 +204,55 @@
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content {
             background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(255, 255, 255, 0.8); 
-            padding: 3rem; border-radius: 24px; width: 90%; max-width: 450px; 
+            padding: 2.5rem 2rem; border-radius: 24px; width: 90%; max-width: 420px; 
             text-align: center; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
 
+        /* --- RESPONSIF TOTAL UNTUK PONSEL (MOBILE) --- */
         @media (max-width: 992px) {
-            .settings-grid { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar { width: 80px; padding: 1.5rem 0; }
-            .brand h2 { display: none; }
-            .brand i { font-size: 2rem; margin-bottom: 0; }
-            .nav-item { justify-content: center; padding: 15px; border-radius: 50%; width: 50px; height: 50px; margin: 0 auto 15px; }
-            .nav-item i { margin: 0; font-size: 1.4rem; }
-            .nav-item span { display: none; }
+            body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; }
             
-            .main-content { padding: 1.5rem; }
-            .stats-container { flex-direction: column; gap: 1rem; }
-            .materi-item { flex-direction: column; text-align: center; gap: 15px; padding: 1.5rem; }
-            .materi-meta { justify-content: center; }
-            .btn-action { width: 100%; justify-content: center; }
-            .floating-add-btn { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 1.5rem; }
+            /* Ubah Sidebar menjadi Navbar Bawah ala Aplikasi Mobile */
+            .sidebar {
+                position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
+                flex-direction: row; justify-content: space-around; align-items: center;
+                padding: 0 1rem; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); background: white; z-index: 1000;
+            }
+            .brand { display: none; }
+            .nav-menu { flex-direction: row; width: 100%; justify-content: space-around; padding: 0; gap: 0; }
+            .nav-item {
+                flex-direction: column; gap: 4px; padding: 8px 12px; font-size: 0.75 font-weight: 500;
+                border-radius: 12px; margin: 0; color: #666; background: transparent !important; box-shadow: none !important;
+            }
+            .nav-item.active { color: var(--primary-green) !important; background: rgba(26,67,49,0.08) !important; }
+            .nav-item i { font-size: 1.2rem; }
+            .nav-item span { display: block; font-size: 0.75rem; }
+
+            /* Konten Utama menyesuaikan layar kecil */
+            .main-content { padding: 1.5rem 1rem 90px 1rem; width: 100%; }
+            .header { margin-bottom: 1.5rem; text-align: left; }
+            .header h1 { font-size: 1.6rem; }
+            .header p { font-size: 0.9rem; }
+
+            .stats-container { flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+            .stat-card { padding: 1.2rem; }
+            .stat-info p { font-size: 1.8rem; }
+            .stat-icon { font-size: 2.2rem; }
+
+            .search-container { max-width: 100%; margin-bottom: 1.5rem; }
+
+            .materi-item { flex-direction: column; align-items: flex-start; gap: 12px; padding: 1.2rem; }
+            .materi-details { width: 100%; }
+            .materi-title { white-space: normal; font-size: 1rem; line-height: 1.4; }
+            .materi-meta { gap: 8px; font-size: 0.78rem; }
+            .btn-action { width: 100%; justify-content: center; padding: 12px; }
+
+            .settings-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .settings-card { padding: 1.5rem; }
+
+            .floating-add-btn { bottom: 90px; right: 20px; width: 55px; height: 55px; font-size: 1.4rem; }
             .floating-add-btn::before { display: none; }
         }
     </style>
@@ -245,20 +262,20 @@
     <!-- MODAL POP-UP PENGISIAN NAMA -->
     <div id="name-modal" class="modal-overlay">
         <div class="modal-content">
-            <i class="fa-solid fa-user-astronaut" style="font-size: 3.5rem; color: var(--primary-green); margin-bottom: 15px;"></i>
-            <h2 style="color: var(--primary-green); margin-bottom: 10px; font-weight: 700;">Kenalan Dulu, Yuk!</h2>
-            <p style="color: #666; margin-bottom: 25px; font-size: 0.95rem;">Silakan masukkan nama lengkap atau panggilanmu untuk profil.</p>
-            <div style="position: relative; margin-bottom: 25px;">
-                <i class="fa-solid fa-user" style="position: absolute; top: 50%; transform: translateY(-50%); left: 20px; color: var(--primary-green);"></i>
-                <input type="text" id="usernameInput" placeholder="Masukkan Nama Anda" style="width: 100%; padding: 16px 20px 16px 50px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 14px; background: rgba(255, 255, 255, 0.9); font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.3s;">
+            <i class="fa-solid fa-user-astronaut" style="font-size: 3rem; color: var(--primary-green); margin-bottom: 12px;"></i>
+            <h2 style="color: var(--primary-green); margin-bottom: 8px; font-size: 1.4rem; font-weight: 700;">Kenalan Dulu, Yuk!</h2>
+            <p style="color: #666; margin-bottom: 20px; font-size: 0.9rem;">Silakan masukkan nama lengkap atau panggilanmu untuk profil.</p>
+            <div style="position: relative; margin-bottom: 20px;">
+                <i class="fa-solid fa-user" style="position: absolute; top: 50%; transform: translateY(-50%); left: 18px; color: var(--primary-green);"></i>
+                <input type="text" id="usernameInput" placeholder="Masukkan Nama Anda" style="width: 100%; padding: 14px 18px 14px 48px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 12px; background: rgba(255, 255, 255, 0.9); font-size: 0.95rem; color: var(--text-dark); outline: none; transition: 0.3s;">
             </div>
-            <button onclick="simpanUsernameAwal()" style="width: 100%; padding: 16px; background: var(--primary-green); color: white; border: none; border-radius: 14px; font-size: 1rem; font-weight: 600; cursor: pointer; box-shadow: 0 6px 20px rgba(26, 67, 49, 0.25); transition: 0.3s;">
+            <button onclick="simpanUsernameAwal()" style="width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; box-shadow: 0 6px 20px rgba(26, 67, 49, 0.25); transition: 0.3s;">
                 Mulai Jelajahi Platform <i class="fa-solid fa-rocket" style="margin-left: 8px;"></i>
             </button>
         </div>
     </div>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR / NAVBAR BAWAH MOBILE -->
     <div class="sidebar">
         <div class="brand">
             <i class="fa-solid fa-graduation-cap"></i>
@@ -438,7 +455,7 @@
                 return;
             }
             if (namaBaru === localStorage.getItem("alumniUsername")) {
-                return; // Tidak ada perubahan
+                return; 
             }
 
             const btnSimpan = document.getElementById("btn-simpan-nama");
@@ -456,7 +473,6 @@
             const oldName = localStorage.getItem("alumniUsername") || "";
 
             try {
-                // PERBAIKAN: Menggunakan URLSearchParams agar lolos dari CORS Preflight
                 const formData = new URLSearchParams();
                 formData.append("action", "update_name");
                 formData.append("email", emailActive);
@@ -465,7 +481,7 @@
 
                 const response = await fetch(APISheetsURL, {
                     method: 'POST',
-                    body: formData // Body form-urlencoded tidak butuh explicit headers untuk fetch
+                    body: formData 
                 });
                 
                 const textResponse = await response.text();
@@ -495,7 +511,6 @@
             elementBtn.disabled = true;
 
             try {
-                // PERBAIKAN: Menggunakan URLSearchParams agar lolos dari CORS Preflight
                 const formData = new URLSearchParams();
                 formData.append("action", "delete_post");
                 formData.append("timestamp", timestampRaw);
@@ -510,7 +525,7 @@
                 
                 if (result.status === "success") {
                     alert("Materi berhasil dihapus!");
-                    ambilDataMateri(); // Refresh data utama dan histori
+                    ambilDataMateri(); 
                 } else {
                     alert("Gagal menghapus: " + result.message);
                     elementBtn.innerHTML = teksAwal;
@@ -548,13 +563,13 @@
 
                 const html = `
                     <div class="history-item">
-                        <div style="display:flex; align-items:center; gap:15px; overflow:hidden;">
-                            <div style="width:45px; height:45px; border-radius:12px; background:${colorCode}; color:white; display:flex; justify-content:center; align-items:center; flex-shrink:0;">
+                        <div style="display:flex; align-items:center; gap:12px; overflow:hidden;">
+                            <div style="width:40px; height:40px; border-radius:10px; background:${colorCode}; color:white; display:flex; justify-content:center; align-items:center; flex-shrink:0;">
                                 <i class="fa-solid ${iconVisual}"></i>
                             </div>
                             <div style="overflow:hidden;">
-                                <div style="font-weight:600; color:var(--text-dark); font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.judul}</div>
-                                <div style="font-size:0.8rem; color:#888;"><i class="fa-regular fa-clock"></i> ${item.waktuText}</div>
+                                <div style="font-weight:600; color:var(--text-dark); font-size:0.9rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.judul}</div>
+                                <div style="font-size:0.75rem; color:#888;"><i class="fa-regular fa-clock"></i> ${item.waktuText}</div>
                             </div>
                         </div>
                         <button class="btn-action btn-delete" onclick="hapusMateri('${item.waktuRaw}', this)" title="Hapus Permanen">
@@ -690,10 +705,8 @@
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
                 const iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
                 
-                const animDelay = index < 10 ? (index * 0.05) + 's' : '0s';
-                
                 const card = `
-                    <div class="materi-item" style="animation-delay: ${animDelay};">
+                    <div class="materi-item">
                         <div class="materi-icon ${bgClass}">
                             <i class="fa-solid ${iconVisual}"></i>
                         </div>
