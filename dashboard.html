@@ -688,57 +688,46 @@
             }
         }
 
-        // --- FITUR BARU: UBAH USERNAME ---
-        async function ubahUsernameBaru() {
-            const namaBaru = document.getElementById("input-edit-nama").value.trim();
-            if (namaBaru === "") {
-                alert("Nama tidak boleh kosong!");
-                return;
-            }
-            if (namaBaru === localStorage.getItem("alumniUsername")) {
-                return; 
-            } 
-            
-            const btnSimpan = document.getElementById("btn-simpan-nama");
-            btnSimpan.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
-            btnSimpan.disabled = true;
-
-            await updateNamaKeDatabase(namaBaru, true);
-
-            btnSimpan.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Nama Baru';
-            btnSimpan.disabled = false;
-        }
-
+        // --- FITUR BARU: UBAH USERNAME (DIPERBARUI) ---
         async function updateNamaKeDatabase(namaBaru, tampilkanAlert) {
-            const emailActive = sessionStorage.getItem("alumniEmail");
-            if (!emailActive) return;
+            const emailActive = sessionStorage.getItem("alumniEmail") || "";
+            const oldName = localStorage.getItem("alumniUsername") || "";
 
             try {
                 const response = await fetch(APISheetsURL, {
                     method: 'POST',
+                    redirect: 'follow', // Penting untuk Google Apps Script
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8' // Mencegah error CORS
+                    },
                     body: JSON.stringify({
                         action: "update_name",
                         email: emailActive,
+                        old_name: oldName,
                         new_name: namaBaru
                     })
                 });
-                const result = await response.json();
+                
+                const textResponse = await response.text();
+                // Antisipasi jika respon bukan JSON
+                const result = JSON.parse(textResponse);
                 
                 if (result.status === "success") {
                     localStorage.setItem("alumniUsername", namaBaru);
                     tampilkanNamaDiWeb(namaBaru);
                     aturLinkGoogleFormOtomatis(namaBaru);
-                    renderHistoriUpload(); // Memperbarui daftar histori
+                    renderHistoriUpload();
                     if (tampilkanAlert) alert("Username berhasil diperbarui!");
                 } else {
-                    if (tampilkanAlert) alert("Gagal memperbarui username: " + result.message);
+                    if (tampilkanAlert) alert("Gagal memperbarui: " + result.message);
                 }
             } catch (error) {
-                if (tampilkanAlert) alert("Terjadi kesalahan jaringan.");
+                console.error(error);
+                if (tampilkanAlert) alert("Terjadi kesalahan jaringan atau koneksi terputus.");
             }
         }
 
-        // --- FITUR BARU: HAPUS POSTINGAN ---
+        // --- FITUR BARU: HAPUS POSTINGAN (DIPERBARUI) ---
         async function hapusMateri(timestampRaw, elementBtn) {
             if (!confirm("Yakin ingin menghapus materi ini secara permanen?")) return;
             
@@ -749,28 +738,34 @@
             try {
                 const response = await fetch(APISheetsURL, {
                     method: 'POST',
+                    redirect: 'follow',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
                     body: JSON.stringify({
                         action: "delete_post",
                         timestamp: timestampRaw 
                     })
                 });
-                const result = await response.json();
+                
+                const textResponse = await response.text();
+                const result = JSON.parse(textResponse);
                 
                 if (result.status === "success") {
                     alert("Materi berhasil dihapus!");
-                    ambilDataMateri(); // Refresh data setelah dihapus
+                    ambilDataMateri(); // Refresh data
                 } else {
                     alert("Gagal menghapus: " + result.message);
                     elementBtn.innerHTML = teksAwal;
                     elementBtn.disabled = false;
                 }
             } catch(e) {
-                alert("Kesalahan koneksi saat menghapus.");
+                console.error(e);
+                alert("Kesalahan jaringan saat mencoba menghapus materi.");
                 elementBtn.innerHTML = teksAwal;
                 elementBtn.disabled = false;
             }
         }
-
         // --- RENDER HISTORI UNGGAHAN ---
         function renderHistoriUpload() {
             const myName = localStorage.getItem("alumniUsername") || "";
