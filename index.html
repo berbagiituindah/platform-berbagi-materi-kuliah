@@ -14,58 +14,82 @@
             --primary-green: #1a4331; 
             --soft-green: #e2f0e9; 
             --accent-gold: #d4af37; 
-            --glass-bg: rgba(255, 255, 255, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--soft-green); height: 100vh; display: flex; overflow: hidden; }
+        
+        body { 
+            background-color: var(--soft-green); 
+            min-height: 100vh; 
+            display: flex; 
+            overflow-x: hidden; 
+        }
 
         .left-panel {
             flex: 1.2;
             background: linear-gradient(135deg, rgba(26,67,49,0.9) 0%, rgba(42,109,79,0.9) 100%), 
                         url('bg-man1.jpg') center/cover;
-            color: white; display: flex; flex-direction: column; justify-content: center; padding: 4rem; position: relative;
+            color: white; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            padding: 4rem; 
+            position: relative;
         }
         .left-panel::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/arabesque.png'); opacity: 0.1;
         }
         .madrasah-badge {
-            background: var(--accent-gold); color: var(--primary-green); padding: 5px 15px;
+            background: var(--accent-gold); color: var(--primary-green); padding: 6px 16px;
             border-radius: 20px; font-size: 0.9rem; font-weight: 600; display: inline-block; margin-bottom: 20px; width: fit-content;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .left-panel h1 { font-size: 3rem; line-height: 1.2; margin-bottom: 15px; font-weight: 700; z-index: 1; }
-        .left-panel p { font-size: 1.1rem; opacity: 0.9; max-width: 80%; z-index: 1; }
+        .left-panel p { font-size: 1.1rem; opacity: 0.9; max-width: 85%; z-index: 1; line-height: 1.6; }
 
         .right-panel {
-            flex: 1; display: flex; align-items: center; justify-content: center; position: relative;
+            flex: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative;
             background: radial-gradient(circle at top right, #ffffff, var(--soft-green));
+            padding: 3rem 2rem;
         }
+        
         .login-glass-card {
-            background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border); padding: 3rem; border-radius: 24px; width: 85%; max-width: 450px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            background: var(--glass-bg); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); 
+            padding: 3rem; 
+            border-radius: 24px; 
+            width: 100%; 
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
-        .login-glass-card h2 { color: var(--primary-green); margin-bottom: 5px; font-size: 2rem; }
+        .login-glass-card h2 { color: var(--primary-green); margin-bottom: 5px; font-size: 2rem; font-weight: 700; }
         .login-glass-card p { color: #555; margin-bottom: 25px; font-size: 0.95rem; }
 
         .input-group { margin-bottom: 18px; position: relative; }
-        .input-group i { position: absolute; top: 50%; transform: translateY(-50%); left: 15px; color: var(--primary-green); }
+        .input-group i { position: absolute; top: 50%; transform: translateY(-50%); left: 18px; color: var(--primary-green); }
         .input-group input {
-            width: 100%; padding: 15px 15px 15px 45px; border: 1px solid rgba(26, 67, 49, 0.2);
-            border-radius: 12px; background: rgba(255, 255, 255, 0.6); font-size: 1rem; color: var(--primary-green); outline: none; transition: all 0.3s ease;
+            width: 100%; padding: 15px 15px 15px 48px; border: 1px solid rgba(26, 67, 49, 0.2);
+            border-radius: 14px; background: rgba(255, 255, 255, 0.8); font-size: 1rem; color: var(--primary-green); outline: none; transition: all 0.3s ease;
         }
         .input-group input:focus { border-color: var(--primary-green); background: white; box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
 
         .forgot-password {
             display: block; text-align: right; font-size: 0.85rem; color: var(--primary-green);
-            cursor: pointer; margin-top: -10px; margin-bottom: 15px; font-weight: 500; text-decoration: none;
+            cursor: pointer; margin-top: -8px; margin-bottom: 18px; font-weight: 500; text-decoration: none;
         }
         .forgot-password:hover { text-decoration: underline; }
 
         .btn-submit {
-            width: 100%; padding: 15px; background: var(--primary-green); color: white; border: none; border-radius: 12px;
+            width: 100%; padding: 15px; background: var(--primary-green); color: white; border: none; border-radius: 14px;
             font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(26, 67, 49, 0.3);
         }
         .btn-submit:hover { background: #112d21; transform: translateY(-2px); }
@@ -74,8 +98,9 @@
         .switch-mode-text { text-align: center; margin-top: 20px; font-size: 0.9rem; color: #444; }
         .switch-mode-text span { color: var(--primary-green); font-weight: 600; cursor: pointer; text-decoration: underline; }
 
+        /* Floating Menu Desktop */
         .floating-menu {
-            position: absolute; right: 20px; top: 50%; transform: translateY(-50%); display: flex;
+            position: absolute; right: 25px; top: 50%; transform: translateY(-50%); display: flex;
             flex-direction: column; gap: 15px; background: var(--glass-bg); backdrop-filter: blur(10px);
             padding: 15px 10px; border-radius: 30px; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
@@ -85,12 +110,23 @@
         }
         .menu-item:hover { background: var(--primary-green); color: white; }
 
-        @media (max-width: 768px) {
-            body { flex-direction: column; overflow: auto; }
-            .left-panel { padding: 3rem 2rem; }
-            .left-panel h1 { font-size: 2rem; }
-            .right-panel { padding: 2rem 0; }
-            .floating-menu { display: none; }
+        /* --- RESPONSIF UNTUK PONSEL (MOBILE) --- */
+        @media (max-width: 992px) {
+            body { flex-direction: column; height: auto; overflow-y: auto; }
+            .left-panel { padding: 3rem 2rem; text-align: center; align-items: center; }
+            .left-panel p { max-width: 100%; }
+            .left-panel h1 { font-size: 2.2rem; }
+            
+            .right-panel { padding: 3rem 1.5rem; min-height: auto; }
+            .login-glass-card { padding: 2rem; max-width: 100%; }
+            
+            /* Ubah posisi menu mengambang jadi barisan horizontal di atas atau bawah form agar tidak melayang merusak layout */
+            .floating-menu {
+                position: relative; right: auto; top: auto; transform: none;
+                flex-direction: row; justify-content: center; margin-top: 2rem;
+                background: transparent; border: none; box-shadow: none; padding: 0;
+            }
+            .menu-item { background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         }
     </style>
 </head>
@@ -103,47 +139,49 @@
     </div>
 
     <div class="right-panel">
-        <div class="login-glass-card">
-            <h2 id="form-title">Selamat Datang</h2>
-            <p id="form-desc">Silakan masuk menggunakan email Anda</p>
-            
-            <form id="authForm" onsubmit="handleAuth(event)">
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="login-glass-card">
+                <h2 id="form-title">Selamat Datang</h2>
+                <p id="form-desc">Silakan masuk menggunakan email Anda</p>
                 
-                <!-- Input Nama Lengkap (Hanya saat Daftar) -->
-                <div class="input-group" id="name-group" style="display: none;">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="namaInput" placeholder="Masukkan Nama Lengkap Anda">
-                </div>
+                <form id="authForm" onsubmit="handleAuth(event)">
+                    
+                    <!-- Input Nama Lengkap (Hanya saat Daftar) -->
+                    <div class="input-group" id="name-group" style="display: none;">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="namaInput" placeholder="Masukkan Nama Lengkap Anda">
+                    </div>
 
-                <!-- Input Email -->
-                <div class="input-group">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="emailInput" placeholder="Masukkan email Anda" required>
-                </div>
-                
-                <!-- Input Password -->
-                <div class="input-group" id="pass-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <!-- Minimal 5 Karakter -->
-                    <input type="password" id="passwordInput" placeholder="Kata Sandi (Min. 5 karakter)" minlength="5" required>
-                    <i class="fa-solid fa-eye" id="togglePassword" style="left: auto; right: 15px; cursor: pointer;"></i>
-                </div>
+                    <!-- Input Email -->
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="emailInput" placeholder="Masukkan email Anda" required>
+                    </div>
+                    
+                    <!-- Input Password -->
+                    <div class="input-group" id="pass-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <!-- Minimal 5 Karakter -->
+                        <input type="password" id="passwordInput" placeholder="Kata Sandi (Min. 5 karakter)" minlength="5" required>
+                        <i class="fa-solid fa-eye" id="togglePassword" style="left: auto; right: 18px; cursor: pointer;"></i>
+                    </div>
 
-                <!-- Tautan Lupa Kata Sandi -->
-                <a id="forgot-link" class="forgot-password" onclick="toggleMode('lupa_password')">Lupa kata sandi?</a>
-                
-                <button type="submit" class="btn-submit" id="btn-text">Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
-            </form>
+                    <!-- Tautan Lupa Kata Sandi -->
+                    <a id="forgot-link" class="forgot-password" onclick="toggleMode('lupa_password')">Lupa kata sandi?</a>
+                    
+                    <button type="submit" class="btn-submit" id="btn-text">Masuk ke Platform <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
+                </form>
 
-            <div class="switch-mode-text" id="switch-container">
-                Belum punya akun? <span onclick="toggleMode('daftar')">Daftar Akun Baru</span>
+                <div class="switch-mode-text" id="switch-container">
+                    Belum punya akun? <span onclick="toggleMode('daftar')">Daftar Akun Baru</span>
+                </div>
             </div>
-        </div>
 
-        <div class="floating-menu">
-            <a href="#" class="menu-item"><i class="fa-solid fa-house"></i></a>
-            <a href="#" class="menu-item"><i class="fa-solid fa-circle-info"></i></a>
-            <a href="#" class="menu-item"><i class="fa-solid fa-headset"></i></a>
+            <div class="floating-menu">
+                <a href="#" class="menu-item"><i class="fa-solid fa-house"></i></a>
+                <a href="#" class="menu-item"><i class="fa-solid fa-circle-info"></i></a>
+                <a href="#" class="menu-item"><i class="fa-solid fa-headset"></i></a>
+            </div>
         </div>
     </div>
 
@@ -159,20 +197,18 @@
             this.classList.toggle('fa-eye-slash');
         });
 
-        // FUNGSI BARU: Menampilkan notifikasi tanpa Pop-up Alert
         function tampilkanPesan(pesan, tipe) {
             let notifBox = document.getElementById('notif-box');
             if (!notifBox) {
                 notifBox = document.createElement('div');
                 notifBox.id = 'notif-box';
                 notifBox.style.padding = '12px';
-                notifBox.style.borderRadius = '8px';
+                notifBox.style.borderRadius = '10px';
                 notifBox.style.marginBottom = '15px';
                 notifBox.style.fontSize = '0.85rem';
                 notifBox.style.textAlign = 'center';
                 notifBox.style.fontWeight = '500';
                 
-                // Masukkan notifikasi tepat di atas tombol submit
                 const btn = document.getElementById('btn-text');
                 btn.parentNode.insertBefore(notifBox, btn);
             }
@@ -190,14 +226,12 @@
                 notifBox.style.border = '1px solid #dc3545';
             }
 
-            // Otomatis hilang setelah 6 detik
             setTimeout(() => {
                 if(notifBox) notifBox.style.display = 'none';
             }, 6000);
         }
 
         function toggleMode(mode) {
-            // Sembunyikan notifikasi saat berpindah halaman
             const notifBox = document.getElementById('notif-box');
             if (notifBox) notifBox.style.display = 'none';
 
@@ -261,7 +295,6 @@
             const passwordValue = document.getElementById('passwordInput').value;
             const namaValue = document.getElementById('namaInput').value.trim();
 
-            // Sembunyikan notifikasi lama saat tombol ditekan kembali
             const notifBox = document.getElementById('notif-box');
             if (notifBox) notifBox.style.display = 'none';
 
@@ -287,7 +320,6 @@
                         sessionStorage.setItem("alumniEmail", emailValue);
                         localStorage.setItem("alumniUsername", userDitemukan.nama); 
 
-                        // Pesan sukses tampil lalu otomatis pindah halaman
                         tampilkanPesan('<i class="fa-solid fa-circle-check"></i> Login Berhasil! Mengalihkan...', 'sukses');
                         setTimeout(() => {
                             window.location.href = 'dashboard.html';
