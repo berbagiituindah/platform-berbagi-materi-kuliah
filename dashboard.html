@@ -109,7 +109,8 @@
         .header p { color: #555; font-size: 1rem; }
 
         /* --- FILTER BUTTONS --- */
-        .stats-container { display: flex; gap: 1.5rem; margin-bottom: 2.5rem; }
+        .stats-wrapper { position: relative; width: 100%; margin-bottom: 2.5rem; }
+        .stats-container { display: flex; gap: 1.5rem; }
         .stat-card { 
             flex: 1; padding: 1.5rem; border-radius: 20px; 
             background: var(--glass-bg); backdrop-filter: blur(12px); 
@@ -129,6 +130,11 @@
         .card-semua { color: var(--primary-green); border-left: 5px solid var(--primary-green); }
         .card-soshum { background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.2)); color: #9c801e; border-left: 5px solid var(--accent-gold); }
         .card-saintek { background: linear-gradient(135deg, rgba(45,106,79,0.05), rgba(45,106,79,0.2)); color: var(--accent-blue); border-left: 5px solid var(--accent-blue); }
+
+        /* Titik-titik indikator (Default disembunyikan untuk Desktop) */
+        .slider-dots { display: none; justify-content: center; gap: 8px; margin-top: 15px; }
+        .dot { width: 10px; height: 10px; background: rgba(26,67,49,0.2); border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--primary-green); width: 25px; border-radius: 10px; }
 
         /* --- SEARCH BAR --- */
         .search-container { margin-bottom: 2rem; position: relative; width: 100%; max-width: 550px; }
@@ -231,13 +237,12 @@
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
 
-        /* --- RESPONSIF UNTUK PONSEL (MOBILE DRAWER SIDEBAR) --- */
+        /* --- RESPONSIF UNTUK PONSEL --- */
         @media (max-width: 992px) {
-            body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; }
+            body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; overflow-x: hidden; }
             
             .mobile-header { display: flex; }
             
-            /* Sidebar disembunyikan ke kiri, bisa dibuka via tombol hamburger */
             .sidebar {
                 position: fixed; top: 0; left: -280px; height: 100vh; width: 260px;
                 box-shadow: 10px 0 30px rgba(0,0,0,0.15); transition: left 0.3s ease;
@@ -245,20 +250,34 @@
             .sidebar.open { left: 0; }
             .sidebar-overlay.active { display: block; opacity: 1; }
 
-            /* Konten utama diberi jarak atas agar tidak tertutup header mobile */
             .main-content { padding: 5.5rem 1rem 2rem 1rem; width: 100%; }
-            
             .header h1 { font-size: 1.6rem; }
+
+            /* SCROLL HORIZONTAL UNTUK KARTU KATEGORI */
+            .stats-wrapper { margin-bottom: 1.5rem; }
+            .stats-container {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory; /* Memaksa scroll berhenti pas di tengah kartu */
+                scroll-behavior: smooth;
+                -ms-overflow-style: none; /* Hide scrollbar IE */
+                scrollbar-width: none; /* Hide scrollbar Firefox */
+                padding-bottom: 10px; /* Spacer untuk bayangan */
+                gap: 15px;
+            }
+            .stats-container::-webkit-scrollbar { display: none; /* Hide scrollbar Chrome/Safari */ }
             
-            /* Kartu statistik tetap berjejer ke samping tapi diperkecil padding & fontnya */
-            .stats-container { gap: 0.8rem; margin-bottom: 1.5rem; }
-            .stat-card { padding: 1rem 0.8rem; }
-            .stat-info h3 { font-size: 0.8rem; }
-            .stat-info p { font-size: 1.4rem; }
-            .stat-icon { font-size: 1.8rem; display: none; /* disembunyikan agar muat di layar sempit */ }
+            .stat-card {
+                flex: 0 0 85%; /* Lebar kartu mengambil 85% layar ponsel agar terlihat ada kartu di sebelahnya */
+                scroll-snap-align: center; /* Pas ditengah layar saat discroll */
+                padding: 1.5rem; /* Ukuran normal seperti Desktop */
+            }
+            .stat-info h3 { font-size: 1.1rem; }
+            .stat-info p { font-size: 2.2rem; }
+            .stat-icon { display: block; font-size: 3rem; } /* Ikon ditampilkan normal */
+            
+            .slider-dots { display: flex; } /* Tampilkan titik indikator di Mobile */
 
             .search-container { max-width: 100%; margin-bottom: 1.5rem; }
-
             .materi-item { flex-direction: column; align-items: flex-start; gap: 12px; padding: 1.2rem; }
             .materi-details { width: 100%; }
             .materi-title { white-space: normal; font-size: 1rem; line-height: 1.4; }
@@ -330,30 +349,40 @@
                 <p>Selamat datang di pusat berbagi materi kuliah alumni. Jelajahi referensi terbaru hari ini.</p>
             </div>
 
-            <!-- Kartu Filter Kategori (Tetap Berjejer Samping) -->
-            <div class="stats-container">
-                <div class="stat-card card-semua active" onclick="ubahKategori('Semua', this)">
-                    <div class="stat-info">
-                        <h3>Semua</h3>
-                        <p id="count-semua">0</p>
+            <!-- Kartu Filter Kategori (Slider Mobile) -->
+            <div class="stats-wrapper">
+                <div class="stats-container" id="kategori-slider">
+                    <!-- Ditambahkan parameter urutan slider (0,1,2) di ubahKategori() -->
+                    <div class="stat-card card-semua active" onclick="ubahKategori('Semua', this, 0)">
+                        <div class="stat-info">
+                            <h3>Semua</h3>
+                            <p id="count-semua">0</p>
+                        </div>
+                        <i class="fa-solid fa-folder-open stat-icon"></i>
                     </div>
-                    <i class="fa-solid fa-folder-open stat-icon"></i>
+                    
+                    <div class="stat-card card-soshum" onclick="ubahKategori('SOSHUM', this, 1)">
+                        <div class="stat-info">
+                            <h3>SOSHUM</h3>
+                            <p id="count-soshum">0</p>
+                        </div>
+                        <i class="fa-solid fa-scale-balanced stat-icon"></i>
+                    </div>
+
+                    <div class="stat-card card-saintek" onclick="ubahKategori('SAINTEK', this, 2)">
+                        <div class="stat-info">
+                            <h3>SAINTEK</h3>
+                            <p id="count-saintek">0</p>
+                        </div>
+                        <i class="fa-solid fa-microchip stat-icon"></i>
+                    </div>
                 </div>
                 
-                <div class="stat-card card-soshum" onclick="ubahKategori('SOSHUM', this)">
-                    <div class="stat-info">
-                        <h3>SOSHUM</h3>
-                        <p id="count-soshum">0</p>
-                    </div>
-                    <i class="fa-solid fa-scale-balanced stat-icon"></i>
-                </div>
-
-                <div class="stat-card card-saintek" onclick="ubahKategori('SAINTEK', this)">
-                    <div class="stat-info">
-                        <h3>SAINTEK</h3>
-                        <p id="count-saintek">0</p>
-                    </div>
-                    <i class="fa-solid fa-microchip stat-icon"></i>
+                <!-- Titik Slider -->
+                <div class="slider-dots">
+                    <span class="dot active" onclick="scrollToCard(0)"></span>
+                    <span class="dot" onclick="scrollToCard(1)"></span>
+                    <span class="dot" onclick="scrollToCard(2)"></span>
                 </div>
             </div>
 
@@ -428,6 +457,36 @@
             const overlay = document.getElementById('sidebarOverlay');
             sidebar.classList.toggle('open');
             overlay.classList.toggle('active');
+        }
+
+        // --- FUNGSI SLIDER HORIZONTAL KARTU MOBILE ---
+        const sliderContainer = document.getElementById('kategori-slider');
+        const dots = document.querySelectorAll('.dot');
+        
+        if (sliderContainer) {
+            sliderContainer.addEventListener('scroll', () => {
+                // Menghitung kartu mana yang sedang berada di tengah layar
+                let scrollRatio = sliderContainer.scrollLeft / sliderContainer.clientWidth;
+                let activeIndex = Math.round(scrollRatio);
+                
+                dots.forEach((dot, index) => {
+                    if(index === activeIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        function scrollToCard(index) {
+            if (!sliderContainer) return;
+            // Lebar kartu + gap margin (perkiraan otomatis oleh browser saat digeser)
+            const cardWidth = sliderContainer.clientWidth * 0.85; 
+            sliderContainer.scrollTo({
+                left: index * cardWidth,
+                behavior: 'smooth'
+            });
         }
 
         // --- PROTEKSI & INISIALISASI ---
@@ -697,12 +756,18 @@
         }
 
         // --- FILTER & RENDER ---
-        function ubahKategori(kategori, element) {
+        // Ditambahkan sliderIndex agar saat diklik, kartunya langsung menggeser posisinya ke tengah (khusus HP)
+        function ubahKategori(kategori, element, sliderIndex = null) {
             document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
             element.classList.add('active');
             
             kategoriAktif = kategori;
             terapkanFilter();
+
+            // Jika diklik melalui handphone, geser posisi slider otomatis ke kartu yang ditekan
+            if (sliderIndex !== null && window.innerWidth <= 992) {
+                scrollToCard(sliderIndex);
+            }
         }
 
         function terapkanFilter() {
