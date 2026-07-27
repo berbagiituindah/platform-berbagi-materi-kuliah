@@ -144,7 +144,6 @@
         .card-saintek { background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(45,106,79,0.15)); color: var(--accent-blue); border-left: 5px solid var(--accent-blue); }
         .card-saintek .stat-icon { background: rgba(45,106,79,0.15); color: var(--accent-blue); }
 
-        /* Titik Indikator di Pojok Kanan Atas */
         .slider-dots { display: none; align-items: center; gap: 6px; }
         .dot { width: 8px; height: 8px; background: rgba(26,67,49,0.2); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; }
         .dot.active { background: var(--primary-green); width: 22px; border-radius: 10px; }
@@ -223,16 +222,6 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         .floating-add-btn:hover { transform: scale(1.1) rotate(90deg); background: #112d21; color: var(--accent-gold); }
-        
-        .floating-add-btn::before { 
-            content: attr(data-tooltip); position: absolute; right: 80px; top: 50%; 
-            transform: translateY(-50%); background: white; color: var(--primary-green); 
-            padding: 8px 16px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; 
-            opacity: 0; visibility: hidden; white-space: nowrap; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 1px solid var(--glass-border); 
-            transition: all var(--transition-speed) ease; pointer-events: none; 
-        }
-        .floating-add-btn:hover::before { opacity: 1; visibility: visible; right: 75px; }
 
         /* --- MODAL BASE --- */
         .modal-overlay {
@@ -250,57 +239,22 @@
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
 
-        /* --- RESPONSIF DETAIL KHUSUS MOBILE --- */
         @media (max-width: 992px) {
             body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; overflow-x: hidden; }
-            
             .mobile-header { display: flex; }
-            
-            .sidebar {
-                position: fixed; top: 0; left: -280px; height: 100vh; width: 260px;
-                box-shadow: 10px 0 30px rgba(0,0,0,0.15); transition: left 0.3s ease;
-            }
+            .sidebar { position: fixed; top: 0; left: -280px; height: 100vh; width: 260px; box-shadow: 10px 0 30px rgba(0,0,0,0.15); transition: left 0.3s ease; }
             .sidebar.open { left: 0; }
             .sidebar-overlay.active { display: block; opacity: 1; }
-
             .main-content { padding: 5.5rem 1.2rem 2rem 1.2rem; width: 100%; }
-            .header { margin-bottom: 1.5rem; }
-            .header h1 { font-size: 1.6rem; }
-
-            /* SLIDER & TITIK INDIKATOR MOBILE */
             .slider-dots { display: flex; } 
-
-            .stats-wrapper { margin-bottom: 1.8rem; }
-            .stats-container {
-                overflow-x: auto;
-                scroll-snap-type: x mandatory; 
-                scroll-behavior: smooth;
-                -ms-overflow-style: none; 
-                scrollbar-width: none; 
-                padding: 4px 2px 10px 2px;
-                gap: 15px;
-            }
-            .stats-container::-webkit-scrollbar { display: none; }
-            
-            .stat-card {
-                flex: 0 0 85%; 
-                scroll-snap-align: center; 
-                padding: 1.4rem; 
-                border-radius: 22px;
-            }
-            
+            .stats-container { overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; padding: 4px 2px 10px 2px; gap: 15px; }
+            .stat-card { flex: 0 0 85%; scroll-snap-align: center; padding: 1.4rem; border-radius: 22px; }
             .search-container { max-width: 100%; margin-bottom: 1.5rem; }
             .materi-item { flex-direction: column; align-items: flex-start; gap: 12px; padding: 1.2rem; border-radius: 16px; }
             .materi-details { width: 100%; }
-            .materi-title { white-space: normal; font-size: 1rem; line-height: 1.4; }
-            .materi-meta { gap: 8px; font-size: 0.78rem; }
             .btn-action { width: 100%; justify-content: center; padding: 12px; }
-
             .settings-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            .settings-card { padding: 1.5rem; border-radius: 20px; }
-
             .floating-add-btn { bottom: 25px; right: 20px; width: 55px; height: 55px; font-size: 1.4rem; }
-            .floating-add-btn::before { display: none; }
         }
     </style>
 </head>
@@ -308,18 +262,13 @@
 
     <!-- HEADER KHUSUS MOBILE -->
     <div class="mobile-header">
-        <div class="mobile-brand">
-            <i class="fa-solid fa-graduation-cap"></i> MAN 1 Bekasi
-        </div>
-        <button class="hamburger-btn" onclick="toggleSidebar()">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+        <div class="mobile-brand"><i class="fa-solid fa-graduation-cap"></i> MAN 1 Bekasi</div>
+        <button class="hamburger-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
     </div>
 
-    <!-- OVERLAY GELAP SAAT SIDEBAR MOBILE DIBUKA -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- MODAL POP-UP PENGISIAN NAMA PERTAMA KALI -->
+    <!-- MODAL POP-UP NAMA AWAL -->
     <div id="name-modal" class="modal-overlay">
         <div class="modal-content">
             <i class="fa-solid fa-user-astronaut" style="font-size: 3rem; color: var(--primary-green); margin-bottom: 12px;"></i>
@@ -327,15 +276,15 @@
             <p style="color: #666; margin-bottom: 20px; font-size: 0.9rem;">Silakan masukkan nama lengkap atau panggilanmu untuk profil.</p>
             <div style="position: relative; margin-bottom: 20px;">
                 <i class="fa-solid fa-user" style="position: absolute; top: 50%; transform: translateY(-50%); left: 18px; color: var(--primary-green);"></i>
-                <input type="text" id="usernameInput" placeholder="Masukkan Nama Anda" style="width: 100%; padding: 14px 18px 14px 48px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 12px; background: rgba(255, 255, 255, 0.9); font-size: 0.95rem; color: var(--text-dark); outline: none; transition: 0.3s;">
+                <input type="text" id="usernameInput" placeholder="Masukkan Nama Anda" style="width: 100%; padding: 14px 18px 14px 48px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 12px; background: rgba(255, 255, 255, 0.9); font-size: 0.95rem; color: var(--text-dark); outline: none;">
             </div>
-            <button onclick="simpanUsernameAwal()" style="width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; box-shadow: 0 6px 20px rgba(26, 67, 49, 0.25); transition: 0.3s;">
+            <button onclick="simpanUsernameAwal()" style="width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer;">
                 Mulai Jelajahi Platform <i class="fa-solid fa-rocket" style="margin-left: 8px;"></i>
             </button>
         </div>
     </div>
 
-    <!-- MODAL POP-UP NOTIFIKASI CUSTOM (MEMPERCANTIK ALERT/CONFIRM) -->
+    <!-- MODAL POP-UP NOTIFIKASI & KONFIRMASI UNIVERSAL -->
     <div id="custom-alert-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 380px; padding: 2rem 1.8rem;">
             <div id="alert-icon-container" style="font-size: 2.8rem; margin-bottom: 12px; color: var(--primary-green);">
@@ -345,7 +294,7 @@
             <p id="alert-message" style="color: #555; margin-bottom: 22px; font-size: 0.9rem; line-height: 1.5;"></p>
             
             <div id="alert-actions" style="display: flex; gap: 10px; justify-content: center;">
-                <button id="btn-alert-ok" onclick="tutupAlertModal()" style="flex: 1; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 15px rgba(26,67,49,0.2);">
+                <button id="btn-alert-ok" onclick="tutupAlertModal()" style="flex: 1; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
                     Oke
                 </button>
                 <button id="btn-alert-cancel" style="display: none; flex: 1; padding: 12px; background: #eee; color: #555; border: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
@@ -374,16 +323,13 @@
     <!-- MAIN CONTENT -->
     <div class="main-content">
         
-        <!-- HALAMAN DASHBOARD -->
         <div id="dashboard-page">
             <div class="header">
                 <h1>Halo, <span id="nama-user-display">Alumni</span> 👋</h1>
                 <p>Selamat datang di pusat berbagi materi kuliah alumni. Jelajahi referensi terbaru hari ini.</p>
             </div>
 
-            <!-- Kartu Filter Kategori (Slider Mobile + Header Titik Indikator) -->
             <div class="stats-wrapper">
-                
                 <div class="stats-header-mobile">
                     <h3>Kategori Materi</h3>
                     <div class="slider-dots">
@@ -420,19 +366,15 @@
                 </div>
             </div>
 
-            <!-- Search Bar -->
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchInput" class="search-input" placeholder="Cari judul materi, jurusan, atau nama alumni..." oninput="terapkanFilter()">
             </div>
 
             <h3 style="color: var(--primary-green); margin-bottom: 1.2rem; font-weight: 600;">Materi Terbaru</h3>
-            <div class="materi-list" id="materi-container">
-                <!-- Data akan dimuat melalui JavaScript -->
-            </div>
+            <div class="materi-list" id="materi-container"></div>
         </div>
 
-        <!-- HALAMAN SETTING (PROFIL & HISTORI) -->
         <div id="settings-page">
             <div class="header">
                 <h1>Pengaturan Akun</h1>
@@ -440,7 +382,6 @@
             </div>
             
             <div class="settings-grid">
-                <!-- Kolom 1: Ganti Nama & Logout -->
                 <div class="settings-card" style="text-align: center;">
                     <h3>Profil Alumni</h3>
                     <div class="profile-avatar"><i class="fa-regular fa-user"></i></div>
@@ -461,31 +402,25 @@
                     </button>
                 </div>
 
-                <!-- Kolom 2: Histori Unggahan -->
                 <div class="settings-card">
                     <h3>Histori Unggahan Saya</h3>
-                    <div class="history-list" id="histori-container">
-                        <!-- Histori user akan muncul disini -->
-                    </div>
+                    <div class="history-list" id="histori-container"></div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Tombol Mengambang Tambah Materi -->
     <a href="#" target="_blank" class="floating-add-btn" id="btn-tambah-materi" data-tooltip="Bagikan Materi Baru">
         <i class="fa-solid fa-plus"></i>
     </a>
 
-    <!-- JAVASCRIPT LENGKAP -->
     <script>
         const APISheetsURL = "https://script.google.com/macros/s/AKfycbz7QaFBJaPzES2piiocjYhy011cDxNmOWTfBlT9n6FrRBKfate2vR1adlz7Bih9bQGNbQ/exec";
 
         let databaseMateri = [];
         let kategoriAktif = 'Semua'; 
 
-        // --- FUNGSI BUKA/TUTUP SIDEBAR MOBILE ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
@@ -493,7 +428,6 @@
             overlay.classList.toggle('active');
         }
 
-        // --- FUNGSI SLIDER HORIZONTAL KARTU MOBILE ---
         const sliderContainer = document.getElementById('kategori-slider');
         const dots = document.querySelectorAll('.dot');
         
@@ -503,11 +437,8 @@
                 let activeIndex = Math.round(scrollRatio * (dots.length - 1));
                 
                 dots.forEach((dot, index) => {
-                    if(index === activeIndex) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
+                    if(index === activeIndex) dot.classList.add('active');
+                    else dot.classList.remove('active');
                 });
             });
         }
@@ -516,14 +447,11 @@
             if (!sliderContainer) return;
             const card = sliderContainer.children[index];
             if (card) {
-                sliderContainer.scrollTo({
-                    left: card.offsetLeft - sliderContainer.offsetLeft - 10,
-                    behavior: 'smooth'
-                });
+                sliderContainer.scrollTo({ left: card.offsetLeft - sliderContainer.offsetLeft - 10, behavior: 'smooth' });
             }
         }
 
-        // --- FUNGSI POP-UP MODAL NOTIFIKASI CUSTOM ---
+        // --- SISTEM MODAL NOTIFIKASI MULTIFUNGSI ---
         function tampilkanNotifikasi(pesan, jenis = 'success', callbackOk = null) {
             const modal = document.getElementById('custom-alert-modal');
             const iconContainer = document.getElementById('alert-icon-container');
@@ -557,7 +485,8 @@
             };
         }
 
-        function tampilkanKonfirmasi(pesan, callbackYa) {
+        // POP UP KONFIRMASI HAPUS MATERI
+        function tampilkanKonfirmasiHapus(pesan, callbackYa) {
             const modal = document.getElementById('custom-alert-modal');
             const iconContainer = document.getElementById('alert-icon-container');
             const titleEl = document.getElementById('alert-title');
@@ -580,10 +509,34 @@
                 tutupAlertModal();
                 callbackYa();
             };
+            btnCancel.onclick = () => tutupAlertModal();
+        }
 
-            btnCancel.onclick = () => {
+        // POP UP KONFIRMASI LOGOUT (FIXED!)
+        function tampilkanKonfirmasiLogout(callbackYa) {
+            const modal = document.getElementById('custom-alert-modal');
+            const iconContainer = document.getElementById('alert-icon-container');
+            const titleEl = document.getElementById('alert-title');
+            const messageEl = document.getElementById('alert-message');
+            const btnOk = document.getElementById('btn-alert-ok');
+            const btnCancel = document.getElementById('btn-alert-cancel');
+
+            iconContainer.innerHTML = '<i class="fa-solid fa-right-from-bracket" style="color: var(--danger-red);"></i>';
+            titleEl.innerText = 'Keluar Platform?';
+            titleEl.style.color = 'var(--danger-red)';
+            messageEl.innerText = 'Apakah Anda yakin ingin keluar dari akun alumni?';
+
+            btnOk.innerText = 'Ya, Keluar';
+            btnOk.style.background = 'var(--danger-red)';
+            btnCancel.style.display = 'block';
+
+            modal.classList.add('active');
+
+            btnOk.onclick = () => {
                 tutupAlertModal();
+                callbackYa();
             };
+            btnCancel.onclick = () => tutupAlertModal();
         }
 
         function tutupAlertModal() {
@@ -597,7 +550,6 @@
             }, 300);
         }
 
-        // --- PROTEKSI & INISIALISASI ---
         function proteksiHalaman() {
             const statusLogin = sessionStorage.getItem("isAlumniLoggedIn");
             if (statusLogin !== "true") {
@@ -645,23 +597,21 @@
             btnTambah.href = baseURL + parameterNama + encodeURIComponent(nama);
         }
 
+        // FUNGSI LOGOUT YANG SUDAH DIPERBAIKI
         function handleLogout() {
-            tampilkanKonfirmasi("Apakah Anda yakin ingin keluar dari platform?", () => {
+            tampilkanKonfirmasiLogout(() => {
                 sessionStorage.clear(); 
                 window.location.href = 'index.html'; 
             });
         }
 
-        // --- UPDATE USERNAME KE DATABASE ---
         async function ubahUsernameBaru() {
             const namaBaru = document.getElementById("input-edit-nama").value.trim();
             if (namaBaru === "") {
                 tampilkanNotifikasi("Nama tidak boleh kosong!", "warning");
                 return;
             }
-            if (namaBaru === localStorage.getItem("alumniUsername")) {
-                return; 
-            }
+            if (namaBaru === localStorage.getItem("alumniUsername")) return; 
 
             const btnSimpan = document.getElementById("btn-simpan-nama");
             btnSimpan.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
@@ -693,9 +643,7 @@
                         tampilkanNotifikasi("Username profil berhasil diperbarui!", "success");
                     }
                 } else {
-                    if (tampilkanAlert) {
-                        tampilkanNotifikasi("Gagal memperbarui: " + result.message, "error");
-                    }
+                    if (tampilkanAlert) tampilkanNotifikasi("Gagal memperbarui: " + result.message, "error");
                 }
             } catch (error) {
                 console.error(error);
@@ -703,9 +651,8 @@
             }
         }
 
-        // --- HAPUS MATERI ---
         async function hapusMateri(timestampRaw, elementBtn) {
-            tampilkanKonfirmasi("Materi beserta file di Google Drive akan dihapus secara permanen. Lanjutkan?", async () => {
+            tampilkanKonfirmasiHapus("Materi beserta file di Google Drive akan dihapus secara permanen. Lanjutkan?", async () => {
                 const teksAwal = elementBtn.innerHTML;
                 elementBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
                 elementBtn.disabled = true;
@@ -734,7 +681,6 @@
             });
         }
 
-        // --- RENDER HISTORI UNGGAHAN ---
         function renderHistoriUpload() {
             const myName = localStorage.getItem("alumniUsername") || "";
             const containerHistori = document.getElementById("histori-container");
@@ -776,12 +722,9 @@
             });
         }
 
-        // --- NORMALISASI DATA & WAKTU ---
         function cariNilai(obj, kataKunci) {
             for (let key in obj) {
-                if (key.toLowerCase().trim() === kataKunci.toLowerCase().trim()) {
-                    return obj[key];
-                }
+                if (key.toLowerCase().trim() === kataKunci.toLowerCase().trim()) return obj[key];
             }
             return "";
         }
@@ -807,7 +750,6 @@
             return new Date(ms).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        // --- FETCH DATA MATERI ---
         async function ambilDataMateri() {
             const container = document.getElementById('materi-container');
             container.innerHTML = `
@@ -819,7 +761,6 @@
             try {
                 const response = await fetch(APISheetsURL);
                 let data = await response.json();
-                
                 let rawList = data.materi ? data.materi : data;
 
                 databaseMateri = rawList.map(item => {
@@ -854,17 +795,13 @@
             }
         }
 
-        // --- FILTER & RENDER ---
         function ubahKategori(kategori, element, sliderIndex = null) {
             document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
             element.classList.add('active');
-            
             kategoriAktif = kategori;
             terapkanFilter();
 
-            if (sliderIndex !== null && window.innerWidth <= 992) {
-                scrollToCard(sliderIndex);
-            }
+            if (sliderIndex !== null && window.innerWidth <= 992) scrollToCard(sliderIndex);
         }
 
         function terapkanFilter() {
@@ -899,7 +836,7 @@
                 return;
             }
 
-            data.forEach((item, index) => {
+            data.forEach((item) => {
                 const isSaintek = item.kategori === 'SAINTEK';
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
                 const iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
@@ -932,14 +869,11 @@
             document.getElementById('count-saintek').innerText = databaseMateri.filter(i => i.kategori === 'SAINTEK').length;
         }
 
-        // --- NAVIGASI ANTAR HALAMAN ---
         function switchPage(pageId, element) {
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             element.classList.add('active');
 
-            if (window.innerWidth <= 992) {
-                toggleSidebar();
-            }
+            if (window.innerWidth <= 992) toggleSidebar();
 
             document.getElementById('dashboard-page').style.display = 'none';
             document.getElementById('settings-page').style.display = 'none';
@@ -953,7 +887,6 @@
             }, 10);
         }
 
-        // --- INIT ---
         window.onload = () => {
             proteksiHalaman();
             ambilDataMateri(); 
