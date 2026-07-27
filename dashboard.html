@@ -253,6 +253,19 @@
             .materi-item { flex-direction: column; align-items: flex-start; gap: 12px; padding: 1.2rem; border-radius: 16px; }
             .materi-details { width: 100%; }
             .btn-action { width: 100%; justify-content: center; padding: 12px; }
+            /* --- PERBAIKAN BUG HISTORI DI HP --- */
+        .history-item { 
+            flex-direction: row; 
+            align-items: center; 
+        }
+        .history-item > div:first-child {
+            width: calc(100% - 60px); /* Memberikan ruang agar teks tidak hilang */
+        }
+        .history-item .btn-action { 
+            width: auto; /* Mengembalikan tombol hapus jadi seukuran ikon */
+            padding: 10px 14px; 
+            flex-shrink: 0; 
+        }
             .settings-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .floating-add-btn { bottom: 25px; right: 20px; width: 55px; height: 55px; font-size: 1.4rem; }
         }
