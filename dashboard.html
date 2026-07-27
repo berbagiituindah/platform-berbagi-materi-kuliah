@@ -581,39 +581,33 @@
         }
 
         async function updateNamaKeDatabase(namaBaru, tampilkanAlert) {
-            const emailActive = sessionStorage.getItem("alumniEmail") || "";
-            const oldName = localStorage.getItem("alumniUsername") || "";
+    const emailActive = sessionStorage.getItem("alumniEmail") || "";
+    const oldName = localStorage.getItem("alumniUsername") || "";
 
-            try {
-                const formData = new URLSearchParams();
-                formData.append("action", "update_name");
-                formData.append("email", emailActive);
-                formData.append("old_name", oldName);
-                formData.append("new_name", namaBaru);
+    try {
+        // Menggunakan request GET agar tidak terhalang blokir CORS browser
+        const urlUpdate = `${APISheetsURL}?action=update_name&email=${encodeURIComponent(emailActive)}&old_name=${encodeURIComponent(oldName)}&new_name=${encodeURIComponent(namaBaru)}`;
 
-                const response = await fetch(APISheetsURL, {
-                    method: 'POST',
-                    body: formData 
-                });
-                
-                const textResponse = await response.text();
-                const result = JSON.parse(textResponse);
-                
-                if (result.status === "success") {
-                    localStorage.setItem("alumniUsername", namaBaru);
-                    tampilkanNamaDiWeb(namaBaru);
-                    aturLinkGoogleFormOtomatis(namaBaru);
-                    renderHistoriUpload();
-                    if (tampilkanAlert) alert("Username berhasil diperbarui!");
-                } else {
-                    if (tampilkanAlert) alert("Gagal memperbarui: " + result.message);
-                }
-            } catch (error) {
-                console.error(error);
-                if (tampilkanAlert) alert("Terjadi kesalahan jaringan atau koneksi terputus.");
-            }
+        const response = await fetch(urlUpdate);
+        const result = await response.json();
+        
+        if (result.status === "success") {
+            localStorage.setItem("alumniUsername", namaBaru);
+            tampilkanNamaDiWeb(namaBaru);
+            aturLinkGoogleFormOtomatis(namaBaru);
+            
+            // Muat ulang data materi agar histori milik nama baru langsung ter-render
+            ambilDataMateri();
+            
+            if (tampilkanAlert) alert("Username berhasil diperbarui!");
+        } else {
+            if (tampilkanAlert) alert("Gagal memperbarui: " + result.message);
         }
-
+    } catch (error) {
+        console.error(error);
+        if (tampilkanAlert) alert("Terjadi kesalahan jaringan.");
+    }
+}
         // --- HAPUS MATERI ---
         async function hapusMateri(timestampRaw, elementBtn) {
             if (!confirm("Yakin ingin menghapus materi ini secara permanen?")) return;
