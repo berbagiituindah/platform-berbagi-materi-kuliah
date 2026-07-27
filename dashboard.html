@@ -234,7 +234,7 @@
         }
         .floating-add-btn:hover::before { opacity: 1; visibility: visible; right: 75px; }
 
-        /* --- MODAL --- */
+        /* --- MODAL BASE --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(26, 67, 49, 0.5); backdrop-filter: blur(10px); 
@@ -268,7 +268,7 @@
             .header h1 { font-size: 1.6rem; }
 
             /* SLIDER & TITIK INDIKATOR MOBILE */
-            .slider-dots { display: flex; } /* Tampilkan titik di mobile */
+            .slider-dots { display: flex; } 
 
             .stats-wrapper { margin-bottom: 1.8rem; }
             .stats-container {
@@ -319,7 +319,7 @@
     <!-- OVERLAY GELAP SAAT SIDEBAR MOBILE DIBUKA -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- MODAL POP-UP PENGISIAN NAMA -->
+    <!-- MODAL POP-UP PENGISIAN NAMA PERTAMA KALI -->
     <div id="name-modal" class="modal-overlay">
         <div class="modal-content">
             <i class="fa-solid fa-user-astronaut" style="font-size: 3rem; color: var(--primary-green); margin-bottom: 12px;"></i>
@@ -332,6 +332,26 @@
             <button onclick="simpanUsernameAwal()" style="width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; box-shadow: 0 6px 20px rgba(26, 67, 49, 0.25); transition: 0.3s;">
                 Mulai Jelajahi Platform <i class="fa-solid fa-rocket" style="margin-left: 8px;"></i>
             </button>
+        </div>
+    </div>
+
+    <!-- MODAL POP-UP NOTIFIKASI CUSTOM (MEMPERCANTIK ALERT/CONFIRM) -->
+    <div id="custom-alert-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 380px; padding: 2rem 1.8rem;">
+            <div id="alert-icon-container" style="font-size: 2.8rem; margin-bottom: 12px; color: var(--primary-green);">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 id="alert-title" style="color: var(--primary-green); margin-bottom: 8px; font-size: 1.25rem; font-weight: 700;">Informasi</h3>
+            <p id="alert-message" style="color: #555; margin-bottom: 22px; font-size: 0.9rem; line-height: 1.5;"></p>
+            
+            <div id="alert-actions" style="display: flex; gap: 10px; justify-content: center;">
+                <button id="btn-alert-ok" onclick="tutupAlertModal()" style="flex: 1; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 15px rgba(26,67,49,0.2);">
+                    Oke
+                </button>
+                <button id="btn-alert-cancel" style="display: none; flex: 1; padding: 12px; background: #eee; color: #555; border: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+                    Batal
+                </button>
+            </div>
         </div>
     </div>
 
@@ -364,10 +384,8 @@
             <!-- Kartu Filter Kategori (Slider Mobile + Header Titik Indikator) -->
             <div class="stats-wrapper">
                 
-                <!-- HEADER KHUSUS DENGAN INDIKATOR KANAN ATAS -->
                 <div class="stats-header-mobile">
                     <h3>Kategori Materi</h3>
-                    <!-- Titik Indikator Pindah ke Pojok Kanan Atas -->
                     <div class="slider-dots">
                         <span class="dot active" onclick="scrollToCard(0)"></span>
                         <span class="dot" onclick="scrollToCard(1)"></span>
@@ -505,12 +523,87 @@
             }
         }
 
+        // --- FUNGSI POP-UP MODAL NOTIFIKASI CUSTOM ---
+        function tampilkanNotifikasi(pesan, jenis = 'success', callbackOk = null) {
+            const modal = document.getElementById('custom-alert-modal');
+            const iconContainer = document.getElementById('alert-icon-container');
+            const titleEl = document.getElementById('alert-title');
+            const messageEl = document.getElementById('alert-message');
+            const btnOk = document.getElementById('btn-alert-ok');
+            const btnCancel = document.getElementById('btn-alert-cancel');
+
+            btnCancel.style.display = 'none';
+
+            if (jenis === 'success') {
+                iconContainer.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #2e7d32;"></i>';
+                titleEl.innerText = 'Berhasil!';
+                titleEl.style.color = '#2e7d32';
+            } else if (jenis === 'error') {
+                iconContainer.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--danger-red);"></i>';
+                titleEl.innerText = 'Gagal!';
+                titleEl.style.color = 'var(--danger-red)';
+            } else if (jenis === 'warning') {
+                iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-gold);"></i>';
+                titleEl.innerText = 'Perhatian';
+                titleEl.style.color = '#b5952f';
+            }
+
+            messageEl.innerText = pesan;
+            modal.classList.add('active');
+
+            btnOk.onclick = () => {
+                tutupAlertModal();
+                if (callbackOk) callbackOk();
+            };
+        }
+
+        function tampilkanKonfirmasi(pesan, callbackYa) {
+            const modal = document.getElementById('custom-alert-modal');
+            const iconContainer = document.getElementById('alert-icon-container');
+            const titleEl = document.getElementById('alert-title');
+            const messageEl = document.getElementById('alert-message');
+            const btnOk = document.getElementById('btn-alert-ok');
+            const btnCancel = document.getElementById('btn-alert-cancel');
+
+            iconContainer.innerHTML = '<i class="fa-solid fa-trash-can" style="color: var(--danger-red);"></i>';
+            titleEl.innerText = 'Hapus Materi?';
+            titleEl.style.color = 'var(--danger-red)';
+            messageEl.innerText = pesan;
+
+            btnOk.innerText = 'Ya, Hapus';
+            btnOk.style.background = 'var(--danger-red)';
+            btnCancel.style.display = 'block';
+
+            modal.classList.add('active');
+
+            btnOk.onclick = () => {
+                tutupAlertModal();
+                callbackYa();
+            };
+
+            btnCancel.onclick = () => {
+                tutupAlertModal();
+            };
+        }
+
+        function tutupAlertModal() {
+            const modal = document.getElementById('custom-alert-modal');
+            const btnOk = document.getElementById('btn-alert-ok');
+            modal.classList.remove('active');
+            
+            setTimeout(() => {
+                btnOk.innerText = 'Oke';
+                btnOk.style.background = 'var(--primary-green)';
+            }, 300);
+        }
+
         // --- PROTEKSI & INISIALISASI ---
         function proteksiHalaman() {
             const statusLogin = sessionStorage.getItem("isAlumniLoggedIn");
             if (statusLogin !== "true") {
-                alert("Akses ditolak! Anda harus login terlebih dahulu.");
-                window.location.href = 'index.html'; 
+                tampilkanNotifikasi("Akses ditolak! Anda harus login terlebih dahulu.", "error", () => {
+                    window.location.href = 'index.html'; 
+                });
                 return;
             }
 
@@ -526,7 +619,7 @@
         function simpanUsernameAwal() {
             const namaInput = document.getElementById("usernameInput").value.trim();
             if (namaInput === "") {
-                alert("Nama tidak boleh kosong!");
+                tampilkanNotifikasi("Nama tidak boleh kosong!", "warning");
                 return;
             }
             
@@ -553,17 +646,17 @@
         }
 
         function handleLogout() {
-            if (confirm("Apakah Anda yakin ingin keluar dari platform?")) {
+            tampilkanKonfirmasi("Apakah Anda yakin ingin keluar dari platform?", () => {
                 sessionStorage.clear(); 
                 window.location.href = 'index.html'; 
-            }
+            });
         }
 
         // --- UPDATE USERNAME KE DATABASE ---
         async function ubahUsernameBaru() {
             const namaBaru = document.getElementById("input-edit-nama").value.trim();
             if (namaBaru === "") {
-                alert("Nama tidak boleh kosong!");
+                tampilkanNotifikasi("Nama tidak boleh kosong!", "warning");
                 return;
             }
             if (namaBaru === localStorage.getItem("alumniUsername")) {
@@ -581,68 +674,64 @@
         }
 
         async function updateNamaKeDatabase(namaBaru, tampilkanAlert) {
-    const emailActive = sessionStorage.getItem("alumniEmail") || "";
-    const oldName = localStorage.getItem("alumniUsername") || "";
-
-    try {
-        // Menggunakan request GET agar tidak terhalang blokir CORS browser
-        const urlUpdate = `${APISheetsURL}?action=update_name&email=${encodeURIComponent(emailActive)}&old_name=${encodeURIComponent(oldName)}&new_name=${encodeURIComponent(namaBaru)}`;
-
-        const response = await fetch(urlUpdate);
-        const result = await response.json();
-        
-        if (result.status === "success") {
-            localStorage.setItem("alumniUsername", namaBaru);
-            tampilkanNamaDiWeb(namaBaru);
-            aturLinkGoogleFormOtomatis(namaBaru);
-            
-            // Muat ulang data materi agar histori milik nama baru langsung ter-render
-            ambilDataMateri();
-            
-            if (tampilkanAlert) alert("Username berhasil diperbarui!");
-        } else {
-            if (tampilkanAlert) alert("Gagal memperbarui: " + result.message);
-        }
-    } catch (error) {
-        console.error(error);
-        if (tampilkanAlert) alert("Terjadi kesalahan jaringan.");
-    }
-}
-        // --- HAPUS MATERI ---
-        async function hapusMateri(timestampRaw, elementBtn) {
-            if (!confirm("Yakin ingin menghapus materi ini secara permanen?")) return;
-            
-            const teksAwal = elementBtn.innerHTML;
-            elementBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-            elementBtn.disabled = true;
+            const emailActive = sessionStorage.getItem("alumniEmail") || "";
+            const oldName = localStorage.getItem("alumniUsername") || "";
 
             try {
-                const formData = new URLSearchParams();
-                formData.append("action", "delete_post");
-                formData.append("timestamp", timestampRaw);
+                const urlUpdate = `${APISheetsURL}?action=update_name&email=${encodeURIComponent(emailActive)}&old_name=${encodeURIComponent(oldName)}&new_name=${encodeURIComponent(namaBaru)}`;
 
-                const response = await fetch(APISheetsURL, {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const textResponse = await response.text();
-                const result = JSON.parse(textResponse);
+                const response = await fetch(urlUpdate);
+                const result = await response.json();
                 
                 if (result.status === "success") {
-                    alert("Materi berhasil dihapus!");
-                    ambilDataMateri(); 
+                    localStorage.setItem("alumniUsername", namaBaru);
+                    tampilkanNamaDiWeb(namaBaru);
+                    aturLinkGoogleFormOtomatis(namaBaru);
+                    ambilDataMateri();
+                    
+                    if (tampilkanAlert) {
+                        tampilkanNotifikasi("Username profil berhasil diperbarui!", "success");
+                    }
                 } else {
-                    alert("Gagal menghapus: " + result.message);
+                    if (tampilkanAlert) {
+                        tampilkanNotifikasi("Gagal memperbarui: " + result.message, "error");
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                if (tampilkanAlert) tampilkanNotifikasi("Terjadi kesalahan jaringan.", "error");
+            }
+        }
+
+        // --- HAPUS MATERI ---
+        async function hapusMateri(timestampRaw, elementBtn) {
+            tampilkanKonfirmasi("Materi beserta file di Google Drive akan dihapus secara permanen. Lanjutkan?", async () => {
+                const teksAwal = elementBtn.innerHTML;
+                elementBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+                elementBtn.disabled = true;
+
+                try {
+                    const urlHapus = `${APISheetsURL}?action=delete_post&timestamp=${encodeURIComponent(timestampRaw)}`;
+
+                    const response = await fetch(urlHapus);
+                    const result = await response.json();
+                    
+                    if (result.status === "success") {
+                        tampilkanNotifikasi("Materi dan file terkait di Google Drive berhasil dihapus!", "success", () => {
+                            ambilDataMateri();
+                        });
+                    } else {
+                        tampilkanNotifikasi("Gagal menghapus: " + result.message, "error");
+                        elementBtn.innerHTML = teksAwal;
+                        elementBtn.disabled = false;
+                    }
+                } catch(e) {
+                    console.error(e);
+                    tampilkanNotifikasi("Kesalahan jaringan saat mencoba menghapus materi.", "error");
                     elementBtn.innerHTML = teksAwal;
                     elementBtn.disabled = false;
                 }
-            } catch(e) {
-                console.error(e);
-                alert("Kesalahan jaringan saat mencoba menghapus materi.");
-                elementBtn.innerHTML = teksAwal;
-                elementBtn.disabled = false;
-            }
+            });
         }
 
         // --- RENDER HISTORI UNGGAHAN ---
