@@ -664,38 +664,36 @@
             }
         }
 
+        // --- FUNGSI HAPUS MATERI (BERSIH & POP-UP MODAL BEAUTIFUL) ---
         async function hapusMateri(timestampRaw, elementBtn) {
-    tampilkanKonfirmasiHapus("Materi beserta file di Google Drive akan dihapus secara permanen. Lanjutkan?", async () => {
-        const teksAwal = elementBtn.innerHTML;
-        elementBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        elementBtn.disabled = true;
+            tampilkanKonfirmasiHapus("Materi beserta file di Google Drive akan dihapus secara permanen. Lanjutkan?", async () => {
+                const teksAwal = elementBtn.innerHTML;
+                elementBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+                elementBtn.disabled = true;
 
-        try {
-            const urlHapus = `${APISheetsURL}?action=delete_post&timestamp=${encodeURIComponent(timestampRaw)}`;
+                try {
+                    const urlHapus = `${APISheetsURL}?action=delete_post&timestamp=${encodeURIComponent(timestampRaw)}`;
 
-            const response = await fetch(urlHapus);
-            const result = await response.json();
-            
-            if (result.status === "success") {
-                alert("=== STATUS SERVER ===\n" + result.message);
-                ambilDataMateri();
-            } else if (result.status === "error") {
-                alert("=== GAGAL ===\n" + result.message);
-                elementBtn.innerHTML = teksAwal;
-                elementBtn.disabled = false;
-            } else {
-                alert("=== RESPON TIDAK DIKENAL ===\n" + JSON.stringify(result));
-                elementBtn.innerHTML = teksAwal;
-                elementBtn.disabled = false;
-            }
-        } catch(e) {
-            console.error(e);
-            alert("KESALAHAN JARINGAN:\n" + e.message);
-            elementBtn.innerHTML = teksAwal;
-            elementBtn.disabled = false;
+                    const response = await fetch(urlHapus);
+                    const result = await response.json();
+                    
+                    if (result.status === "success") {
+                        tampilkanNotifikasi("Materi dan file terkait di Google Drive berhasil dihapus!", "success", () => {
+                            ambilDataMateri();
+                        });
+                    } else {
+                        tampilkanNotifikasi("Gagal menghapus materi. Silakan coba lagi.", "error");
+                        elementBtn.innerHTML = teksAwal;
+                        elementBtn.disabled = false;
+                    }
+                } catch(e) {
+                    console.error(e);
+                    tampilkanNotifikasi("Kesalahan jaringan saat mencoba menghapus materi.", "error");
+                    elementBtn.innerHTML = teksAwal;
+                    elementBtn.disabled = false;
+                }
+            });
         }
-    });
-}
 
         function renderHistoriUpload() {
             const myName = localStorage.getItem("alumniUsername") || "";
