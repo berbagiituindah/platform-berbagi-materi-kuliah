@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Bagian Atas Topi (Warna Hijau Gradien) -->
+  <path d="M256 64 L32 176 L256 288 L480 176 Z" fill="#2a6d4f"/>
+  
+  <!-- Bagian Bawah Topi (Warna Hijau Utama) -->
+  <path d="M112 216 L112 344 C112 400 176 432 256 432 C336 432 400 400 400 344 L400 216 L256 288 Z" fill="#1a4331"/>
+  
+  <!-- Tali Toga (Warna Emas) -->
+  <path d="M256 176 Q380 190 420 270" fill="none" stroke="#d4af37" stroke-width="14" stroke-linecap="round"/>
+  
+  <!-- Rumbai Toga (Warna Emas) -->
+  <path d="M408 270 L432 270 L426 360 C425 370 415 370 414 360 Z" fill="#d4af37"/>
+  
+  <!-- Kancing Tengah (Warna Emas) -->
+  <circle cx="256" cy="176" r="18" fill="#d4af37"/>
+</svg>
