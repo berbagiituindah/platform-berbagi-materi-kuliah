@@ -537,7 +537,7 @@
             iconContainer.innerHTML = '<i class="fa-solid fa-right-from-bracket" style="color: var(--danger-red);"></i>';
             titleEl.innerText = 'Keluar Platform?';
             titleEl.style.color = 'var(--danger-red)';
-            messageEl.innerText = 'Apakah Anda yakin ingin keluar dari akun alumni?';
+            messageEl.innerText = 'Apakah Anda yakin ingin keluar dari akun ini?';
 
             btnOk.innerText = 'Ya, Keluar';
             btnOk.style.background = 'var(--danger-red)';
@@ -666,7 +666,7 @@
 
         // --- FUNGSI HAPUS MATERI (BERSIH & POP-UP MODAL BEAUTIFUL) ---
         async function hapusMateri(timestampRaw, elementBtn) {
-            tampilkanKonfirmasiHapus("Materi beserta file di Google Drive akan dihapus secara permanen. Lanjutkan?", async () => {
+            tampilkanKonfirmasiHapus("Materi beserta file unggahan akan dihapus secara permanen. Lanjutkan?", async () => {
                 const teksAwal = elementBtn.innerHTML;
                 elementBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
                 elementBtn.disabled = true;
@@ -678,7 +678,7 @@
                     const result = await response.json();
                     
                     if (result.status === "success") {
-                        tampilkanNotifikasi("Materi dan file terkait di Google Drive berhasil dihapus!", "success", () => {
+                        tampilkanNotifikasi("Materi dan file unggahan berhasil dihapus!", "success", () => {
                             ambilDataMateri();
                         });
                     } else {
