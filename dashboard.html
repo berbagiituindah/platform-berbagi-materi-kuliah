@@ -579,22 +579,22 @@
                 }, 10);
             }
 
-            // Logika Ubah Link & Warna Tombol (+) Berdasarkan Halaman
+            // --- LOGIKA UBAH LINK TOMBOL (+) ---
             const floatingBtn = document.getElementById('btn-tambah-materi');
             const namaUser = localStorage.getItem("alumniUsername") || "Anonim";
             
             if (pageId === 'unpad-tugas') {
                 floatingBtn.style.background = 'var(--danger-red)';
-                floatingBtn.href = "MASUKKAN_LINK_GOOGLE_FORM_TUGAS_DI_SINI"; // <-- EDIT DI SINI NANTI
+                floatingBtn.href = "https://docs.google.com/forms/d/e/1FAIpQLSc9KrkwKMjrGwKqkPvD3pUtrcnqb_sH2t3g6Djjetxoc95f8w/viewform";
             } else if (pageId === 'unpad-materi') {
                 floatingBtn.style.background = 'var(--accent-gold)';
-                floatingBtn.href = "MASUKKAN_LINK_GOOGLE_FORM_MATERI_UNPAD_DI_SINI"; // <-- EDIT DI SINI NANTI
+                floatingBtn.href = "https://docs.google.com/forms/d/e/1FAIpQLSciUcQUAS78MOZMikv_6HsUzaRcWIomOLrzxA0TksnkwZMELA/viewform";
             } else {
                 floatingBtn.style.background = 'var(--primary-green)';
                 floatingBtn.href = "https://docs.google.com/forms/d/e/1FAIpQLSdoDl-1y24Nd2MjIVk_1Hva8aBJZ8zawoVifxnCsV0PjKzgrg/viewform?usp=pp_url&entry.1884265043=" + encodeURIComponent(namaUser);
             }
         }
-
+        
         // --- FUNGSI MENU RAHASIA UNPAD ---
         let statusUnpadTerbuka = sessionStorage.getItem('unpadUnlocked') === 'true';
 
