@@ -1109,10 +1109,35 @@
             document.getElementById('count-saintek').innerText = databaseMateri.filter(i => i.kategori === 'SAINTEK').length;
         }
 
+        // 2. OLAH DATA MATERI ASP
+                let rawMateriASP = data.materi_asp || [];
+                databaseMateriASP = rawMateriASP.map(item => {
+                    // Pastikan nama key di bawah ini SAMA PERSIS dengan judul kolom di sheet Materi ASP Anda
+                    return {
+                        waktuText: formatWaktuTampil(cariNilai(item, 'Timestamp')),
+                        judul: cariNilai(item, 'Nama Materi') || 'Tanpa Judul', // CEK DI SHEET: apakah 'Nama Materi'?
+                        link_download: cariNilai(item, 'Upload Materi') || '#'   // CEK DI SHEET: apakah 'Upload Materi'?
+                    }
+                });
+
+                // 3. OLAH DATA TUGAS ASP
+                let rawTugasASP = data.tugas_asp || [];
+                databaseTugasASP = rawTugasASP.map(item => {
+                    // Pastikan nama key di bawah ini SAMA PERSIS dengan judul kolom di sheet Tugas ASP Anda
+                    return {
+                        waktuText: formatWaktuTampil(cariNilai(item, 'Timestamp')),
+                        judul: cariNilai(item, 'Nama Tugas') || 'Tanpa Nama',      // CEK DI SHEET: apakah 'Nama Tugas'?
+                        deadline: cariNilai(item, 'Deadline Tugas') || 'Belum Diatur', // CEK DI SHEET: apakah 'Deadline Tugas'?
+                        infoTugas: cariNilai(item, 'Tuliskan Deskripsi Tugas') || 'File Upload', // CEK DI SHEET: apakah 'Tuliskan Deskripsi Tugas'?
+                        link_download: cariNilai(item, 'Upload Tugas') || '#'      // CEK DI SHEET: apakah 'Upload Tugas'?
+                    }
+                });
+
         window.onload = () => {
             proteksiHalaman();
             ambilDataMateri(); 
         };
+        
     </script>
 </body>
 </html>
