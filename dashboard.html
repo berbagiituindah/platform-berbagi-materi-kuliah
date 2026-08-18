@@ -544,6 +544,7 @@
         const APISheetsURL = "https://script.google.com/macros/s/AKfycbz7QaFBJaPzES2piiocjYhy011cDxNmOWTfBlT9n6FrRBKfate2vR1adlz7Bih9bQGNbQ/exec";
 
         let databaseMateri = [];
+        let riwayatSemua = []; // Array gabungan khusus untuk histori
         let kategoriAktif = 'Semua'; 
 
         // --- FUNGSI NAVIGASI & SIDEBAR (DIPERBAIKI UNTUK 4 HALAMAN) ---
@@ -598,7 +599,8 @@
         }
         
         // --- FUNGSI MENU RAHASIA UNPAD ---
-        let statusUnpadTerbuka = sessionStorage.getItem('unpadUnlocked') === 'true';
+        // PENTING: Gunakan localStorage agar status tersimpan secara permanen walau reload / tutup browser
+        let statusUnpadTerbuka = localStorage.getItem('unpadUnlocked') === 'true';
 
         function handleMenuUnpad(element) {
             if (!statusUnpadTerbuka) {
@@ -624,7 +626,7 @@
                 
                 setTimeout(() => {
                     statusUnpadTerbuka = true;
-                    sessionStorage.setItem('unpadUnlocked', 'true');
+                    localStorage.setItem('unpadUnlocked', 'true'); // <-- Disimpan di localStorage
                     tutupModalUnpad();
                     
                     const iconSidebar = document.getElementById('icon-lock-unpad');
@@ -934,12 +936,14 @@
             });
         }
 
+        // --- DIPERBARUI: MENGGUNAKAN riwayatSemua ---
         function renderHistoriUpload() {
             const myName = localStorage.getItem("alumniUsername") || "";
             const containerHistori = document.getElementById("histori-container");
             containerHistori.innerHTML = "";
 
-            const myPosts = databaseMateri.filter(item => item.nama.toLowerCase() === myName.toLowerCase());
+            // Sekarang kita memfilter riwayatSemua, bukan databaseMateri lagi
+            const myPosts = riwayatSemua.filter(item => item.nama.toLowerCase() === myName.toLowerCase());
 
             if (myPosts.length === 0) {
                 containerHistori.innerHTML = `
@@ -951,9 +955,16 @@
             }
 
             myPosts.forEach(item => {
-                const isSaintek = item.kategori === 'SAINTEK';
-                const iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
-                const colorCode = isSaintek ? 'var(--accent-blue)' : 'var(--accent-gold)';
+                // Memberikan visualisasi icon yang berbeda untuk materi umum atau ASP
+                let isSaintek = item.kategori === 'SAINTEK' || item.kategori === 'Materi ASP';
+                let iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
+                let colorCode = isSaintek ? 'var(--accent-blue)' : 'var(--accent-gold)';
+
+                // Jika itu tugas ASP, beri warna merah agar lebih menonjol
+                if (item.kategori === 'Tugas ASP') {
+                    iconVisual = 'fa-thumbtack';
+                    colorCode = 'var(--danger-red)';
+                }
 
                 const html = `
                     <div class="history-item">
@@ -1020,7 +1031,7 @@
                 const data = await response.json();
 
                 // 1. RENDER MATERI UMUM (DASHBOARD)
-                let rawList = data.materi ? data.materi : data; // Tetap kompatibel dengan respons lama
+                let rawList = data.materi ? data.materi : data; 
 
                 databaseMateri = rawList.map(item => {
                     const tglRaw = cariNilai(item, 'Timestamp');
@@ -1039,11 +1050,13 @@
                 });
 
                 databaseMateri.sort((a, b) => b.waktuMs - a.waktuMs);
+                
+                // --- Masukkan Materi Umum ke Variabel Histori ---
+                riwayatSemua = [...databaseMateri];
 
                 initStats();
                 terapkanFilter(); 
-                renderHistoriUpload();
-
+                
                 // 2. RENDER MATERI ASP (Jika ada data)
                 if (data.materi_asp && data.materi_asp.length > 0) {
                     containerMateriASP.style.background = "transparent";
@@ -1060,6 +1073,17 @@
                             </div>
                             <button class="btn-action btn-download" onclick="window.open('${cariNilai(item, 'Upload Materi')}', '_blank')"><i class="fa-solid fa-cloud-arrow-down"></i> Unduh</button>
                         </div>`).join('') + `</div>`;
+
+                    // --- Tambahkan Materi ASP ke Variabel Histori ---
+                    let riwayatASP = data.materi_asp.map(item => ({
+                        waktuRaw: cariNilai(item, 'Timestamp'),
+                        waktuMs: konversiTanggalIndo(cariNilai(item, 'Timestamp')),
+                        waktuText: formatWaktuTampil(cariNilai(item, 'Timestamp')),
+                        nama: cariNilai(item, 'Nama') || 'Anonim',
+                        judul: cariNilai(item, 'Nama Materi') || 'Materi ASP',
+                        kategori: 'Materi ASP' 
+                    }));
+                    riwayatSemua = riwayatSemua.concat(riwayatASP);
                 }
 
                 // 3. RENDER TUGAS ASP (Jika ada data)
@@ -1081,7 +1105,24 @@
                             </div>
                             <button class="btn-action btn-delete" style="background:#fadbd8; color:var(--danger-red);" onclick="window.open('${cariNilai(item, 'Upload Tugas')}', '_blank')"><i class="fa-solid fa-file"></i> Detail</button>
                         </div>`).join('') + `</div>`;
+
+                    // --- Tambahkan Tugas ASP ke Variabel Histori ---
+                    let riwayatTugas = data.tugas_asp.map(item => ({
+                        waktuRaw: cariNilai(item, 'Timestamp'),
+                        waktuMs: konversiTanggalIndo(cariNilai(item, 'Timestamp')),
+                        waktuText: formatWaktuTampil(cariNilai(item, 'Timestamp')),
+                        nama: cariNilai(item, 'Nama') || 'Anonim', 
+                        judul: cariNilai(item, 'Nama Tugas') || 'Tugas ASP',
+                        kategori: 'Tugas ASP'
+                    }));
+                    riwayatSemua = riwayatSemua.concat(riwayatTugas);
                 }
+
+                // Urutkan histori gabungan secara keseluruhan agar yang terbaru paling atas
+                riwayatSemua.sort((a, b) => b.waktuMs - a.waktuMs);
+
+                // --- Panggil Render Histori Setelah Semua Data Tergabung ---
+                renderHistoriUpload();
 
             } catch (error) {
                 console.error("Gagal mengambil data:", error);
