@@ -71,7 +71,36 @@
         }
         .nav-item:hover { background: rgba(26, 67, 49, 0.05); color: var(--primary-green); }
         .nav-item.active { background: var(--primary-green); color: white; box-shadow: 0 6px 15px rgba(26, 67, 49, 0.25); }
-        .nav-item i { font-size: 1.2rem; }
+        .nav-item i { font-size: 1.2rem; width: 20px; text-align: center; }
+
+        /* --- NESTED MENU UNPAD STYLES --- */
+        .nested-menu { 
+            display: flex; flex-direction: column; gap: 5px; 
+            overflow: hidden; transition: max-height 0.4s ease-in-out, opacity 0.4s ease;
+            max-height: 0; opacity: 0; margin-left: 10px; border-left: 2px solid rgba(26,67,49,0.1);
+            padding-left: 10px; margin-top: -5px; margin-bottom: 5px;
+        }
+        .nested-menu.open { max-height: 300px; opacity: 1; }
+        
+        .nested-item { 
+            padding: 10px 15px; border-radius: 10px; cursor: pointer; display: flex; 
+            align-items: center; gap: 10px; font-size: 0.9rem; color: #555; 
+            transition: all 0.3s; font-weight: 500;
+        }
+        .nested-item:hover { color: var(--accent-gold); background: rgba(212,175,55,0.05); }
+        
+        .nested-submenu {
+            display: flex; flex-direction: column; gap: 5px; overflow: hidden;
+            max-height: 0; opacity: 0; transition: all 0.4s ease; padding-left: 25px;
+        }
+        .nested-submenu.open { max-height: 200px; opacity: 1; padding-top: 5px; }
+        
+        .submenu-item {
+            padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; 
+            color: #777; transition: all 0.3s; display: flex; align-items: center; gap: 10px;
+        }
+        .submenu-item:hover, .submenu-item.active { background: rgba(26,67,49,0.08); color: var(--primary-green); font-weight: 600; }
+        .submenu-item i { font-size: 0.9rem; color: var(--accent-gold); }
 
         /* --- MOBILE HEADER & HAMBURGER --- */
         .mobile-header {
@@ -193,8 +222,11 @@
         .btn-delete { background: #fadbd8; color: var(--danger-red); }
         .btn-delete:hover { background: var(--danger-red); color: white; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2); }
 
+        /* --- PAGES --- */
+        .page-section { display: none; } /* Semua halaman defaultnya disembunyikan */
+        #dashboard-page { display: block; } /* Dashboard muncul pertama */
+
         /* --- SETTINGS PAGE --- */
-        #settings-page { display: none; }
         .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
         .settings-card { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid white; }
         .settings-card h3 { color: var(--primary-green); margin-bottom: 1.5rem; border-bottom: 2px solid var(--soft-green); padding-bottom: 10px; }
@@ -217,6 +249,9 @@
         .history-item { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #eee; transition: all 0.3s; }
         .history-item:hover { border-color: #ddd; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
 
+        /* --- UNPAD CARDS --- */
+        .unpad-card { background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(212,175,55,0.1)); border-radius: 20px; padding: 3rem; text-align: center; border: 1px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
         /* --- FLOATING ADD BUTTON --- */
         .floating-add-btn { 
             position: fixed; bottom: 35px; right: 35px; width: 65px; height: 65px; 
@@ -236,7 +271,7 @@
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content {
-            background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(255, 255, 255, 0.8); 
+            background: rgba(255, 255, 255, 0.98); border: 1px solid rgba(255, 255, 255, 0.8); 
             padding: 2.5rem 2rem; border-radius: 24px; width: 90%; max-width: 420px; 
             text-align: center; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             transform: translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -258,18 +293,18 @@
             .materi-details { width: 100%; }
             .btn-action { width: 100%; justify-content: center; padding: 12px; }
             /* --- PERBAIKAN BUG HISTORI DI HP --- */
-        .history-item { 
-            flex-direction: row; 
-            align-items: center; 
-        }
-        .history-item > div:first-child {
-            width: calc(100% - 60px); /* Memberikan ruang agar teks tidak hilang */
-        }
-        .history-item .btn-action { 
-            width: auto; /* Mengembalikan tombol hapus jadi seukuran ikon */
-            padding: 10px 14px; 
-            flex-shrink: 0; 
-        }
+            .history-item { 
+                flex-direction: row; 
+                align-items: center; 
+            }
+            .history-item > div:first-child {
+                width: calc(100% - 60px); 
+            }
+            .history-item .btn-action { 
+                width: auto; 
+                padding: 10px 14px; 
+                flex-shrink: 0; 
+            }
             .settings-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .floating-add-btn { bottom: 25px; right: 20px; width: 55px; height: 55px; font-size: 1.4rem; }
         }
@@ -284,6 +319,23 @@
     </div>
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- MODAL SANDI UNPAD -->
+    <div id="unpad-password-modal" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fa-solid fa-lock" id="unpad-modal-icon" style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 15px;"></i>
+            <h2 style="color: var(--primary-green); margin-bottom: 8px; font-weight: 700;">Akses Khusus UNPAD</h2>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">Masukkan sandi keamanan untuk mengakses repositori D4 Akuntansi Sektor Publik.</p>
+            <div style="position: relative; margin-bottom: 20px;">
+                <i class="fa-solid fa-key" style="position: absolute; top: 50%; transform: translateY(-50%); left: 18px; color: var(--primary-green);"></i>
+                <input type="password" id="input-sandi-unpad" placeholder="Masukkan Sandi" style="width: 100%; padding: 14px 18px 14px 48px; border: 1px solid rgba(26, 67, 49, 0.2); border-radius: 12px; font-size: 1rem; outline: none;">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="validasiSandiUnpad()" style="flex:1; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">Buka Akses</button>
+                <button onclick="tutupModalUnpad()" style="flex:1; padding: 12px; background: #eee; color: #555; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">Batal</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL POP-UP NAMA AWAL -->
     <div id="name-modal" class="modal-overlay">
@@ -331,7 +383,32 @@
             <li class="nav-item active" onclick="switchPage('dashboard', this)">
                 <i class="fa-solid fa-chart-line"></i> <span>Dashboard</span>
             </li>
-            <li class="nav-item" onclick="switchPage('settings', this)">
+            
+            <!-- MENU UNPAD (WITH PASSWORD LOCK) -->
+            <li class="nav-item" id="btn-unpad-main" onclick="handleMenuUnpad(this)" style="position: relative;">
+                <i class="fa-solid fa-building-columns"></i> <span>UNPAD</span>
+                <i class="fa-solid fa-lock" id="icon-lock-unpad" style="position: absolute; right: 20px; font-size: 0.85rem; color: #aaa;"></i>
+            </li>
+            
+            <!-- NESTED MENU (ASP) -->
+            <div class="nested-menu" id="menu-unpad-nested">
+                <div class="nested-item" onclick="toggleSubmenuAsp(this)">
+                    <i class="fa-solid fa-calculator" style="color: var(--accent-gold);"></i> ASP
+                    <i class="fa-solid fa-chevron-down" id="icon-chevron-asp" style="margin-left: auto; font-size: 0.75rem; transition: transform 0.3s;"></i>
+                </div>
+                
+                <!-- SUB-NESTED (MATERI & TUGAS) -->
+                <div class="nested-submenu" id="submenu-asp">
+                    <div class="submenu-item" onclick="switchPage('unpad-materi', this)">
+                        <i class="fa-solid fa-book-open"></i> Materi
+                    </div>
+                    <div class="submenu-item" onclick="switchPage('unpad-tugas', this)">
+                        <i class="fa-solid fa-thumbtack"></i> Tugas
+                    </div>
+                </div>
+            </div>
+
+            <li class="nav-item" onclick="switchPage('settings', this)" style="margin-top: 5px;">
                 <i class="fa-solid fa-gear"></i> <span>Pengaturan</span>
             </li>
         </ul>
@@ -340,7 +417,8 @@
     <!-- MAIN CONTENT -->
     <div class="main-content">
         
-        <div id="dashboard-page">
+        <!-- PAGE 1: DASHBOARD -->
+        <div id="dashboard-page" class="page-section">
             <div class="header">
                 <h1>Halo, <span id="nama-user-display">Alumni</span> 👋</h1>
                 <p>Selamat datang di pusat berbagi materi kuliah alumni. Jelajahi referensi terbaru hari ini.</p>
@@ -392,7 +470,8 @@
             <div class="materi-list" id="materi-container"></div>
         </div>
 
-        <div id="settings-page">
+        <!-- PAGE 2: PENGATURAN -->
+        <div id="settings-page" class="page-section">
             <div class="header">
                 <h1>Pengaturan Akun</h1>
                 <p>Kelola data profilmu dan riwayat materi yang pernah dibagikan.</p>
@@ -426,8 +505,35 @@
             </div>
         </div>
 
+        <!-- PAGE 3: UNPAD MATERI -->
+        <div id="unpad-materi-page" class="page-section">
+            <div class="header">
+                <h1><i class="fa-solid fa-building-columns" style="color: var(--accent-gold);"></i> Ruang Materi ASP</h1>
+                <p>Kumpulan materi perkuliahan khusus mahasiswa D4 Akuntansi Sektor Publik UNPAD.</p>
+            </div>
+            <div class="unpad-card">
+                <i class="fa-solid fa-book" style="font-size: 4rem; color: var(--primary-green); margin-bottom: 20px;"></i>
+                <h2 style="color: var(--primary-green);">Repositori Materi Belum Tersedia</h2>
+                <p style="color: #666; max-width: 400px; margin: 0 auto; margin-top: 10px;">Data materi khusus D4 ASP sedang dalam tahap pengembangan struktur database.</p>
+            </div>
+        </div>
+
+        <!-- PAGE 4: UNPAD TUGAS -->
+        <div id="unpad-tugas-page" class="page-section">
+            <div class="header">
+                <h1><i class="fa-solid fa-thumbtack" style="color: var(--danger-red);"></i> Tracker Tugas ASP</h1>
+                <p>Pantau tenggat waktu (deadline) dan kumpulkan tugas perkuliahan D4 ASP UNPAD.</p>
+            </div>
+            <div class="unpad-card" style="border-color: rgba(231, 76, 60, 0.3); background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(231,76,60,0.05));">
+                <i class="fa-solid fa-calendar-check" style="font-size: 4rem; color: var(--danger-red); margin-bottom: 20px;"></i>
+                <h2 style="color: var(--danger-red);">Sistem Tugas Belum Terhubung</h2>
+                <p style="color: #666; max-width: 400px; margin: 0 auto; margin-top: 10px;">Anda perlu menautkan Google Form baru khusus tugas yang memuat pertanyaan 'Tenggat Waktu'.</p>
+            </div>
+        </div>
+
     </div>
 
+    <!-- FLOATING ADD BUTTON -->
     <a href="#" target="_blank" class="floating-add-btn" id="btn-tambah-materi" data-tooltip="Bagikan Materi Baru">
         <i class="fa-solid fa-plus"></i>
     </a>
@@ -438,6 +544,7 @@
         let databaseMateri = [];
         let kategoriAktif = 'Semua'; 
 
+        // --- FUNGSI NAVIGASI & SIDEBAR (DIPERBAIKI UNTUK 4 HALAMAN) ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
@@ -445,6 +552,118 @@
             overlay.classList.toggle('active');
         }
 
+        function switchPage(pageId, element) {
+            // Hapus status aktif dari semua menu & submenu
+            document.querySelectorAll('.nav-item, .submenu-item').forEach(nav => nav.classList.remove('active'));
+            element.classList.add('active');
+
+            // Tutup sidebar jika di HP
+            if (window.innerWidth <= 992) {
+                const sidebar = document.getElementById('sidebarMenu');
+                if(sidebar.classList.contains('open')) toggleSidebar();
+            }
+
+            // Sembunyikan SEMUA halaman
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.style.display = 'none';
+                page.style.opacity = '0';
+            });
+            
+            // Tampilkan halaman yang dituju
+            const targetPage = document.getElementById(pageId + '-page');
+            if(targetPage) {
+                targetPage.style.display = 'block';
+                setTimeout(() => {
+                    targetPage.style.transition = 'opacity 0.3s ease';
+                    targetPage.style.opacity = '1';
+                }, 10);
+            }
+
+            // Logika Ubah Link & Warna Tombol (+) Berdasarkan Halaman
+            const floatingBtn = document.getElementById('btn-tambah-materi');
+            const namaUser = localStorage.getItem("alumniUsername") || "Anonim";
+            
+            if (pageId === 'unpad-tugas') {
+                floatingBtn.style.background = 'var(--danger-red)';
+                floatingBtn.href = "MASUKKAN_LINK_GOOGLE_FORM_TUGAS_DI_SINI"; // <-- EDIT DI SINI NANTI
+            } else if (pageId === 'unpad-materi') {
+                floatingBtn.style.background = 'var(--accent-gold)';
+                floatingBtn.href = "MASUKKAN_LINK_GOOGLE_FORM_MATERI_UNPAD_DI_SINI"; // <-- EDIT DI SINI NANTI
+            } else {
+                floatingBtn.style.background = 'var(--primary-green)';
+                floatingBtn.href = "https://docs.google.com/forms/d/e/1FAIpQLSdoDl-1y24Nd2MjIVk_1Hva8aBJZ8zawoVifxnCsV0PjKzgrg/viewform?usp=pp_url&entry.1884265043=" + encodeURIComponent(namaUser);
+            }
+        }
+
+        // --- FUNGSI MENU RAHASIA UNPAD ---
+        let statusUnpadTerbuka = sessionStorage.getItem('unpadUnlocked') === 'true';
+
+        function handleMenuUnpad(element) {
+            if (!statusUnpadTerbuka) {
+                document.getElementById('unpad-password-modal').classList.add('active');
+                document.getElementById('input-sandi-unpad').focus();
+            } else {
+                bukaTutupAccordionUnpad(element);
+            }
+        }
+
+        function tutupModalUnpad() {
+            document.getElementById('unpad-password-modal').classList.remove('active');
+            document.getElementById('input-sandi-unpad').value = '';
+        }
+
+        function validasiSandiUnpad() {
+            const inputSandi = document.getElementById('input-sandi-unpad').value;
+            const iconModal = document.getElementById('unpad-modal-icon');
+
+            if (inputSandi === "314159") {
+                iconModal.classList.replace('fa-lock', 'fa-unlock-keyhole');
+                iconModal.style.color = 'var(--primary-green)';
+                
+                setTimeout(() => {
+                    statusUnpadTerbuka = true;
+                    sessionStorage.setItem('unpadUnlocked', 'true');
+                    tutupModalUnpad();
+                    
+                    const iconSidebar = document.getElementById('icon-lock-unpad');
+                    iconSidebar.classList.replace('fa-lock', 'fa-unlock-keyhole');
+                    iconSidebar.style.color = 'var(--accent-gold)';
+
+                    bukaTutupAccordionUnpad(document.getElementById('btn-unpad-main'));
+                }, 600);
+            } else {
+                tampilkanNotifikasi("Sandi akses UNPAD salah!", "error");
+            }
+        }
+
+        function bukaTutupAccordionUnpad(element) {
+            const nestedMenu = document.getElementById('menu-unpad-nested');
+            if (nestedMenu.classList.contains('open')) {
+                nestedMenu.classList.remove('open');
+                element.style.color = '#666';
+            } else {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                element.style.color = 'var(--primary-green)';
+                nestedMenu.classList.add('open');
+            }
+        }
+
+        function toggleSubmenuAsp(element) {
+            const submenu = document.getElementById('submenu-asp');
+            const iconChevron = document.getElementById('icon-chevron-asp');
+            
+            if (submenu.classList.contains('open')) {
+                submenu.classList.remove('open');
+                iconChevron.style.transform = 'rotate(0deg)';
+                element.style.color = '#555';
+            } else {
+                submenu.classList.add('open');
+                iconChevron.style.transform = 'rotate(180deg)';
+                element.style.color = 'var(--primary-green)';
+            }
+        }
+
+        // --- SLIDER MOBILE ---
         const sliderContainer = document.getElementById('kategori-slider');
         const dots = document.querySelectorAll('.dot');
         
@@ -502,7 +721,6 @@
             };
         }
 
-        // POP UP KONFIRMASI HAPUS MATERI
         function tampilkanKonfirmasiHapus(pesan, callbackYa) {
             const modal = document.getElementById('custom-alert-modal');
             const iconContainer = document.getElementById('alert-icon-container');
@@ -529,7 +747,6 @@
             btnCancel.onclick = () => tutupAlertModal();
         }
 
-        // POP UP KONFIRMASI LOGOUT (FIXED!)
         function tampilkanKonfirmasiLogout(callbackYa) {
             const modal = document.getElementById('custom-alert-modal');
             const iconContainer = document.getElementById('alert-icon-container');
@@ -567,6 +784,7 @@
             }, 300);
         }
 
+        // --- SISTEM AKUN & DATABASE ---
         function proteksiHalaman() {
             const statusLogin = sessionStorage.getItem("isAlumniLoggedIn");
             if (statusLogin !== "true") {
@@ -582,6 +800,12 @@
             } else {
                 tampilkanNamaDiWeb(savedUsername);
                 aturLinkGoogleFormOtomatis(savedUsername);
+            }
+            
+            // Cek status icon gembok unpad saat load
+            if (statusUnpadTerbuka) {
+                document.getElementById('icon-lock-unpad').classList.replace('fa-lock', 'fa-unlock-keyhole');
+                document.getElementById('icon-lock-unpad').style.color = 'var(--accent-gold)';
             }
         }
 
@@ -614,7 +838,6 @@
             btnTambah.href = baseURL + parameterNama + encodeURIComponent(nama);
         }
 
-        // FUNGSI LOGOUT YANG SUDAH DIPERBAIKI
         function handleLogout() {
             tampilkanKonfirmasiLogout(() => {
                 sessionStorage.clear(); 
@@ -668,7 +891,6 @@
             }
         }
 
-        // --- FUNGSI HAPUS MATERI (BERSIH & POP-UP MODAL BEAUTIFUL) ---
         async function hapusMateri(timestampRaw, elementBtn) {
             tampilkanKonfirmasiHapus("Materi beserta file unggahan akan dihapus secara permanen. Lanjutkan?", async () => {
                 const teksAwal = elementBtn.innerHTML;
@@ -885,24 +1107,6 @@
             document.getElementById('count-semua').innerText = databaseMateri.length;
             document.getElementById('count-soshum').innerText = databaseMateri.filter(i => i.kategori === 'SOSHUM').length;
             document.getElementById('count-saintek').innerText = databaseMateri.filter(i => i.kategori === 'SAINTEK').length;
-        }
-
-        function switchPage(pageId, element) {
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            element.classList.add('active');
-
-            if (window.innerWidth <= 992) toggleSidebar();
-
-            document.getElementById('dashboard-page').style.display = 'none';
-            document.getElementById('settings-page').style.display = 'none';
-            
-            const targetPage = document.getElementById(pageId + '-page');
-            targetPage.style.display = 'block';
-            targetPage.style.opacity = '0';
-            setTimeout(() => {
-                targetPage.style.transition = 'opacity 0.3s ease';
-                targetPage.style.opacity = '1';
-            }, 10);
         }
 
         window.onload = () => {
