@@ -511,7 +511,8 @@
                 <h1><i class="fa-solid fa-building-columns" style="color: var(--accent-gold);"></i> Ruang Materi ASP</h1>
                 <p>Kumpulan materi perkuliahan khusus mahasiswa D4 Akuntansi Sektor Publik UNPAD.</p>
             </div>
-            <div class="unpad-card">
+            <!-- Elemen ini akan diperbarui oleh JavaScript jika ada data materi ASP -->
+            <div class="unpad-card" id="container-materi-asp">
                 <i class="fa-solid fa-book" style="font-size: 4rem; color: var(--primary-green); margin-bottom: 20px;"></i>
                 <h2 style="color: var(--primary-green);">Repositori Materi Belum Tersedia</h2>
                 <p style="color: #666; max-width: 400px; margin: 0 auto; margin-top: 10px;">Data materi khusus D4 ASP sedang dalam tahap pengembangan struktur database.</p>
@@ -524,7 +525,8 @@
                 <h1><i class="fa-solid fa-thumbtack" style="color: var(--danger-red);"></i> Tracker Tugas ASP</h1>
                 <p>Pantau tenggat waktu (deadline) dan kumpulkan tugas perkuliahan D4 ASP UNPAD.</p>
             </div>
-            <div class="unpad-card" style="border-color: rgba(231, 76, 60, 0.3); background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(231,76,60,0.05));">
+            <!-- Elemen ini akan diperbarui oleh JavaScript jika ada data tugas ASP -->
+            <div class="unpad-card" id="container-tugas-asp" style="border-color: rgba(231, 76, 60, 0.3); background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(231,76,60,0.05));">
                 <i class="fa-solid fa-calendar-check" style="font-size: 4rem; color: var(--danger-red); margin-bottom: 20px;"></i>
                 <h2 style="color: var(--danger-red);">Sistem Tugas Belum Terhubung</h2>
                 <p style="color: #666; max-width: 400px; margin: 0 auto; margin-top: 10px;">Anda perlu menautkan Google Form baru khusus tugas yang memuat pertanyaan 'Tenggat Waktu'.</p>
@@ -835,7 +837,18 @@
             const btnTambah = document.getElementById("btn-tambah-materi");
             const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSdoDl-1y24Nd2MjIVk_1Hva8aBJZ8zawoVifxnCsV0PjKzgrg/viewform";
             const parameterNama = "?usp=pp_url&entry.1884265043="; 
-            btnTambah.href = baseURL + parameterNama + encodeURIComponent(nama);
+            
+            // Periksa apakah halaman yang aktif adalah halaman tugas atau materi ASP
+            const isTugasASP = document.getElementById('unpad-tugas-page').style.display === 'block';
+            const isMateriASP = document.getElementById('unpad-materi-page').style.display === 'block';
+
+            if (isTugasASP) {
+                // Link tugas tidak berubah
+            } else if (isMateriASP) {
+               // Link materi ASP tidak berubah
+            } else {
+                btnTambah.href = baseURL + parameterNama + encodeURIComponent(nama);
+            }
         }
 
         function handleLogout() {
@@ -990,9 +1003,13 @@
             return new Date(ms).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
+        // --- FUNGSI UTAMA UNTUK MENGAMBIL DATA (DIPERBARUI) ---
         async function ambilDataMateri() {
-            const container = document.getElementById('materi-container');
-            container.innerHTML = `
+            const containerUmum = document.getElementById('materi-container');
+            const containerMateriASP = document.getElementById('container-materi-asp');
+            const containerTugasASP = document.getElementById('container-tugas-asp');
+            
+            containerUmum.innerHTML = `
                 <div style="text-align:center; padding: 3rem 0; color:#666;">
                     <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary-green); margin-bottom: 15px;"></i>
                     <p>Memuat referensi materi terbaik...</p>
@@ -1000,12 +1017,14 @@
 
             try {
                 const response = await fetch(APISheetsURL);
-                let data = await response.json();
-                let rawList = data.materi ? data.materi : data;
+                const data = await response.json();
+
+                // 1. RENDER MATERI UMUM (DASHBOARD)
+                let rawList = data.materi ? data.materi : data; // Tetap kompatibel dengan respons lama
 
                 databaseMateri = rawList.map(item => {
                     const tglRaw = cariNilai(item, 'Timestamp');
-                    const rumpunRaw = cariNilai(item, 'Rumpun');
+                    const rumpunRaw = cariNilai(item, 'Rumpun') || '';
                     
                     return {
                         waktuRaw: tglRaw, 
@@ -1024,9 +1043,49 @@
                 initStats();
                 terapkanFilter(); 
                 renderHistoriUpload();
+
+                // 2. RENDER MATERI ASP (Jika ada data)
+                if (data.materi_asp && data.materi_asp.length > 0) {
+                    containerMateriASP.style.background = "transparent";
+                    containerMateriASP.style.border = "none";
+                    containerMateriASP.style.padding = "0";
+                    
+                    containerMateriASP.innerHTML = `<div class="materi-list" style="text-align: left;">` + 
+                    data.materi_asp.map(item => `
+                        <div class="materi-item" style="margin-bottom:10px;">
+                            <div class="materi-icon icon-saintek"><i class="fa-solid fa-book"></i></div>
+                            <div class="materi-details">
+                                <div class="materi-title">${cariNilai(item, 'Nama Materi')}</div>
+                                <div class="materi-meta"><span><i class="fa-regular fa-clock"></i> ${formatWaktuTampil(cariNilai(item, 'Timestamp'))}</span></div>
+                            </div>
+                            <button class="btn-action btn-download" onclick="window.open('${cariNilai(item, 'Upload Materi')}', '_blank')"><i class="fa-solid fa-cloud-arrow-down"></i> Unduh</button>
+                        </div>`).join('') + `</div>`;
+                }
+
+                // 3. RENDER TUGAS ASP (Jika ada data)
+                if (data.tugas_asp && data.tugas_asp.length > 0) {
+                    containerTugasASP.style.background = "transparent";
+                    containerTugasASP.style.border = "none";
+                    containerTugasASP.style.padding = "0";
+
+                    containerTugasASP.innerHTML = `<div class="materi-list" style="text-align: left;">` + 
+                    data.tugas_asp.map(item => `
+                        <div class="materi-item" style="margin-bottom:10px; border-left: 5px solid var(--danger-red);">
+                            <div class="materi-details">
+                                <div class="materi-title" style="color:var(--danger-red);">${cariNilai(item, 'Nama Tugas')}</div>
+                                <div class="materi-meta">
+                                    <span style="background: rgba(231,76,60,0.1); color: var(--danger-red); font-weight:bold;">
+                                        <i class="fa-solid fa-stopwatch"></i> Deadline: ${cariNilai(item, 'Deadline Tugas')}
+                                    </span>
+                                </div>
+                            </div>
+                            <button class="btn-action btn-delete" style="background:#fadbd8; color:var(--danger-red);" onclick="window.open('${cariNilai(item, 'Upload Tugas')}', '_blank')"><i class="fa-solid fa-file"></i> Detail</button>
+                        </div>`).join('') + `</div>`;
+                }
+
             } catch (error) {
                 console.error("Gagal mengambil data:", error);
-                container.innerHTML = `
+                containerUmum.innerHTML = `
                     <div style="text-align:center; padding: 3rem 0; color: var(--danger-red);">
                         <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 10px;"></i>
                         <p>Gagal memuat materi. Pastikan koneksi internet stabil.</p>
