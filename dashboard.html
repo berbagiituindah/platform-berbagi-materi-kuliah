@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --primary-green: #1a4331; 
@@ -27,7 +27,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
+
         body { 
             background-color: var(--soft-green); 
             background-image: radial-gradient(circle at top right, #ffffff, transparent); 
@@ -56,7 +56,7 @@
         .brand { text-align: center; padding-bottom: 2rem; border-bottom: 1px solid #f0f0f0; margin-bottom: 2rem; }
         .brand i { font-size: 2.8rem; color: var(--accent-gold); margin-bottom: 12px; }
         .brand h2 { font-size: 1.25rem; color: var(--primary-green); font-weight: 700; letter-spacing: 1.5px; line-height: 1.3; }
-        
+
         .nav-menu { list-style: none; padding: 0 1.2rem; display: flex; flex-direction: column; gap: 10px; }
         .nav-item { 
             padding: 14px 20px; 
@@ -81,20 +81,20 @@
             padding-left: 10px; margin-top: -5px; margin-bottom: 5px;
         }
         .nested-menu.open { max-height: 300px; opacity: 1; }
-        
+
         .nested-item { 
             padding: 10px 15px; border-radius: 10px; cursor: pointer; display: flex; 
             align-items: center; gap: 10px; font-size: 0.9rem; color: #555; 
             transition: all 0.3s; font-weight: 500;
         }
         .nested-item:hover { color: var(--accent-gold); background: rgba(212,175,55,0.05); }
-        
+
         .nested-submenu {
             display: flex; flex-direction: column; gap: 5px; overflow: hidden;
             max-height: 0; opacity: 0; transition: all 0.4s ease; padding-left: 25px;
         }
         .nested-submenu.open { max-height: 200px; opacity: 1; padding-top: 5px; }
-        
+
         .submenu-item {
             padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; 
             color: #777; transition: all 0.3s; display: flex; align-items: center; gap: 10px;
@@ -139,7 +139,7 @@
             background: url('https://www.transparenttextures.com/patterns/arabesque.png'); 
             opacity: 0.03; pointer-events: none; z-index: -1; 
         }
-        
+
         .header { margin-bottom: 2rem; }
         .header h1 { color: var(--primary-green); font-size: 2.2rem; margin-bottom: 8px; font-weight: 700; }
         .header p { color: #555; font-size: 1rem; }
@@ -160,14 +160,14 @@
         }
         .stat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
         .stat-card.active { border: 2px solid var(--primary-green); transform: translateY(-2px); }
-        
+
         .stat-info h3 { font-size: 1.05rem; margin-bottom: 5px; opacity: 0.9; }
         .stat-info p { font-size: 2.2rem; font-weight: 700; line-height: 1; }
         .stat-icon { 
             font-size: 2rem; width: 60px; height: 60px; border-radius: 16px; 
             display: flex; align-items: center; justify-content: center; transition: all var(--transition-speed); 
         }
-        
+
         .card-semua { color: var(--primary-green); border-left: 5px solid var(--primary-green); }
         .card-semua .stat-icon { background: rgba(26,67,49,0.08); color: var(--primary-green); }
 
@@ -204,7 +204,7 @@
         .materi-icon { width: 55px; height: 55px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: white; flex-shrink: 0; }
         .icon-saintek { background: linear-gradient(135deg, var(--accent-blue), #1b4332); }
         .icon-soshum { background: linear-gradient(135deg, var(--accent-gold), #b5952f); }
-        
+
         .materi-details { flex: 1; min-width: 0; }
         .materi-title { font-size: 1.15rem; font-weight: 600; color: var(--primary-green); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .materi-meta { font-size: 0.85rem; color: #666; display: flex; flex-wrap: wrap; gap: 12px; }
@@ -223,25 +223,25 @@
         .btn-delete:hover { background: var(--danger-red); color: white; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2); }
 
         /* --- PAGES --- */
-        .page-section { display: none; } /* Semua halaman defaultnya disembunyikan */
-        #dashboard-page { display: block; } /* Dashboard muncul pertama */
+        .page-section { display: none; }
+        #dashboard-page { display: block; }
 
         /* --- SETTINGS PAGE --- */
         .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
         .settings-card { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid white; }
         .settings-card h3 { color: var(--primary-green); margin-bottom: 1.5rem; border-bottom: 2px solid var(--soft-green); padding-bottom: 10px; }
-        
+
         .profile-avatar { width: 90px; height: 90px; background: var(--soft-green); color: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin: 0 auto 1.5rem; box-shadow: 0 8px 20px rgba(26,67,49,0.1); }
-        
+
         .form-group { margin-bottom: 18px; text-align: left; }
         .form-group label { display: block; font-size: 0.9rem; color: #555; margin-bottom: 8px; font-weight: 500; }
         .form-group input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; outline: none; transition: border-color var(--transition-speed); background: white; }
         .form-group input:focus { border-color: var(--primary-green); box-shadow: 0 0 0 4px rgba(26, 67, 49, 0.1); }
-        
+
         .btn-save { width: 100%; padding: 14px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all var(--transition-speed); margin-bottom: 15px; }
         .btn-save:hover:not(:disabled) { background: #112d21; box-shadow: 0 4px 15px rgba(26, 67, 49, 0.3); }
         .btn-save:disabled { opacity: 0.7; cursor: not-allowed; }
-        
+
         .btn-logout { width: 100%; padding: 14px; background: white; color: var(--danger-red); border: 2px solid var(--danger-red); border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all var(--transition-speed); }
         .btn-logout:hover { background: var(--danger-red); color: white; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); }
 
@@ -292,19 +292,9 @@
             .materi-item { flex-direction: column; align-items: flex-start; gap: 12px; padding: 1.2rem; border-radius: 16px; }
             .materi-details { width: 100%; }
             .btn-action { width: 100%; justify-content: center; padding: 12px; }
-            /* --- PERBAIKAN BUG HISTORI DI HP --- */
-            .history-item { 
-                flex-direction: row; 
-                align-items: center; 
-            }
-            .history-item > div:first-child {
-                width: calc(100% - 60px); 
-            }
-            .history-item .btn-action { 
-                width: auto; 
-                padding: 10px 14px; 
-                flex-shrink: 0; 
-            }
+            .history-item { flex-direction: row; align-items: center; }
+            .history-item > div:first-child { width: calc(100% - 60px); }
+            .history-item .btn-action { width: auto; padding: 10px 14px; flex-shrink: 0; }
             .settings-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .floating-add-btn { bottom: 25px; right: 20px; width: 55px; height: 55px; font-size: 1.4rem; }
         }
@@ -319,6 +309,18 @@
     </div>
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- MODAL POP-UP UNTUK TEKS TUGAS MAHASISWA -->
+    <div id="text-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 550px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 id="text-modal-title" style="color: var(--primary-green); font-size: 1.2rem; font-weight: 700;">Jawaban Tugas</h3>
+                <i class="fa-solid fa-xmark" onclick="tutupTextModal()" style="cursor: pointer; font-size: 1.3rem; color: #888;"></i>
+            </div>
+            <div id="text-modal-content" style="background: #f8f9fa; border: 1px solid #eaeeed; border-radius: 12px; padding: 1rem; max-height: 300px; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word;"></div>
+            <button onclick="tutupTextModal()" style="width: 100%; margin-top: 20px; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
 
     <!-- MODAL SANDI UNPAD -->
     <div id="unpad-password-modal" class="modal-overlay">
@@ -361,7 +363,7 @@
             </div>
             <h3 id="alert-title" style="color: var(--primary-green); margin-bottom: 8px; font-size: 1.25rem; font-weight: 700;">Informasi</h3>
             <p id="alert-message" style="color: #555; margin-bottom: 22px; font-size: 0.9rem; line-height: 1.5;"></p>
-            
+
             <div id="alert-actions" style="display: flex; gap: 10px; justify-content: center;">
                 <button id="btn-alert-ok" onclick="tutupAlertModal()" style="flex: 1; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
                     Oke
@@ -383,20 +385,20 @@
             <li class="nav-item active" onclick="switchPage('dashboard', this)">
                 <i class="fa-solid fa-chart-line"></i> <span>Dashboard</span>
             </li>
-            
+
             <!-- MENU UNPAD (WITH PASSWORD LOCK) -->
             <li class="nav-item" id="btn-unpad-main" onclick="handleMenuUnpad(this)" style="position: relative;">
                 <i class="fa-solid fa-building-columns"></i> <span>UNPAD</span>
                 <i class="fa-solid fa-lock" id="icon-lock-unpad" style="position: absolute; right: 20px; font-size: 0.85rem; color: #aaa;"></i>
             </li>
-            
+
             <!-- NESTED MENU (ASP) -->
             <div class="nested-menu" id="menu-unpad-nested">
                 <div class="nested-item" onclick="toggleSubmenuAsp(this)">
                     <i class="fa-solid fa-calculator" style="color: var(--accent-gold);"></i> ASP
                     <i class="fa-solid fa-chevron-down" id="icon-chevron-asp" style="margin-left: auto; font-size: 0.75rem; transition: transform 0.3s;"></i>
                 </div>
-                
+
                 <!-- SUB-NESTED (MATERI & TUGAS) -->
                 <div class="nested-submenu" id="submenu-asp">
                     <div class="submenu-item" onclick="switchPage('unpad-materi', this)">
@@ -416,7 +418,7 @@
 
     <!-- MAIN CONTENT -->
     <div class="main-content">
-        
+
         <!-- PAGE 1: DASHBOARD -->
         <div id="dashboard-page" class="page-section">
             <div class="header">
@@ -442,7 +444,7 @@
                         </div>
                         <div class="stat-icon"><i class="fa-solid fa-folder-open"></i></div>
                     </div>
-                    
+
                     <div class="stat-card card-soshum" onclick="ubahKategori('SOSHUM', this, 1)">
                         <div class="stat-info">
                             <h3>SOSHUM</h3>
@@ -476,23 +478,23 @@
                 <h1>Pengaturan Akun</h1>
                 <p>Kelola data profilmu dan riwayat materi yang pernah dibagikan.</p>
             </div>
-            
+
             <div class="settings-grid">
                 <div class="settings-card" style="text-align: center;">
                     <h3>Profil Alumni</h3>
                     <div class="profile-avatar"><i class="fa-regular fa-user"></i></div>
-                    
+
                     <div class="form-group">
                         <label>Username Saat Ini</label>
                         <input type="text" id="input-edit-nama" placeholder="Tulis nama baru disini...">
                     </div>
-                    
+
                     <button class="btn-save" id="btn-simpan-nama" onclick="ubahUsernameBaru()">
                         <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
                     </button>
-                    
+
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
-                    
+
                     <button class="btn-logout" onclick="handleLogout()">
                         <i class="fa-solid fa-right-from-bracket"></i> Keluar dari Platform
                     </button>
@@ -511,7 +513,6 @@
                 <h1><i class="fa-solid fa-building-columns" style="color: var(--accent-gold);"></i> Ruang Materi ASP</h1>
                 <p>Kumpulan materi perkuliahan khusus mahasiswa D4 Akuntansi Sektor Publik UNPAD.</p>
             </div>
-            <!-- Elemen ini akan diperbarui oleh JavaScript jika ada data materi ASP -->
             <div class="unpad-card" id="container-materi-asp">
                 <i class="fa-solid fa-book" style="font-size: 4rem; color: var(--primary-green); margin-bottom: 20px;"></i>
                 <h2 style="color: var(--primary-green);">Belum Ada Materi Yang Diupload</h2>
@@ -525,7 +526,6 @@
                 <h1><i class="fa-solid fa-thumbtack" style="color: var(--danger-red);"></i> Tracker Tugas ASP</h1>
                 <p>Pantau tenggat waktu (deadline) dan kumpulkan tugas perkuliahan D4 ASP UNPAD.</p>
             </div>
-            <!-- Elemen ini akan diperbarui oleh JavaScript jika ada data tugas ASP -->
             <div class="unpad-card" id="container-tugas-asp" style="border-color: rgba(231, 76, 60, 0.3); background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(231,76,60,0.05));">
                 <i class="fa-solid fa-calendar-check" style="font-size: 4rem; color: var(--danger-red); margin-bottom: 20px;"></i>
                 <h2 style="color: var(--danger-red);">Belum Ada Tugas Yang Diupload</h2>
@@ -544,10 +544,10 @@
         const APISheetsURL = "https://script.google.com/macros/s/AKfycbz7QaFBJaPzES2piiocjYhy011cDxNmOWTfBlT9n6FrRBKfate2vR1adlz7Bih9bQGNbQ/exec";
 
         let databaseMateri = [];
-        let riwayatSemua = []; // Array gabungan khusus untuk histori
+        let riwayatSemua = [];
         let kategoriAktif = 'Semua'; 
 
-        // --- FUNGSI NAVIGASI & SIDEBAR (DIPERBAIKI UNTUK 4 HALAMAN) ---
+        // --- NAVIGASI SIDEBAR ---
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
@@ -556,23 +556,19 @@
         }
 
         function switchPage(pageId, element) {
-            // Hapus status aktif dari semua menu & submenu
             document.querySelectorAll('.nav-item, .submenu-item').forEach(nav => nav.classList.remove('active'));
             element.classList.add('active');
 
-            // Tutup sidebar jika di HP
             if (window.innerWidth <= 992) {
                 const sidebar = document.getElementById('sidebarMenu');
                 if(sidebar.classList.contains('open')) toggleSidebar();
             }
 
-            // Sembunyikan SEMUA halaman
             document.querySelectorAll('.page-section').forEach(page => {
                 page.style.display = 'none';
                 page.style.opacity = '0';
             });
-            
-            // Tampilkan halaman yang dituju
+
             const targetPage = document.getElementById(pageId + '-page');
             if(targetPage) {
                 targetPage.style.display = 'block';
@@ -582,10 +578,9 @@
                 }, 10);
             }
 
-            // --- LOGIKA UBAH LINK TOMBOL (+) ---
             const floatingBtn = document.getElementById('btn-tambah-materi');
             const namaUser = localStorage.getItem("alumniUsername") || "Anonim";
-            
+
             if (pageId === 'unpad-tugas') {
                 floatingBtn.style.background = 'var(--danger-red)';
                 floatingBtn.href = "https://docs.google.com/forms/d/e/1FAIpQLSc9KrkwKMjrGwKqkPvD3pUtrcnqb_sH2t3g6Djjetxoc95f8w/viewform";
@@ -597,9 +592,8 @@
                 floatingBtn.href = "https://docs.google.com/forms/d/e/1FAIpQLSdoDl-1y24Nd2MjIVk_1Hva8aBJZ8zawoVifxnCsV0PjKzgrg/viewform?usp=pp_url&entry.1884265043=" + encodeURIComponent(namaUser);
             }
         }
-        
-        // --- FUNGSI MENU RAHASIA UNPAD ---
-        // PENTING: Gunakan localStorage agar status tersimpan secara permanen walau reload / tutup browser
+
+        // --- RAHASIA UNPAD ---
         let statusUnpadTerbuka = localStorage.getItem('unpadUnlocked') === 'true';
 
         function handleMenuUnpad(element) {
@@ -623,12 +617,12 @@
             if (inputSandi === "314159") {
                 iconModal.classList.replace('fa-lock', 'fa-unlock-keyhole');
                 iconModal.style.color = 'var(--primary-green)';
-                
+
                 setTimeout(() => {
                     statusUnpadTerbuka = true;
-                    localStorage.setItem('unpadUnlocked', 'true'); // <-- Disimpan di localStorage
+                    localStorage.setItem('unpadUnlocked', 'true');
                     tutupModalUnpad();
-                    
+
                     const iconSidebar = document.getElementById('icon-lock-unpad');
                     iconSidebar.classList.replace('fa-lock', 'fa-unlock-keyhole');
                     iconSidebar.style.color = 'var(--accent-gold)';
@@ -655,7 +649,7 @@
         function toggleSubmenuAsp(element) {
             const submenu = document.getElementById('submenu-asp');
             const iconChevron = document.getElementById('icon-chevron-asp');
-            
+
             if (submenu.classList.contains('open')) {
                 submenu.classList.remove('open');
                 iconChevron.style.transform = 'rotate(0deg)';
@@ -670,12 +664,12 @@
         // --- SLIDER MOBILE ---
         const sliderContainer = document.getElementById('kategori-slider');
         const dots = document.querySelectorAll('.dot');
-        
+
         if (sliderContainer) {
             sliderContainer.addEventListener('scroll', () => {
                 let scrollRatio = sliderContainer.scrollLeft / (sliderContainer.scrollWidth - sliderContainer.clientWidth);
                 let activeIndex = Math.round(scrollRatio * (dots.length - 1));
-                
+
                 dots.forEach((dot, index) => {
                     if(index === activeIndex) dot.classList.add('active');
                     else dot.classList.remove('active');
@@ -691,7 +685,22 @@
             }
         }
 
-        // --- SISTEM MODAL NOTIFIKASI MULTIFUNGSI ---
+        // --- MODAL & ALERT SYSTEM ---
+        function bukaTugasLinkAtauTeks(jawabanTugas, namaTugas) {
+            if (!jawabanTugas) return;
+            if (jawabanTugas.startsWith('http://') || jawabanTugas.startsWith('https://')) {
+                window.open(jawabanTugas, '_blank');
+            } else {
+                document.getElementById('text-modal-title').innerText = namaTugas || 'Jawaban Tugas';
+                document.getElementById('text-modal-content').innerText = jawabanTugas;
+                document.getElementById('text-modal').classList.add('active');
+            }
+        }
+
+        function tutupTextModal() {
+            document.getElementById('text-modal').classList.remove('active');
+        }
+
         function tampilkanNotifikasi(pesan, jenis = 'success', callbackOk = null) {
             const modal = document.getElementById('custom-alert-modal');
             const iconContainer = document.getElementById('alert-icon-container');
@@ -781,14 +790,14 @@
             const modal = document.getElementById('custom-alert-modal');
             const btnOk = document.getElementById('btn-alert-ok');
             modal.classList.remove('active');
-            
+
             setTimeout(() => {
                 btnOk.innerText = 'Oke';
                 btnOk.style.background = 'var(--primary-green)';
             }, 300);
         }
 
-        // --- SISTEM AKUN & DATABASE ---
+        // --- SISTEM UTAMA & PROFILE ---
         function proteksiHalaman() {
             const statusLogin = sessionStorage.getItem("isAlumniLoggedIn");
             if (statusLogin !== "true") {
@@ -805,8 +814,7 @@
                 tampilkanNamaDiWeb(savedUsername);
                 aturLinkGoogleFormOtomatis(savedUsername);
             }
-            
-            // Cek status icon gembok unpad saat load
+
             if (statusUnpadTerbuka) {
                 document.getElementById('icon-lock-unpad').classList.replace('fa-lock', 'fa-unlock-keyhole');
                 document.getElementById('icon-lock-unpad').style.color = 'var(--accent-gold)';
@@ -819,12 +827,12 @@
                 tampilkanNotifikasi("Nama tidak boleh kosong!", "warning");
                 return;
             }
-            
+
             localStorage.setItem("alumniUsername", namaInput);
             tampilkanNamaDiWeb(namaInput);
             aturLinkGoogleFormOtomatis(namaInput);
             document.getElementById("name-modal").classList.remove("active");
-            
+
             updateNamaKeDatabase(namaInput, false);
         }
 
@@ -839,16 +847,11 @@
             const btnTambah = document.getElementById("btn-tambah-materi");
             const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSdoDl-1y24Nd2MjIVk_1Hva8aBJZ8zawoVifxnCsV0PjKzgrg/viewform";
             const parameterNama = "?usp=pp_url&entry.1884265043="; 
-            
-            // Periksa apakah halaman yang aktif adalah halaman tugas atau materi ASP
+
             const isTugasASP = document.getElementById('unpad-tugas-page').style.display === 'block';
             const isMateriASP = document.getElementById('unpad-materi-page').style.display === 'block';
 
-            if (isTugasASP) {
-                // Link tugas tidak berubah
-            } else if (isMateriASP) {
-               // Link materi ASP tidak berubah
-            } else {
+            if (!isTugasASP && !isMateriASP) {
                 btnTambah.href = baseURL + parameterNama + encodeURIComponent(nama);
             }
         }
@@ -887,13 +890,13 @@
 
                 const response = await fetch(urlUpdate);
                 const result = await response.json();
-                
+
                 if (result.status === "success") {
                     localStorage.setItem("alumniUsername", namaBaru);
                     tampilkanNamaDiWeb(namaBaru);
                     aturLinkGoogleFormOtomatis(namaBaru);
                     ambilDataMateri();
-                    
+
                     if (tampilkanAlert) {
                         tampilkanNotifikasi("Username profil berhasil diperbarui!", "success");
                     }
@@ -917,7 +920,7 @@
 
                     const response = await fetch(urlHapus);
                     const result = await response.json();
-                    
+
                     if (result.status === "success") {
                         tampilkanNotifikasi("Materi dan file unggahan berhasil dihapus!", "success", () => {
                             ambilDataMateri();
@@ -936,13 +939,11 @@
             });
         }
 
-        // --- DIPERBARUI: MENGGUNAKAN riwayatSemua ---
         function renderHistoriUpload() {
             const myName = localStorage.getItem("alumniUsername") || "";
             const containerHistori = document.getElementById("histori-container");
             containerHistori.innerHTML = "";
 
-            // Sekarang kita memfilter riwayatSemua, bukan databaseMateri lagi
             const myPosts = riwayatSemua.filter(item => item.nama.toLowerCase() === myName.toLowerCase());
 
             if (myPosts.length === 0) {
@@ -955,12 +956,10 @@
             }
 
             myPosts.forEach(item => {
-                // Memberikan visualisasi icon yang berbeda untuk materi umum atau ASP
                 let isSaintek = item.kategori === 'SAINTEK' || item.kategori === 'Materi ASP';
                 let iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
                 let colorCode = isSaintek ? 'var(--accent-blue)' : 'var(--accent-gold)';
 
-                // Jika itu tugas ASP, beri warna merah agar lebih menonjol
                 if (item.kategori === 'Tugas ASP') {
                     iconVisual = 'fa-thumbtack';
                     colorCode = 'var(--danger-red)';
@@ -993,17 +992,33 @@
             return "";
         }
 
+        // --- PARSER TANGGAL PERSISI ---
         function konversiTanggalIndo(strTanggal) {
             if (!strTanggal) return 0;
+            
+            // Format Google Form: DD/MM/YYYY hh:mm:ss atau ISO
             if (typeof strTanggal === 'string') {
-                const bagian = strTanggal.split(' ');
-                const tglParts = bagian[0].split('/');
-                if (tglParts.length === 3) {
-                    const isoFormatted = `${tglParts[2]}-${tglParts[1].padStart(2, '0')}-${tglParts[0].padStart(2, '0')}T${bagian[1] || '00:00:00'}`;
-                    const d = new Date(isoFormatted);
-                    if (!isNaN(d.getTime())) return d.getTime();
+                const parts = strTanggal.trim().split(' ');
+                if (parts[0].includes('/')) {
+                    const dParts = parts[0].split('/');
+                    if (dParts.length === 3) {
+                        const day = parseInt(dParts[0], 10);
+                        const month = parseInt(dParts[1], 10) - 1;
+                        const year = parseInt(dParts[2], 10);
+
+                        let hour = 0, min = 0, sec = 0;
+                        if (parts[1]) {
+                            const timeParts = parts[1].split(':');
+                            hour = parseInt(timeParts[0], 10) || 0;
+                            min = parseInt(timeParts[1], 10) || 0;
+                            sec = parseInt(timeParts[2], 10) || 0;
+                        }
+                        const dt = new Date(year, month, day, hour, min, sec);
+                        if (!isNaN(dt.getTime())) return dt.getTime();
+                    }
                 }
             }
+
             const fallback = new Date(strTanggal);
             return isNaN(fallback.getTime()) ? 0 : fallback.getTime();
         }
@@ -1011,15 +1026,19 @@
         function formatWaktuTampil(strTanggal) {
             const ms = konversiTanggalIndo(strTanggal);
             if (ms === 0) return strTanggal || 'Baru saja';
-            return new Date(ms).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            const d = new Date(ms);
+            const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            
+            return `${d.getDate()} ${namaBulan[d.getMonth()]} ${d.getFullYear()}`;
         }
 
-        // --- FUNGSI UTAMA UNTUK MENGAMBIL DATA (DIPERBARUI) ---
+        // --- AMBIL & RENDER DATA DATABASE ---
         async function ambilDataMateri() {
             const containerUmum = document.getElementById('materi-container');
             const containerMateriASP = document.getElementById('container-materi-asp');
             const containerTugasASP = document.getElementById('container-tugas-asp');
-            
+
             containerUmum.innerHTML = `
                 <div style="text-align:center; padding: 3rem 0; color:#666;">
                     <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary-green); margin-bottom: 15px;"></i>
@@ -1030,13 +1049,13 @@
                 const response = await fetch(APISheetsURL);
                 const data = await response.json();
 
-                // 1. RENDER MATERI UMUM (DASHBOARD)
+                // 1. DASHBOARD MATERI UMUM
                 let rawList = data.materi ? data.materi : data; 
 
                 databaseMateri = rawList.map(item => {
                     const tglRaw = cariNilai(item, 'Timestamp');
                     const rumpunRaw = cariNilai(item, 'Rumpun') || '';
-                    
+
                     return {
                         waktuRaw: tglRaw, 
                         waktuMs: konversiTanggalIndo(tglRaw),
@@ -1044,84 +1063,106 @@
                         nama: cariNilai(item, 'Nama') || 'Anonim',
                         kategori: rumpunRaw.toUpperCase().includes('SAIN') ? 'SAINTEK' : 'SOSHUM',
                         jurusan: cariNilai(item, 'Program Studi') || 'Jurusan Tidak Diketahui',
+                        namaMatkul: cariNilai(item, 'Nama Matkul') || cariNilai(item, 'Mata Kuliah') || '',
                         judul: cariNilai(item, 'Judul Materi') || 'Tanpa Judul',
                         link_download: cariNilai(item, 'Upload Materi') || '#'
                     };
                 });
 
                 databaseMateri.sort((a, b) => b.waktuMs - a.waktuMs);
-                
-                // --- Masukkan Materi Umum ke Variabel Histori ---
                 riwayatSemua = [...databaseMateri];
 
                 initStats();
                 terapkanFilter(); 
-                
-                // 2. RENDER MATERI ASP (Jika ada data)
+
+                // 2. MATERI ASP
                 if (data.materi_asp && data.materi_asp.length > 0) {
                     containerMateriASP.style.background = "transparent";
                     containerMateriASP.style.border = "none";
                     containerMateriASP.style.padding = "0";
-                    
+
+                    let listMateriASP = data.materi_asp.map(item => {
+                        const tglRaw = cariNilai(item, 'Timestamp');
+                        return {
+                            waktuRaw: tglRaw,
+                            waktuMs: konversiTanggalIndo(tglRaw),
+                            waktuText: formatWaktuTampil(tglRaw),
+                            nama: cariNilai(item, 'Nama') || 'Anonim',
+                            namaMateri: cariNilai(item, 'Nama Materi') || 'Tanpa Nama Materi',
+                            namaMatkul: cariNilai(item, 'Nama Matkul') || cariNilai(item, 'Mata Kuliah') || '',
+                            link: cariNilai(item, 'Upload Materi') || '#',
+                            kategori: 'Materi ASP'
+                        };
+                    });
+
+                    listMateriASP.sort((a, b) => b.waktuMs - a.waktuMs);
+
                     containerMateriASP.innerHTML = `<div class="materi-list" style="text-align: left;">` + 
-                    data.materi_asp.map(item => `
+                    listMateriASP.map(item => `
                         <div class="materi-item" style="margin-bottom:10px;">
                             <div class="materi-icon icon-saintek"><i class="fa-solid fa-book"></i></div>
                             <div class="materi-details">
-                                <div class="materi-title">${cariNilai(item, 'Nama Materi')}</div>
-                                <div class="materi-meta"><span><i class="fa-regular fa-clock"></i> ${formatWaktuTampil(cariNilai(item, 'Timestamp'))}</span></div>
+                                <div class="materi-title">${item.namaMateri}</div>
+                                <div class="materi-meta">
+                                    ${item.namaMatkul ? `<span><i class="fa-solid fa-book-open"></i> ${item.namaMatkul}</span>` : ''}
+                                    <span><i class="fa-regular fa-clock"></i> ${item.waktuText}</span>
+                                </div>
                             </div>
-                            <button class="btn-action btn-download" onclick="window.open('${cariNilai(item, 'Upload Materi')}', '_blank')"><i class="fa-solid fa-cloud-arrow-down"></i> Unduh</button>
+                            <button class="btn-action btn-download" onclick="window.open('${item.link}', '_blank')"><i class="fa-solid fa-cloud-arrow-down"></i> Unduh</button>
                         </div>`).join('') + `</div>`;
 
-                    // --- Tambahkan Materi ASP ke Variabel Histori ---
-                    let riwayatASP = data.materi_asp.map(item => ({
-                        waktuRaw: cariNilai(item, 'Timestamp'),
-                        waktuMs: konversiTanggalIndo(cariNilai(item, 'Timestamp')),
-                        waktuText: formatWaktuTampil(cariNilai(item, 'Timestamp')),
-                        nama: cariNilai(item, 'Nama') || 'Anonim',
-                        judul: cariNilai(item, 'Nama Materi') || 'Materi ASP',
-                        kategori: 'Materi ASP' 
-                    }));
-                    riwayatSemua = riwayatSemua.concat(riwayatASP);
+                    riwayatSemua = riwayatSemua.concat(listMateriASP.map(i => ({
+                        waktuRaw: i.waktuRaw, waktuMs: i.waktuMs, waktuText: i.waktuText,
+                        nama: i.nama, judul: i.namaMateri, kategori: i.kategori
+                    })));
                 }
 
-                // 3. RENDER TUGAS ASP (Jika ada data)
+                // 3. TUGAS ASP
                 if (data.tugas_asp && data.tugas_asp.length > 0) {
                     containerTugasASP.style.background = "transparent";
                     containerTugasASP.style.border = "none";
                     containerTugasASP.style.padding = "0";
 
+                    let listTugasASP = data.tugas_asp.map(item => {
+                        const tglRaw = cariNilai(item, 'Timestamp');
+                        return {
+                            waktuRaw: tglRaw,
+                            waktuMs: konversiTanggalIndo(tglRaw),
+                            waktuText: formatWaktuTampil(tglRaw),
+                            nama: cariNilai(item, 'Nama') || 'Anonim',
+                            namaTugas: cariNilai(item, 'Nama Tugas') || 'Tugas ASP',
+                            deadline: cariNilai(item, 'Deadline Tugas') || '-',
+                            jawaban: cariNilai(item, 'Upload Tugas') || cariNilai(item, 'Jawaban Tugas') || '',
+                            kategori: 'Tugas ASP'
+                        };
+                    });
+
+                    listTugasASP.sort((a, b) => b.waktuMs - a.waktuMs);
+
                     containerTugasASP.innerHTML = `<div class="materi-list" style="text-align: left;">` + 
-                    data.tugas_asp.map(item => `
+                    listTugasASP.map(item => `
                         <div class="materi-item" style="margin-bottom:10px; border-left: 5px solid var(--danger-red);">
                             <div class="materi-details">
-                                <div class="materi-title" style="color:var(--danger-red);">${cariNilai(item, 'Nama Tugas')}</div>
+                                <div class="materi-title" style="color:var(--danger-red);">${item.namaTugas}</div>
                                 <div class="materi-meta">
                                     <span style="background: rgba(231,76,60,0.1); color: var(--danger-red); font-weight:bold;">
-                                        <i class="fa-solid fa-stopwatch"></i> Deadline: ${cariNilai(item, 'Deadline Tugas')}
+                                        <i class="fa-solid fa-stopwatch"></i> Deadline: ${item.deadline}
                                     </span>
+                                    <span><i class="fa-regular fa-clock"></i> ${item.waktuText}</span>
                                 </div>
                             </div>
-                            <button class="btn-action btn-delete" style="background:#fadbd8; color:var(--danger-red);" onclick="window.open('${cariNilai(item, 'Upload Tugas')}', '_blank')"><i class="fa-solid fa-file"></i> Detail</button>
+                            <button class="btn-action btn-delete" style="background:#fadbd8; color:var(--danger-red);" onclick="bukaTugasLinkAtauTeks(\`${item.jawaban.replace(/`/g, '\\`')}\`, \`${item.namaTugas.replace(/`/g, '\\`')}\`)">
+                                <i class="fa-solid fa-file-lines"></i> Detail / Lihat
+                            </button>
                         </div>`).join('') + `</div>`;
 
-                    // --- Tambahkan Tugas ASP ke Variabel Histori ---
-                    let riwayatTugas = data.tugas_asp.map(item => ({
-                        waktuRaw: cariNilai(item, 'Timestamp'),
-                        waktuMs: konversiTanggalIndo(cariNilai(item, 'Timestamp')),
-                        waktuText: formatWaktuTampil(cariNilai(item, 'Timestamp')),
-                        nama: cariNilai(item, 'Nama') || 'Anonim', 
-                        judul: cariNilai(item, 'Nama Tugas') || 'Tugas ASP',
-                        kategori: 'Tugas ASP'
-                    }));
-                    riwayatSemua = riwayatSemua.concat(riwayatTugas);
+                    riwayatSemua = riwayatSemua.concat(listTugasASP.map(i => ({
+                        waktuRaw: i.waktuRaw, waktuMs: i.waktuMs, waktuText: i.waktuText,
+                        nama: i.nama, judul: i.namaTugas, kategori: i.kategori
+                    })));
                 }
 
-                // Urutkan histori gabungan secara keseluruhan agar yang terbaru paling atas
                 riwayatSemua.sort((a, b) => b.waktuMs - a.waktuMs);
-
-                // --- Panggil Render Histori Setelah Semua Data Tergabung ---
                 renderHistoriUpload();
 
             } catch (error) {
@@ -1156,7 +1197,8 @@
                 dataTersaring = dataTersaring.filter(item => {
                     return item.judul.toLowerCase().includes(kataKunci) || 
                            item.nama.toLowerCase().includes(kataKunci) || 
-                           item.jurusan.toLowerCase().includes(kataKunci);
+                           item.jurusan.toLowerCase().includes(kataKunci) ||
+                           item.namaMatkul.toLowerCase().includes(kataKunci);
                 });
             }
 
@@ -1180,7 +1222,7 @@
                 const isSaintek = item.kategori === 'SAINTEK';
                 const bgClass = isSaintek ? 'icon-saintek' : 'icon-soshum';
                 const iconVisual = isSaintek ? 'fa-microchip' : 'fa-scale-balanced';
-                
+
                 const card = `
                     <div class="materi-item">
                         <div class="materi-icon ${bgClass}">
@@ -1191,6 +1233,7 @@
                             <div class="materi-meta">
                                 <span><i class="fa-solid fa-user-pen"></i> ${item.nama}</span>
                                 <span><i class="fa-solid fa-graduation-cap"></i> ${item.jurusan}</span>
+                                ${item.namaMatkul ? `<span><i class="fa-solid fa-book-open"></i> ${item.namaMatkul}</span>` : ''}
                                 <span><i class="fa-regular fa-clock"></i> ${item.waktuText}</span>
                             </div>
                         </div>
@@ -1213,7 +1256,6 @@
             proteksiHalaman();
             ambilDataMateri(); 
         };
-        
     </script>
 </body>
 </html>
