@@ -204,6 +204,7 @@
         .materi-icon { width: 55px; height: 55px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: white; flex-shrink: 0; }
         .icon-saintek { background: linear-gradient(135deg, var(--accent-blue), #1b4332); }
         .icon-soshum { background: linear-gradient(135deg, var(--accent-gold), #b5952f); }
+        .icon-tugas { background: linear-gradient(135deg, var(--danger-red), #922b21); }
 
         .materi-details { flex: 1; min-width: 0; }
         .materi-title { font-size: 1.15rem; font-weight: 600; color: var(--primary-green); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -310,14 +311,14 @@
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- MODAL POP-UP UNTUK TEKS TUGAS MAHASISWA -->
+    <!-- MODAL POP-UP UNTUK TEKS JAWABAN TUGAS -->
     <div id="text-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 550px; text-align: left;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 id="text-modal-title" style="color: var(--primary-green); font-size: 1.2rem; font-weight: 700;">Jawaban Tugas</h3>
+                <h3 id="text-modal-title" style="color: var(--primary-green); font-size: 1.2rem; font-weight: 700;">Detail Jawaban Tugas</h3>
                 <i class="fa-solid fa-xmark" onclick="tutupTextModal()" style="cursor: pointer; font-size: 1.3rem; color: #888;"></i>
             </div>
-            <div id="text-modal-content" style="background: #f8f9fa; border: 1px solid #eaeeed; border-radius: 12px; padding: 1rem; max-height: 300px; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word;"></div>
+            <div id="text-modal-content" style="background: #f8f9fa; border: 1px solid #eaeeed; border-radius: 12px; padding: 1.2rem; max-height: 350px; overflow-y: auto; font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word; color: #333;"></div>
             <button onclick="tutupTextModal()" style="width: 100%; margin-top: 20px; padding: 12px; background: var(--primary-green); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;">Tutup</button>
         </div>
     </div>
@@ -685,14 +686,22 @@
             }
         }
 
-        // --- MODAL & ALERT SYSTEM ---
+        // --- SISTEM DETEKSI JAWABAN TUGAS (FILE ATAU TEKS) ---
         function bukaTugasLinkAtauTeks(jawabanTugas, namaTugas) {
-            if (!jawabanTugas) return;
-            if (jawabanTugas.startsWith('http://') || jawabanTugas.startsWith('https://')) {
-                window.open(jawabanTugas, '_blank');
+            if (!jawabanTugas || jawabanTugas.toString().trim() === "") {
+                tampilkanNotifikasi("Tidak ada isi teks atau file yang terlampir.", "warning");
+                return;
+            }
+            
+            const strJawaban = jawabanTugas.toString().trim();
+
+            // Jika berupa URL (Google Drive/File Link)
+            if (strJawaban.startsWith('http://') || strJawaban.startsWith('https://')) {
+                window.open(strJawaban, '_blank');
             } else {
-                document.getElementById('text-modal-title').innerText = namaTugas || 'Jawaban Tugas';
-                document.getElementById('text-modal-content').innerText = jawabanTugas;
+                // Jika berupa Teks Tulisan Paragraf
+                document.getElementById('text-modal-title').innerText = namaTugas || 'Detail Jawaban Tugas';
+                document.getElementById('text-modal-content').innerText = strJawaban;
                 document.getElementById('text-modal').classList.add('active');
             }
         }
@@ -701,6 +710,7 @@
             document.getElementById('text-modal').classList.remove('active');
         }
 
+        // --- NOTIFIKASI & MODAL UNIVERSAL ---
         function tampilkanNotifikasi(pesan, jenis = 'success', callbackOk = null) {
             const modal = document.getElementById('custom-alert-modal');
             const iconContainer = document.getElementById('alert-icon-container');
@@ -797,7 +807,7 @@
             }, 300);
         }
 
-        // --- SISTEM UTAMA & PROFILE ---
+        // --- SISTEM AKUN & DATABASE ---
         function proteksiHalaman() {
             const statusLogin = sessionStorage.getItem("isAlumniLoggedIn");
             if (statusLogin !== "true") {
@@ -992,11 +1002,9 @@
             return "";
         }
 
-        // --- PARSER TANGGAL PERSISI ---
+        // --- PARSER TANGGAL FORMAT INDONESIA (TANGGAL BULAN TAHUN) ---
         function konversiTanggalIndo(strTanggal) {
             if (!strTanggal) return 0;
-            
-            // Format Google Form: DD/MM/YYYY hh:mm:ss atau ISO
             if (typeof strTanggal === 'string') {
                 const parts = strTanggal.trim().split(' ');
                 if (parts[0].includes('/')) {
@@ -1075,7 +1083,7 @@
                 initStats();
                 terapkanFilter(); 
 
-                // 2. MATERI ASP
+                // 2. MATERI ASP (URUTAN TERBARU & TAMPILKAN MATKUL JIKA ADA)
                 if (data.materi_asp && data.materi_asp.length > 0) {
                     containerMateriASP.style.background = "transparent";
                     containerMateriASP.style.border = "none";
@@ -1117,7 +1125,7 @@
                     })));
                 }
 
-                // 3. TUGAS ASP
+                // 3. TUGAS ASP (KHUSUS ASP: TAMPILKAN MATKUL, DEADLINE, TANGGAL & BISA DIBUKA TEKS/FILE)
                 if (data.tugas_asp && data.tugas_asp.length > 0) {
                     containerTugasASP.style.background = "transparent";
                     containerTugasASP.style.border = "none";
@@ -1125,36 +1133,54 @@
 
                     let listTugasASP = data.tugas_asp.map(item => {
                         const tglRaw = cariNilai(item, 'Timestamp');
+                        
+                        // Deteksi otomatis kolom Upload File vs Tuliskan Deskripsi Tugas
+                        const fileUpload = cariNilai(item, 'Upload Tugas');
+                        const deskripsiTeks = cariNilai(item, 'Tuliskan Deskripsi Tugas') || cariNilai(item, 'Deskripsi Tugas') || cariNilai(item, 'Jawaban Tugas');
+                        
+                        // Ambil mana saja yang terisi
+                        const jawabanValid = fileUpload.trim() !== "" ? fileUpload : deskripsiTeks;
+
                         return {
                             waktuRaw: tglRaw,
                             waktuMs: konversiTanggalIndo(tglRaw),
                             waktuText: formatWaktuTampil(tglRaw),
                             nama: cariNilai(item, 'Nama') || 'Anonim',
+                            matkul: cariNilai(item, 'Nama Matkul') || cariNilai(item, 'Mata Kuliah') || '',
                             namaTugas: cariNilai(item, 'Nama Tugas') || 'Tugas ASP',
                             deadline: cariNilai(item, 'Deadline Tugas') || '-',
-                            jawaban: cariNilai(item, 'Upload Tugas') || cariNilai(item, 'Jawaban Tugas') || '',
+                            jawaban: jawabanValid,
                             kategori: 'Tugas ASP'
                         };
                     });
 
+                    // Urutkan tugas terbaru di atas
                     listTugasASP.sort((a, b) => b.waktuMs - a.waktuMs);
 
                     containerTugasASP.innerHTML = `<div class="materi-list" style="text-align: left;">` + 
-                    listTugasASP.map(item => `
+                    listTugasASP.map(item => {
+                        // Safe JSON Stringify untuk dikirim ke JS Function
+                        const safeJawaban = JSON.stringify(item.jawaban).replace(/"/g, '&quot;');
+                        const safeNamaTugas = JSON.stringify(item.namaTugas).replace(/"/g, '&quot;');
+
+                        return `
                         <div class="materi-item" style="margin-bottom:10px; border-left: 5px solid var(--danger-red);">
+                            <div class="materi-icon icon-tugas"><i class="fa-solid fa-thumbtack"></i></div>
                             <div class="materi-details">
                                 <div class="materi-title" style="color:var(--danger-red);">${item.namaTugas}</div>
                                 <div class="materi-meta">
+                                    ${item.matkul ? `<span><i class="fa-solid fa-book-open"></i> ${item.matkul}</span>` : ''}
                                     <span style="background: rgba(231,76,60,0.1); color: var(--danger-red); font-weight:bold;">
                                         <i class="fa-solid fa-stopwatch"></i> Deadline: ${item.deadline}
                                     </span>
                                     <span><i class="fa-regular fa-clock"></i> ${item.waktuText}</span>
                                 </div>
                             </div>
-                            <button class="btn-action btn-delete" style="background:#fadbd8; color:var(--danger-red);" onclick="bukaTugasLinkAtauTeks(\`${item.jawaban.replace(/`/g, '\\`')}\`, \`${item.namaTugas.replace(/`/g, '\\`')}\`)">
+                            <button class="btn-action btn-delete" style="background:#fadbd8; color:var(--danger-red);" onclick="bukaTugasLinkAtauTeks(${safeJawaban}, ${safeNamaTugas})">
                                 <i class="fa-solid fa-file-lines"></i> Detail / Lihat
                             </button>
-                        </div>`).join('') + `</div>`;
+                        </div>`;
+                    }).join('') + `</div>`;
 
                     riwayatSemua = riwayatSemua.concat(listTugasASP.map(i => ({
                         waktuRaw: i.waktuRaw, waktuMs: i.waktuMs, waktuText: i.waktuText,
